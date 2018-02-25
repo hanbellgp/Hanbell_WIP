@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.hanbell_wip.WIP_PaintingEnd" >
+
+     <item
+        android:id="@+id/action_StorpTrackIn"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:textSize="20sp"
+        android:title="暂停报工"/>
+
+</menu>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+    
+	<TableRow>
+        
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="用户名称:"
+            android:layout_gravity="right" />
+
+        <TextView
+            android:id="@+id/stkoutstock_tvUserId"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp" />
+        
+    </TableRow>
+    
+	<TableRow>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:text="扫描条码:"
+            android:layout_gravity="right" />
+
+        <EditText
+            android:id="@+id/stkoutstock_editScanId"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:inputType="text" />
+    </TableRow>
+    
+	<TableRow>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:text="工件编号:"
+        	android:layout_gravity="right" />
+
+        <EditText
+            android:id="@+id/stkoutstock_editCompid"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:enabled="false"
+            android:inputType="text"/>
+    </TableRow>
+    
+	<TableRow>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:text="品号:"
+        	android:layout_gravity="right" />
+
+        <EditText
+            android:id="@+id/stkoutstock_editItnbr"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:enabled="false"
+            android:inputType="text"/>
+    </TableRow>
+    
+	<TableRow>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:text="品名:"
+        	android:layout_gravity="right" />
+
+        <EditText
+            android:id="@+id/stkoutstock_editItdsc"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:enabled="false"
+            android:inputType="text"/>
+    </TableRow>
+    
+	<TableRow>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:text="出库总数:"
+        	android:layout_gravity="right" />
+
+        <EditText
+            android:id="@+id/stkoutstock_editTotalQty"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:enabled="false"
+            android:inputType="text"/>
+    </TableRow>
+    
+	<LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+	    <TextView
+	        android:id="@+id/stkoutstock_h0"
+	        android:layout_width="30dip"
+	        android:layout_height="30dip"
+	        android:textColor="#000000"
+	        android:textSize="15sp" />
+    
+	    <TextView
+	        android:id="@+id/stkoutstock_h1"
+	        android:layout_width="150dip"
+	        android:layout_height="30dip"
+	        android:textColor="#000000"
+	        android:text="编号"
+	        android:textSize="15sp" />
+	
+	    <TextView
+	        android:id="@+id/stkoutstock_h2"
+	        android:layout_width="50dip"
+	        android:layout_height="30dip"
+	        android:textColor="#000000"
+	        android:text="数量"
+	        android:textSize="15sp" />
+		
+	    <TextView
+	        android:id="@+id/stkoutstock_h3"
+	        android:layout_width="200dip"
+	        android:layout_height="30dip"
+	        android:textColor="#000000"
+	        android:text="品号"
+	        android:textSize="15sp" />
+	    
+	    <TextView
+	        android:id="@+id/stkoutstock_h4"
+	        android:layout_width="300dip"
+	        android:layout_height="30dip"
+	        android:textColor="#000000"
+	        android:text="品名"
+	        android:textSize="15sp" />
+	    
+    </LinearLayout>
+    
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="160dip" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+
+            <ListView
+                android:id="@+id/stkoutstock_lv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+            </ListView>
+        </LinearLayout>
+    </HorizontalScrollView>
+	
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        
+        <Button
+            android:id="@+id/stkoutstock_btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:textSize="15sp"
+            android:text="出库" />
+		<Button
+            android:id="@+id/stkoutstock_btnReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:textSize="15sp"
+            android:text="重置" />
+		<Button
+            android:id="@+id/stkoutstock_btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:textSize="15sp"
+            android:text="删除" />
+        <Button
+            android:id="@+id/stkoutstock_btnExit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:textSize="15sp"
+            android:text="离开" />
+    </LinearLayout>
+</TableLayout>

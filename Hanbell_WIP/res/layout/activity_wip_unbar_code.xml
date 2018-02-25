@@ -1,0 +1,164 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="扫描条码"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipunBarcode_tvInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="制造号码"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipunBarcode_tvProductCompid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="成品品名"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipunBarcode_tvMaterialid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="机型"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipunBarcode_tvProductModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="标签编号"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipunBarcode_tvProductSernumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+         <TableRow>
+
+            <TextView
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="粗加工编号"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipunBarcode_tvRawnumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+        
+          <TableRow>
+
+              <TextView
+                  android:layout_width="90dip"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center_horizontal"
+                  android:text="精加工编号"
+                  android:textSize="15sp" />
+
+              <EditText
+                  android:id="@+id/wipunBarcode_tvFinNumber"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:enabled="false"
+                  android:inputType="text"
+                  android:textSize="15sp" />
+          </TableRow>
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/wipunBarcode_btnUnbind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="解绑" />
+
+            <Button
+                android:id="@+id/wipunBarcode_btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="离开" />
+        </LinearLayout>
+    </TableLayout>
+
+</LinearLayout>

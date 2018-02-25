@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:stretchColumns="1" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/wiptrackin_h8"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wiptrackin_h6"
+                android:layout_width="100dip"
+                android:layout_height="30dip"
+                android:text="零部件编号"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wiptrackin_h7"
+                android:layout_width="120dip"
+                android:layout_height="30dip"
+                android:text="零部件品名"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wiptrackin_h9"
+                android:layout_width="match_parent"
+                android:layout_height="30dip"
+                android:text="料号"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="380dip"
+            android:scrollbars="horizontal" >
+
+            <ListView
+                android:id="@+id/wiptrackin_lv0"
+                android:layout_width="match_parent"
+                android:layout_height="380dip"
+                android:textSize="28sp" />
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/wipcomptable_btnConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="确定" />
+
+            <Button
+                android:id="@+id/wipcomptable_btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="离开" />
+        </LinearLayout>
+    </TableLayout>
+
+</LinearLayout>

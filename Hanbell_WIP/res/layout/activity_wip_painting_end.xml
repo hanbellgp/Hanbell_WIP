@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/wippaintingend_btnTab1"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="报工" />
+
+        <Button
+            android:id="@+id/wippaintingend_btnTab2"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="自主检" />
+
+        <Button
+            android:id="@+id/wippaintingend_btnTab3"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="装配规范" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/wippaintingend_tab1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="扫描条码"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_tvInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="工件编号"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_tvCompid"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="品号"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_tvMaterialid"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="品名"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_tvProductName"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:gravity="left|top"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wippaintingend_tvCM"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="订单厂家"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_tvCustomerName"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:gravity="left|top"
+                        android:inputType="textMultiLine"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wippaintingend_tvPdr"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="颜色"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_tvColer"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="生管备注"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_tvMessage"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|top"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wippaintingend_lbvi"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="版本vi"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_tvvi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wippaintingend_tvDefect"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="不良原因"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/wippaintingend_spDefect"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:textSize="17sp" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wippaintingend_tab2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible" >
+
+            <TableLayout
+                android:layout_width="330dip"
+                android:layout_height="300dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wippaintingend_h9"
+                        android:layout_width="40dip"
+                        android:layout_height="30dip"
+                        android:text="必填"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wippaintingend_h10"
+                        android:layout_width="40dip"
+                        android:layout_height="30dip"
+                        android:text="必判"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wippaintingend_h1"
+                        android:layout_width="180dip"
+                        android:layout_height="30dip"
+                        android:text="检验项目"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wippaintingend_h2"
+                        android:layout_width="100dip"
+                        android:layout_height="30dip"
+                        android:text="值"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wippaintingend_h3"
+                        android:layout_width="0dip"
+                        android:layout_height="30dip"
+                        android:text="预设值"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:visibility="invisible" />
+                </TableRow>
+
+                <HorizontalScrollView
+                    android:layout_width="330dip"
+                    android:layout_height="match_parent" >
+
+                    <ListView
+                        android:id="@+id/wippaintingend_lv1"
+                        android:layout_width="330dip"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </HorizontalScrollView>
+            </TableLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:id="@+id/wippaintingend_tab2_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="40dip"
+                        android:layout_height="35dp"
+                        android:text="值"
+                        android:textSize="17sp" />
+
+                    <EditText
+                        android:id="@+id/wippaintingend_editTab2_0"
+                        android:layout_width="150dp"
+                        android:layout_height="35dp"
+                        android:inputType="numberDecimal"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/wippaintingend_btnTab2_0_OK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="确认" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/wippaintingend_tab2_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="invisible" >
+
+                    <TextView
+                        android:layout_width="40dip"
+                        android:layout_height="35dp"
+                        android:text="值"
+                        android:textSize="17sp" />
+
+                    <RadioGroup
+                        android:id="@+id/wippaintingend_radioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <RadioButton
+                            android:id="@+id/wippaintingend_radioButtonOK"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OK"
+                            android:textSize="15sp" />
+
+                        <RadioButton
+                            android:id="@+id/wippaintingend_radioButtonNG"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NG"
+                            android:textSize="15sp" />
+                    </RadioGroup>
+
+                    <Button
+                        android:id="@+id/wippaintingend_btnTab2_1_OK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="确认" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wippaintingend_tab3"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="invisible" >
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:text="大类"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/wippaintingend_spBid"
+                        android:layout_width="220dip"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wippaintingend_h4"
+                        android:layout_width="90dip"
+                        android:layout_height="30dip"
+                        android:text="中类"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wippaintingend_h5"
+                        android:layout_width="200dip"
+                        android:layout_height="30dip"
+                        android:text="小类"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <ListView
+                        android:id="@+id/wippaintingend_lv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </HorizontalScrollView>
+            </TableLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/wippaintingend_btnTemporary"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="暂存" />
+
+        <Button
+            android:id="@+id/wippaintingend_btnConfirm"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="报工完成" />
+
+        <Button
+            android:id="@+id/wippaintingend_btnDefect"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="不合格" />
+
+        <Button
+            android:id="@+id/wippaintingend_btnExit"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="离开" />
+    </LinearLayout>
+
+</TableLayout>

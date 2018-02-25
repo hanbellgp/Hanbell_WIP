@@ -1,0 +1,139 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="扫描条码"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/semireworkedit_tvInput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="制令号码"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/semireworkedit_tvProductOrderid"
+                android:layout_width="150dip"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:gravity="left|top"
+                android:textColor="@color/red"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="可报工数"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/semireworkedit_tvQty"
+                android:layout_width="150dip"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:gravity="left|top"
+                android:textColor="@color/red"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/semireworkedit_h0"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/semireworkedit_h8"
+                android:layout_width="130dip"
+                android:layout_height="30dip"
+                android:text="制令号码"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/semireworkedit_h9"
+                android:layout_width="match_parent"
+                android:layout_height="30dip"
+                android:text="工件编号"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="270dp"
+            android:scrollbars="horizontal" >
+
+            <ListView
+                android:id="@+id/semireworkedit_lv0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp" />
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/semireworkedit_btnOK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="确定" />
+
+            <Button
+                android:id="@+id/semireworkedit_btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="删除" />
+
+            <Button
+                android:id="@+id/semireworkedit_btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="离开" />
+        </LinearLayout>
+    </TableLayout>
+
+</LinearLayout>

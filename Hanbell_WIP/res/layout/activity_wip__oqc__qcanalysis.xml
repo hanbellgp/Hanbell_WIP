@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/wipoqc_btnTab1"
+            android:layout_width="80dp"
+            android:layout_height="40dip"
+            android:text="报工" />
+
+        <Button
+            android:id="@+id/wipoqc_btnTab2"
+            android:layout_width="100dp"
+            android:layout_height="40dip"
+            android:text="自主检" />
+
+        <Button
+            android:id="@+id/wipoqc_btnTab3"
+            android:layout_width="120dp"
+            android:layout_height="40dip"
+            android:text="装配规范" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/wipoqc_tab1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:stretchColumns="1" >
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="扫描条码"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:inputType="text"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="制造号码"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvProductCompid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="成品品号"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvMaterialid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="机型"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvProductModel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wipoqc_tvM"
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="主齿轮"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvMCheel"
+                        android:layout_width="60dip"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/wipoqc_tvD"
+                        android:layout_width="30dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="副"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvDCheel"
+                        android:layout_width="60dip"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvMDCheel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="颜色"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvProductColer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wipoqc_tvPM"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="生管备注"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_tvPMMessage"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:gravity="left|top"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wipoqc_tab2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible" >
+
+            <TableLayout
+                android:layout_width="330dip"
+                android:layout_height="300dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wipoqc_h9"
+                        android:layout_width="40dip"
+                        android:layout_height="30dip"
+                        android:text="必填"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wipoqc_h11"
+                        android:layout_width="40dip"
+                        android:layout_height="30dip"
+                        android:text="必判"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wipoqc_h1"
+                        android:layout_width="180dip"
+                        android:layout_height="30dip"
+                        android:text="检验项目"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wipoqc_h2"
+                        android:layout_width="100dip"
+                        android:layout_height="30dip"
+                        android:text="值"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wipoqc_h3"
+                        android:layout_width="0dip"
+                        android:layout_height="30dip"
+                        android:text="预设值"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:visibility="invisible" />
+                </TableRow>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="horizontal" >
+
+                    <ListView
+                        android:id="@+id/wipoqc_lv1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </HorizontalScrollView>
+            </TableLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:id="@+id/wipoqc_tab2_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="40dip"
+                        android:layout_height="35dp"
+                        android:text="值"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wipoqc_editTab2_0"
+                        android:layout_width="150dp"
+                        android:layout_height="35dp"
+                        android:inputType="numberDecimal"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/wipoqc_btnTab2_0_OK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="确认" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/wipoqc_tab2_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="invisible" >
+
+                    <TextView
+                        android:layout_width="40dip"
+                        android:layout_height="35dp"
+                        android:text="值"
+                        android:textSize="15sp" />
+
+                    <RadioGroup
+                        android:id="@+id/wipoqc_radioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <RadioButton
+                            android:id="@+id/wipoqc_radioButtonOK"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OK"
+                            android:textSize="15sp" />
+
+                        <RadioButton
+                            android:id="@+id/wipoqc_radioButtonNG"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NG"
+                            android:textSize="15sp" />
+                    </RadioGroup>
+
+                    <Button
+                        android:id="@+id/wipoqc_btnTab2_1_OK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="确认" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wipoqc_tab3"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="invisible" >
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:text="大类"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/wipoqc_spBid"
+                        android:layout_width="220dip"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wipoqc_h4"
+                        android:layout_width="100dip"
+                        android:layout_height="30dip"
+                        android:text="中类"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wipoqc_h5"
+                        android:layout_width="200dip"
+                        android:layout_height="30dip"
+                        android:text="小类"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="horizontal" >
+
+                    <ListView
+                        android:id="@+id/wipoqc_lv2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="15sp" />
+                </HorizontalScrollView>
+            </TableLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+
+           android:gravity="center"
+        android:orientation="horizontal" >
+
+
+        <Button
+            android:id="@+id/wipoqc_btnConfirm"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="报工完成" />
+
+        <Button
+            android:id="@+id/wipoqc_btnExit"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="离开" />
+
+    </LinearLayout>
+
+</TableLayout>

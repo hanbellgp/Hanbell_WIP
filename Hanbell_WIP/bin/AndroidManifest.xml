@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.hanbell_wip"
+    android:versionCode="64"
+    android:versionName="2.0" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="19" />
+
+    <application
+        android:name="com.example.hanbell_wip.CrashApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/mes_icon1"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.hanbell_wip.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_TrackIn"
+            android:label="@string/title_activity_wip_track_in"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.Login"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.EQP_Start"
+            android:label="@string/title_activity_eqp_start"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.EQP_End"
+            android:label="@string/title_activity_eqp_end"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.EQP_Setting"
+            android:label="@string/title_activity_eqp_setting" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_Clean"
+            android:label="@string/title_activity_wip_clean"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_CleanEnd"
+            android:label="@string/title_activity_wip_clean_end"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_Defect"
+            android:label="@string/title_activity_wip_defect"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_Painting"
+            android:label="@string/title_activity_wip_painting"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_PaintingEnd"
+            android:label="@string/title_activity_wip_painting_end"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.EQP_AlarmManage"
+            android:label="@string/title_activity_eqp_alarmmanage"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.DateTimePickDialogUtil"
+            android:label="@string/title_activity_date_time_pick_dialog_util" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_FindMaterial"
+            android:label="@string/title_activity_wip_findmaterial"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_TrackIn_Pre"
+            android:label="@string/title_activity_wip_track_in_pre"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_TrackIn_PreNew"
+            android:label="@string/title_activity_wip_track_in_pre_new"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_InStock"
+            android:label="@string/title_activity_wip__in_stock" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_BarCode_Update"
+            android:label="@string/title_activity_wip__bar_code__update"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_COMPEDIT"
+            android:label="@string/title_activity_wip__compedit"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_CompReplace"
+            android:label="@string/title_activity_wip__comp_replace"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_CompAdd"
+            android:label="@string/title_activity_wip__comp_add"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.MainActivity2"
+            android:label="@string/title_activity_main_activity2" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_UNBarCode"
+            android:label="@string/title_activity_wip__unbar_code"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_StopTrackout"
+            android:label="@string/title_activity_wip__stop_trackout"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_SEQEdit"
+            android:label="@string/title_activity_wip__seqedit"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_CompTable"
+            android:label="@string/title_activity_wip__comp_table" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_OQC_QCANALYSIS"
+            android:label="@string/title_activity_wip__oqc__qcanalysis" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_ReworkMake"
+            android:label="@string/title_activity_wip__rework_make" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.STK_OutStock"
+            android:label="@string/title_activity_stk_outstock" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.SEMI_ReWork"
+            android:label="@string/title_activity_semi_rework" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.SEMI_TEMP"
+            android:label="@string/title_activity_semi__temp" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.Mjdaf_DFD"
+            android:label="@string/title_activity_mjdaf__dfd" >
+        </activity>
+        <activity
+            android:name="com.example.hanbell_wip.WIP_ANALYSISITEM"
+            android:label="@string/title_activity_wip__analysisitem" >
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:id="@+id/TableLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" >
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="产品分类"
+                android:textSize="17sp" />
+
+            <Spinner
+                android:id="@+id/eqpsatart_spProductType"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="工序"
+                android:textSize="17sp" />
+
+            <Spinner
+                android:id="@+id/eqpsatart_spStep"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="翻转台"
+                android:textSize="17sp" />
+
+            <Spinner
+                android:id="@+id/eqpsatart_spEQP"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="班次"
+                android:textSize="17sp" />
+
+            <Spinner
+                android:id="@+id/eqpsatart_spClass"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/eqpsatart_tvStartTime"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/eqpsatart_tvEndTime"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="登陆人员"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/eqpsatart_tvUserID"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/eqpsatart_tvUserName"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="1dp"
+                android:layout_gravity="right"
+                android:text="报工人员"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/eqpsatart_tvUserIDaa"
+                android:layout_width="90dp"
+                android:layout_height="1dp"
+                android:inputType="text"
+                android:textSize="17sp" />
+
+            <EditText
+              
+                android:layout_width="130dp"
+                android:layout_height="1dp"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/eqpstart_h0"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/eqpstart_h4"
+                android:layout_width="45dip"
+                android:layout_height="30dip"
+                android:text="状态"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/eqpstart_h2"
+                android:layout_width="100dip"
+                android:layout_height="30dip"
+                android:text="报工人员"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/eqpstart_h3"
+                android:layout_width="match_parent"
+                android:layout_height="30dip"
+                android:text="报工时间"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/eqpstart_h1"
+                android:layout_width="0dip"
+                android:layout_height="30dip"
+                android:text="品号"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="180dip"
+            android:gravity="center" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent" >
+
+                <ListView
+                    android:id="@+id/eqpsatart_lv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+                </ListView>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/eqpsatart_btnConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="登入" />
+
+             <Button
+                android:id="@+id/eqpsatart_btnTrackOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="登出" />
+             
+            <Button
+                android:id="@+id/eqpsatart_btnRemove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="删除" />
+
+            <Button
+                android:id="@+id/eqpsatart_btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="离开" />
+        </LinearLayout>
+    </TableLayout>
+
+</LinearLayout>

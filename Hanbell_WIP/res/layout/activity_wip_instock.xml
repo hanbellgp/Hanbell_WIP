@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:id="@+id/TableLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="扫描条码"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wipinstock_tvInput"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="制造号码"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wipinstock_tvProductCompid"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textColor="@color/red"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="品号"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wipinstock_tvProductid"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textColor="@color/red"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="品名"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wipinstock_tvProductName"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textColor="@color/red"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/wipinstock_tvCM"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="订单厂家"
+                android:textSize="17sp"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/wipinstock_tvCustomerName"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
+                android:textColor="@color/red"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="颜色"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wipinstock_tvColer"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="备注"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wipinstock_tvDescripTion"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="库别"
+                android:textSize="17sp" />
+
+            <Spinner
+                android:id="@+id/wipinstock_spWareh"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_span="3"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/wipinstock_btnConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="确定" />
+
+            <Button
+                android:id="@+id/wipinstock_btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="离开" />
+        </LinearLayout>
+    </TableLayout>
+
+</LinearLayout>

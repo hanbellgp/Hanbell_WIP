@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">生产管理</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_wip_track_in">装配报工</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">登入</string>
+    <string name="planet_prompt">规范分类</string>
+    <string name="product_type">产品分类</string>
+    <string name="step">工序</string>
+    <string name="equipment">翻转台</string>
+    <string name="process_user">报工人员</string>
+    <string name="alarm_code">异常代码</string>
+    <string name="alarm_name">异常名称</string>
+    <string name="start_time">开始时间</string>
+    <string name="end_time">结束时间</string>
+    <string name="save">保存    </string>
+    <string name="clear">清空</string>
+    <string name="exit">离开</string>
+
+    <string-array name="province">
+        <item>全部</item>
+        <item>A6_机壳组装二</item>
+        <item>A7_机壳组装二</item>
+    </string-array>
+
+    <string name="title_activity_eqp_start">设备报工</string>
+    <string name="title_activity_eqp_end">设备报工结束</string>
+    <string name="title_activity_eqp_setting">设备设定</string>
+    <string name="title_activity_wip_clean">装配前清洗作业</string>
+    <string name="title_activity_wip_clean_end">装配后清洗作业</string>
+    <string name="title_activity_wip_defect">不良录入</string>
+    <string name="title_activity_wip_painting">装配前涂装作业</string>
+    <string name="title_activity_wip_painting_end">装配后涂装作业</string>
+    <string name="title_activity_eqp_alarmmanage">设备异常</string>
+    <string name="title_activity_date_time_pick_dialog_util">选择时间</string>
+    <string name="title_activity_wip_findmaterial">找料作业</string>
+    <string name="title_activity_wip_track_in_pre">次组立装配报工</string>
+    <string name="title_activity_wip_track_in_pre_new">次组立装配报工不查核</string>
+    <string name="title_activity_wip__in_stock">机体入库</string>
+    <string name="title_activity_wip__bar_code__update">发料</string>
+    <string name="title_activity_wip__compedit">装配信息</string>
+    <string name="title_activity_wip__track_in__pre">WIP_TrackIn_Pre</string>
+    <string name="title_activity_wip__comp_replace">WIP_CompReplace</string>
+    <string name="title_activity_wip__comp_add">WIP_CompAdd</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="title_activity_wip__unbar_code">WIP_UNBarCode</string>
+    <string name="title_activity_wip__track_in__pre_new">WIP_TrackIn_PreNew</string>
+    <string name="title_activity_wip__stop_trackout">报工备注</string>
+    <string name="title_activity_wip__seqedit">组立装配信息</string>
+    <string name="title_activity_wip__comp_table">WIP_CompTable</string>
+    <string name="title_activity_wip__oqc__qcanalysis">WIP_OQC_QCANALYSIS</string>
+    <string name="title_activity_wip__rework_make">WIP_ReworkMake</string>
+    <string name="title_activity_stk_outstock">自动仓出货作业</string>
+    <string name="title_activity_semi_rework">SEMI_ReWork</string>
+    <string name="title_activity_semi__temp">半成品盘点作业</string>
+    <string name="title_activity_mjdaf__dfd">Mjdaf_DFD</string>
+    <string name="title_activity_wip__analysisitem">WIP_ANALYSISITEM</string>
+
+</resources>

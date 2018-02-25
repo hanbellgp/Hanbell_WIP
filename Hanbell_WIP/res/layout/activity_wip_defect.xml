@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:id="@+id/TableLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="扫描条码"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipdefect_tvInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="0.5dip"
+                android:layout_height="0dip"
+                android:layout_gravity="center_horizontal"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipdefect_tvInputName"
+                android:layout_width="5dip"
+                android:layout_height="0.5dip"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="缺陷类型"
+                android:textSize="15sp" />
+
+            <Spinner
+                android:id="@+id/wipdefect_spDefectType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="不良代码"
+                android:textSize="15sp" />
+
+            <Spinner
+                android:id="@+id/wipdefect_spDefectID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="缺陷描述"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipdefect_tvDefectName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="不良数量"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipdefect_tvDefectNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/wipdefect_h0"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wipdefect_h2"
+                android:layout_width="90dp"
+                android:layout_height="30dip"
+                android:text="不良代码"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wipdefect_h3"
+                android:layout_width="150dip"
+                android:layout_height="30dip"
+                android:text="缺陷描述"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wipdefect_h4"
+                android:layout_width="50dip"
+                android:layout_height="30dip"
+                android:text="数量"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/wipdefect_h1"
+                android:layout_width="0dip"
+                android:layout_height="30dip"
+                android:text="缺陷类型"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:visibility="invisible" />
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="140dip"
+            android:gravity="center" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent" >
+
+                <ListView
+                    android:id="@+id/wipdefect_lv"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+                </ListView>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="right" >
+
+            <Button
+                android:id="@+id/wipdefect_Add"
+                android:layout_width="wrap_content"
+                android:layout_height="40dip"
+                android:text="加入"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/wipdefect_Delete"
+                android:layout_width="wrap_content"
+                android:layout_height="40dip"
+                android:text="删除"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/wipdefect_btnConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="确定" />
+
+            <Button
+                android:id="@+id/wipdefect_btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="离开" />
+        </LinearLayout>
+    </TableLayout>
+
+</LinearLayout>

@@ -1,0 +1,157 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="旧零部件"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipcompreplace_tvProductserialnumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="旧品名"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipcompreplace_tvMaterialName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="旧料号"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipcompreplace_tvMaterialid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="新零部件"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipcompreplace_tvnewProductserialnumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:inputType="text"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipcompreplace_tvSEQ"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="新品名"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipcompreplace_tvnewMaterialName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="新料号"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/wipcompreplace_tvnewMaterialid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="2"
+                android:enabled="false"
+                android:inputType="text"
+                android:textSize="15sp" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/wipcompreplace_btnConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="确定" />
+
+            <Button
+                android:id="@+id/wipcompreplace_btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="离开" />
+        </LinearLayout>
+    </TableLayout>
+
+</LinearLayout>
