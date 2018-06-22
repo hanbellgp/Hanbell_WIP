@@ -231,10 +231,18 @@
                         android:layout_height="30dip"
                         android:textColor="#000000"
                         android:textSize="15sp" />
-
+					
+                    <TextView
+                        android:id="@+id/wiptrackin_h12"
+                        android:layout_width="15dip"
+                        android:layout_height="30dip"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                    
                     <TextView
                         android:id="@+id/wiptrackin_h6"
-                        android:layout_width="100dip"
+                        android:layout_width="120dip"
                         android:layout_height="30dip"
                         android:text="零部件编号"
                         android:textColor="#000000"
@@ -242,7 +250,7 @@
 
                     <TextView
                         android:id="@+id/wiptrackin_h7"
-                        android:layout_width="120dip"
+                        android:layout_width="100dip"
                         android:layout_height="30dip"
                         android:text="零部件品名"
                         android:textColor="#000000"
@@ -251,7 +259,7 @@
                     <TextView
                         android:id="@+id/wiptrackin_h10"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="30dip"
                         android:text="料号"
                         android:textColor="#000000"
                         android:textSize="15sp" />
@@ -486,27 +494,33 @@
 
         <Button
             android:id="@+id/wiptrackin_btnTemporary"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="暂存" />
 
         <Button
             android:id="@+id/wiptrackin_btnConfirm"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="报工" />
 
         <Button
             android:id="@+id/wiptrackin_btnTab0_Delete"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="删除" />
 
         <Button
             android:id="@+id/wiptrackin_btnAdd"
-            android:layout_width="80dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="手动" />
+        
+        <Button
+            android:id="@+id/wiptrackin_btnSP"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="特采" />
     </LinearLayout>
 
 </TableLayout>

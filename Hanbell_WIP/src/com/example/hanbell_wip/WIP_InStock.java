@@ -150,7 +150,9 @@ public class WIP_InStock extends Activity {
 			lst.add(c);
 			c = new  SpinnerData("ASRS03", "自动仓");	
 			lst.add(c);
-			c = new  SpinnerData("XTM01", "新塔厂的原料仓库");	
+			c = new  SpinnerData("XTM01", "兴塔原料仓库");	
+			lst.add(c);
+			c = new  SpinnerData("EW01", "兴塔成品仓库");	
 			lst.add(c);
 
 		ArrayAdapter<SpinnerData> Adapter = new ArrayAdapter<SpinnerData>(this,

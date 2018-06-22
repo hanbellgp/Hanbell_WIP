@@ -226,7 +226,12 @@ import android.widget.Toast;
 			@Override
 			public void onClick(View v) {
 				try {
-					SpinnerData sProductType = (SpinnerData) spProducttype.getSelectedItem();	
+					SpinnerData sProductType = (SpinnerData) spProducttype.getSelectedItem();
+					if (sProductType.value.toString().equals(""))
+					{
+						MESCommon.showMessage(EQP_Setting.this, "请选择产品分类!");
+						return;
+					}
 					SpinnerData sEQP = (SpinnerData) spEQP.getSelectedItem();	
 					SpinnerData sStep = (SpinnerData) spStep.getSelectedItem();	
 					prefercesService.save(sEQP.text,sEQP.value,sStep.text,sStep.value,sProductType.text,sProductType.value);  				

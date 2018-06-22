@@ -84,12 +84,12 @@ public class WIP_TrackIn extends Activity {
 	private MESDB db = new MESDB();
 
 	ListView lv0,lv1,lv2;
-	Button btnConfirm, btnAdd, btnTemporary,btnDelete,btnTab1, btnTab2, btnTab3,btnTab2_0, btnTab2_1;
+	Button btnConfirm, btnAdd, btnTemporary,btnDelete,btnTab1, btnTab2, btnTab3,btnTab2_0, btnTab2_1, btnSP;
 	Spinner spBid;
 	EditText editInput,editProductCompID,editMaterialID,editProductModel,editMsheel,editDsheel,editMDsheel,editPMMessage,editCustomerName;
 
 	//	CheckBox cb ;
-	TextView  h1, h2, h3,h4, h5, h6,h7,h8,h9,h10,h11,tvM,tvD,tvPM,tvCM;
+	TextView  h1, h2, h3,h4, h5, h6,h7,h8,h9,h10,h11,h12,tvM,tvD,tvPM,tvCM;
 	LinearLayout tab1, tab2, tab3;
 	wiptrackinAdapter adapter;
 	wiptrackinAdapterTab2 adapterTab2;
@@ -99,6 +99,7 @@ public class WIP_TrackIn extends Activity {
 	String msProductOrderId="",  msProductId,  msProductCompId,  msProductSerialNumber,  msStepId,  
 	  msEqpId,msAnalysisformsID="",msSampletimes="",msStepSEQ,msSUPPLYLOTID,msSUPPLYID,msQC_ITEM,msQCTYPE,msBomflag="" ,msRepeter="",
 	msAnalysisResult="";
+	String msSpecialAdoption = "";	//是否特采
 	int miQty;
 	// 该物料的HashMap记录
 	static int milv0RowNum = 0;int milv1RowNum = 0;
@@ -165,6 +166,7 @@ public class WIP_TrackIn extends Activity {
 			h9= (TextView) findViewById(R.id.wiptrackin_h9);
 			h10= (TextView) findViewById(R.id.wiptrackin_h10);
 			h11= (TextView) findViewById(R.id.wiptrackin_h11);
+			h12= (TextView) findViewById(R.id.wiptrackin_h12);
 			tvM= (TextView) findViewById(R.id.wiptrackin_tvM);
 			tvD= (TextView) findViewById(R.id.wiptrackin_tvD);
 			tvPM= (TextView) findViewById(R.id.wiptrackin_tvPM);
@@ -192,7 +194,8 @@ public class WIP_TrackIn extends Activity {
 			h10.setBackgroundColor(Color.DKGRAY);
 			h11.setTextColor(Color.WHITE);
 			h11.setBackgroundColor(Color.DKGRAY);
-			h11.setBackgroundColor(Color.DKGRAY);
+			h12.setTextColor(Color.WHITE);
+			h12.setBackgroundColor(Color.DKGRAY);
 			lv0 = (ListView) findViewById(R.id.wiptrackin_lv0);
 			lv1 = (ListView) findViewById(R.id.wiptrackin_lv1);
 			lv2 = (ListView) findViewById(R.id.wiptrackin_lv2);
@@ -205,6 +208,7 @@ public class WIP_TrackIn extends Activity {
 			btnTab3 = (Button) findViewById(R.id.wiptrackin_btnTab3);		
 			btnTab2_0 = (Button) findViewById(R.id.wiptrackin_btnTab2_0_OK);
 			btnTab2_1 = (Button) findViewById(R.id.wiptrackin_btnTab2_1_OK);
+			btnSP = (Button) findViewById(R.id.wiptrackin_btnSP);
 			adapterTab0 = new wiptrackinAdapterTab0(lsCompTable, this);
 			lv0.setAdapter(adapterTab0);
 			adapter = new wiptrackinAdapter(lsAnalysisTable, this);
@@ -601,7 +605,7 @@ public class WIP_TrackIn extends Activity {
 									return false;
 								}	
 							}
-							if (params.get("StepName").contains("机体"))
+							if (params.get("StepName").contains("机体") && !params.get("StepName").contains("P机"))
 							{
 								//判断一些控件是否显示；生管有设定值时候
 								if((lsProcess.get(0).get("MWHEEL").toString().equals("")&& lsProcess.get(0).get("DWHEEL").toString().equals(""))&&!lsProcess.get(0).get("PMMESSAGE").toString().equals(""))
@@ -990,6 +994,8 @@ public class WIP_TrackIn extends Activity {
 								}								
 								
 							}
+							//是否特采检查
+							Check_SpecialAdoption(txtInput.getText().toString().trim());
 							if(lsCompID.get(0).get("TRACETYPE").toString().equals("C"))
 							{
 								sCheckResult=checkExist(txtInput.getText().toString().trim());
@@ -1042,8 +1048,7 @@ public class WIP_TrackIn extends Activity {
 			}
 		});
 	
-		// btnOK
-		
+		// btnConfirm
 		btnConfirm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -1052,6 +1057,13 @@ public class WIP_TrackIn extends Activity {
 					
 					if (editProductCompID.getText().toString().trim().equals("") ) {
 						MESCommon.show(WIP_TrackIn.this, "请先扫描条码在进行报工！");
+						return;
+					}
+					//专配检查
+					String sCheckMsg = Check_HZ_SPECIALMATCH();
+					if(!sCheckMsg.equals(""))
+					{
+						MESCommon.show(WIP_TrackIn.this, sCheckMsg);
 						return;
 					}
 					for(int i=0;i<lsAnalysisTable.size();i++)
@@ -1210,7 +1222,14 @@ public class WIP_TrackIn extends Activity {
 						if (editProductCompID.getText().toString().trim().equals("") ) {
 							MESCommon.showMessage(WIP_TrackIn.this, "请先扫描条码在进行报工暂存！");
 							return;
-						}					
+						}
+						//专配检查
+						String sCheckMsg = Check_HZ_SPECIALMATCH();
+						if(!sCheckMsg.equals(""))
+						{
+							MESCommon.show(WIP_TrackIn.this, sCheckMsg);
+							return;
+						}
 						Save("", lsAnalysisTable, lsAnalysisData);
 					
 					    Toast.makeText(WIP_TrackIn.this, "暂存成功!", Toast.LENGTH_SHORT).show();
@@ -1279,11 +1298,41 @@ public class WIP_TrackIn extends Activity {
 				}
 			}
 		});
-		//KeyBoard(editInput);
+		
+		//btnSP 不合格单查看
+		btnSP.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					Boolean isSelect=false;
+					
+					for(int i=0;i<lsCompTable.size();i++)
+					{
+						if (lsCompTable.get(i).get("CHECKFLAG").toString().equals("Y") && lsCompTable.get(i).get("ISSP").toString().equals("Y")) {
+							isSelect=true;
+							// 开启新Activity,并传参数
+							Intent iNew = new Intent(WIP_TrackIn.this, WIP_TrackIn_SP.class);
+							iNew.putExtra("COMPID", lsCompTable.get(i).get("PRODUCTSERIALNUMBER").toString());
+							iNew.putExtra("COMPIDSEQ", lsCompTable.get(i).get("SEQ").toString());
+							startActivity(iNew);
+						}
+					}
+					if(!isSelect)
+					{
+						MESCommon.show(WIP_TrackIn.this, "请选择要查看的零部件");
+						return;
+					}
+									
+				} catch (Exception e) {
+					MESCommon.showMessage(WIP_TrackIn.this, e.toString());
+				}
+			}
+		});
+		
 		} catch (Exception e) {
 			MESCommon.showMessage(WIP_TrackIn.this,  e.toString());
 		}
-
+		
 	}
 
 	// 有返回值的Activity  
@@ -1337,6 +1386,7 @@ public class WIP_TrackIn extends Activity {
 				hs.put("TRACETYPE", myClass.TRACETYPE);
 				hs.put("LOTID", myClass.LOTID);
 				hs.put("ISCOMPREPEATED", myClass.ISCOMPREPEATED);
+				hs.put("ISSP", "");
 				lsCompTable.add(0,  hs);							
 				
         	 }
@@ -1626,6 +1676,7 @@ public class WIP_TrackIn extends Activity {
 				// 导入布局并赋值给convertview
 				convertView = inflater.inflate(R.layout.activity_wip_track_in_tab0_listview, null);
 				holder.cb = (CheckBox) convertView.findViewById(R.id.wiptrackinlv0_cb);
+				holder.tvISSP = (TextView) convertView.findViewById(R.id.wiptrackinlv0_tvISSP);
 				holder.tvSerialnumberId = (TextView) convertView.findViewById(R.id.wiptrackinlv0_tvSerialnumberId);
 				holder.tvMaterialMame = (TextView) convertView.findViewById(R.id.wiptrackinlv0_tvMaterialMame);
 				holder.tvMaterialID = (TextView) convertView.findViewById(R.id.wiptrackinlv0_tvMaterialID);
@@ -1637,6 +1688,7 @@ public class WIP_TrackIn extends Activity {
 				
 			}
 			// 设置list中TextView的显示
+			holder.tvISSP.setText(getItem(position).get("ISSP").toString());	//是否特采
 			holder.tvSerialnumberId.setText(getItem(position).get("PRODUCTSERIALNUMBER").toString());	
 			holder.tvMaterialMame.setText(getItem(position).get("MaterialMame").toString());	
 			holder.tvMaterialID.setText(getItem(position).get("MaterialId").toString());
@@ -1694,13 +1746,13 @@ public class WIP_TrackIn extends Activity {
 		
 		public static class ViewHolder {
 			CheckBox cb;
+			TextView tvISSP;
 			TextView tvSerialnumberId;
 			TextView tvMaterialMame;
 			TextView tvMaterialID;
 		}
 	}
 
-	
 	private  void exeLstCompTable()
 	{
 		try {		
@@ -1907,6 +1959,7 @@ public class WIP_TrackIn extends Activity {
 			hs.put("FURNACENO", sLNO);
 			hs.put("IS_INSERT", "Y");
 			hs.put("BOMFLAGE", msBomflag);
+			hs.put("ISSP", msSpecialAdoption);	//是否为特采
 			lsCompTable.add(0,  hs);							
 			adapterTab0.notifyDataSetChanged();	
 			Toast.makeText(WIP_TrackIn.this, "零部件：【"+sNewNumber+"】,加入成功！", Toast.LENGTH_SHORT).show();	
@@ -2037,6 +2090,7 @@ public class WIP_TrackIn extends Activity {
 					}else {
 						hs.put("IS_INSERT","N");
 					}
+					hs.put("ISSP","");
 					lsCompTable.add(hs);
 			    }
 			
@@ -2084,10 +2138,18 @@ public class WIP_TrackIn extends Activity {
 					{
 				    	//,查找次组立下的公母转子
 				    	List<HashMap<String, String>> lsdtStep_PF = new ArrayList<HashMap<String, String>>();
-						 sSQL = "SELECT * FROM PROCESS_STEP_PF WHERE ANALYSISFORMSID=(SELECT MAX( ANALYSISFORMSID) FROM PROCESS_STEP_PF WHERE SERIALNUMBER_P ='"+lsCompTable.get(i).get("SEQ").toString()+"'  )  AND SERIALNUMBER_P<>'"+lsCompTable.get(i).get("SEQ").toString()+"' ";
-				         sError = db.GetData(sSQL, lsdtStep_PF);
+						sSQL = "SELECT * FROM PROCESS_STEP_PF WHERE ANALYSISFORMSID=(SELECT MAX( ANALYSISFORMSID) FROM PROCESS_STEP_PF WHERE SERIALNUMBER_P ='"+lsCompTable.get(i).get("SEQ").toString()+"'  )  AND SERIALNUMBER_P<>'"+lsCompTable.get(i).get("SEQ").toString()+"' ";
+				    	//sSQL = "SELECT * FROM PROCESS_STEP_PF WHERE ANALYSISFORMSID=(SELECT MAX( ANALYSISFORMSID) FROM PROCESS_STEP_PF WHERE SERIALNUMBER_P ='"+lsCompTable.get(i).get("SEQ").toString()+"')  AND SERIALNUMBER_P<>'"+lsCompTable.get(i).get("SEQ").toString()+"'   and PRODUCTCOMPID = '"+msProductCompId+"'  "; 
+				    	sError = db.GetData(sSQL, lsdtStep_PF);
 				       if(lsdtStep_PF.size()>0)
 				       {
+				    	   if (!lsdtStep_PF.get(0).get("PRODUCTCOMPID").toString().trim().equals(""))
+					       {  
+				    		   if (!lsdtStep_PF.get(0).get("PRODUCTCOMPID").toString().trim().equals(msProductCompId))
+					    	   {
+					    			return sReuslt="次组立后的轴承座："+lsCompTable.get(i).get("SEQ").toString().trim()+"已经被制造号码："+lsdtStep_PF.get(0).get("PRODUCTCOMPID").toString()+"装配使用,不能重复装配！ ";
+					    	   }
+				    	   }
 				    	   for(int j=0;j<lsdtStep_PF.size();j++)
 				    	   {
 				    		   HashMap<String, String> hs = new HashMap<String, String>();	
@@ -2095,7 +2157,6 @@ public class WIP_TrackIn extends Activity {
 					   			hs.put("MaterialType", lsdtStep_PF.get(j).get("MATERIALMAINTYPE").toString());
 					   			lsCompTable_Copy.add(0,  hs);			
 				    	   }
-				    	   
 				       }
 					}
 		        
@@ -2134,8 +2195,6 @@ public class WIP_TrackIn extends Activity {
 		}
 	}
 	
-	
-
 	private  String InsertSTEP_P( String stype)
 	{
 		String sResult="";
@@ -2255,7 +2314,6 @@ public class WIP_TrackIn extends Activity {
 		return sResult;
 	}
 
-
 	private String Save(String sResult,List<HashMap<String, String>> listTemp,List<HashMap<String, String>> listAnalysisTemp) {
 		try {
 		
@@ -2372,7 +2430,6 @@ public class WIP_TrackIn extends Activity {
 		}
 	}
 	
-	
 	public String checkExist(String number)
 	{
 		String sResult="";
@@ -2421,6 +2478,82 @@ public class WIP_TrackIn extends Activity {
 		 }
 		}
 		
+	//储存时检查是否符合「专配HZ_SPECIALMATCH」规则
+	//查HZ_SPECIALMATCH  里，物料条码COMPIDSEQ（精加工号PRODUCTSERIALNUMBER）对应的专配物料编号INFORMATION
+	private String Check_HZ_SPECIALMATCH()
+	{
+		String sResult = "", sSQL = "";
+		List<HashMap<String, String>> ls = new ArrayList<HashMap<String, String>>();
+		try {
+			//1.先组合已扫描的零部件，再查询专配表HZ_SPECIALMATCH
+			//2.若某个零部件存在于专配表HZ_SPECIALMATCH，则
+			String sCompids = "";
+			for(int i=0;i<lsCompTable.size();i++)
+		    {
+				String sCompid = lsCompTable.get(i).get("PRODUCTSERIALNUMBER").toString();
+		    	sCompids += sCompids.equals("") ? "'" + sCompid + "'" : ",'" + sCompid + "'";
+		    }
+			if (!sCompids.equals(""))
+			{
+				sSQL = "SELECT DISTINCT PRODUCTSERIALNUMBER ID1,INFORMATION ID2 FROM HZ_SPECIALMATCH WHERE PRODUCTSERIALNUMBER IN (" + sCompids + ") OR INFORMATION IN (" + sCompids + ")";
+				sResult = db.GetData(sSQL, ls);
+				if (!sResult.equals("")) return sResult;
+				if (ls.size() != 0)
+				{
+					//有专配零件,检查专配规划
+					for(int i=0;i<ls.size();i++)
+				    {
+						String sID1 = ls.get(i).get("ID1").toString();
+						String sID2 = ls.get(i).get("ID2").toString();
+				    	if (!sCompids.contains("'" + sID1 + "'") || !sCompids.contains("'" + sID2 + "'"))
+				    	{
+				    		sResult += sResult.equals("") ? "以下零部件不符合专配规则：" : "";
+				    		if (sCompids.contains("'" + sID1 + "'"))
+				    		{
+				    			sResult += "\n*" + sID1 + " 应专配 " + sID2;
+				    		}
+				    		else
+				    		{
+				    			sResult += "\n*" + sID2 + " 应专配 " + sID1;
+				    		}
+				    	}
+				    }
+				}
+			}
+			
+			return sResult;
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+			MESCommon.showMessage(WIP_TrackIn.this, e.toString());
+			return e.toString();
+		}
+	}
+	//扫描时检查是否为不合格单判定特采品
+	private void Check_SpecialAdoption(String sCompidseq)
+	{
+		String sResult = "", sSQL = "";
+		List<HashMap<String, String>> ls = new ArrayList<HashMap<String, String>>();
+		try {
+			msSpecialAdoption = "";
+			sSQL = "SELECT B.PROJECTID, B.PRODUCTID ITNBR, B.PRODUCTSERIALNUMBER COMPID, B.COMPIDSEQ, B.MODIFYTIME FROM FLOW_FORM_UQF_S_NOW A INNER JOIN ANALYSISRESULT_QCD B ON A.PROJECTID=B.PROJECTID " +
+					"WHERE A.ANALYSISJUDGEMENTRESULT='特采' AND B.COMPIDSEQ='"+sCompidseq+"'";
+			sResult = db.GetData(sSQL, ls);
+			if (ls.size() != 0)
+			{
+				String sCompid = ls.get(0).get("COMPID").toString();
+				msSpecialAdoption = "Y";
+				MESCommon.showMessage(WIP_TrackIn.this, "工件编号：" + sCompid + " 为特采品！");
+				return;
+			}
+			
+		
+		} catch (Exception e) {
+			// TODO: handle exception
+			MESCommon.showMessage(WIP_TrackIn.this, e.toString());
+			return;
+		}
+	}
 		
 		
 }

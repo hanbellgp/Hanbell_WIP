@@ -57,5 +57,8 @@
     <string name="title_activity_semi__temp">半成品盘点作业</string>
     <string name="title_activity_mjdaf__dfd">Mjdaf_DFD</string>
     <string name="title_activity_wip__analysisitem">WIP_ANALYSISITEM</string>
+    <string name="title_activity_wip__track_in__crm">服务维修装配报工</string>
+    <string name="title_activity_wip__track_in__fw">WIP_TrackIn_FW</string>
+    <string name="title_activity_wip__track_in__sp">不合格单查看</string>
 
 </resources>

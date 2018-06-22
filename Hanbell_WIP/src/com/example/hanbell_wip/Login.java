@@ -23,7 +23,6 @@ public class Login extends Activity {
 	private MESDB db = new MESDB();
 	EditText editUserId,editPW;
 	Button btnConfirm,btnExit;
-	CheckBox cBo1x;
 	CheckBox cBox;
 	PrefercesService	 prefercesService;
 	@Override

@@ -28,12 +28,25 @@
         android:visibility="visible" />
 
     <TextView
+        android:id="@+id/wiptrackinlv0_tvISSP"
+        android:layout_width="15dip"
+        android:layout_height="wrap_content"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+    
+    <View
+        android:layout_width="0.5px"
+        android:layout_height="match_parent"
+        android:background="#B8B8B8"
+        android:visibility="visible" />
+
+    <TextView
         android:id="@+id/wiptrackinlv0_tvSerialnumberId"
         android:layout_width="120dip"
         android:layout_height="wrap_content"
         android:textColor="#000000"
         android:textSize="15sp" />
-
+    
     <View
         android:layout_width="0.5px"
         android:layout_height="match_parent"

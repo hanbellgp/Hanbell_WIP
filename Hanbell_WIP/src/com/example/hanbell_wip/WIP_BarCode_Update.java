@@ -167,7 +167,7 @@ public class WIP_BarCode_Update extends Activity {
 			 MESCommon.show(WIP_BarCode_Update.this, "当前工站不为发料站，请调整后再进行发料作业！！");
 		 }
 			//滑块站需要看滑块
-			if (params.get("StepName").contains("机体"))
+			if (params.get("StepName").contains("机体") && !params.get("StepName").contains("P机"))
 			{   //0,显示；
 				cksd.setVisibility(0);
 				ckdl.setVisibility(0);
@@ -581,7 +581,7 @@ public class WIP_BarCode_Update extends Activity {
 						String sEqpId =params.get("EQPID").toString();
 						String sStepSEQ = lsProcess.get(0).get("STEPSEQ").toString();						
 						//不需要判定是不是重工制令，都要发料，过站
-                        if(sStepId.equals("机体领料站") || sStepId.equals("冷媒领料站"))
+                        if(sStepId.equals("机体领料站") || sStepId.equals("冷媒领料站") || sStepId.equals("P机体领料站") || sStepId.equals("P机组领料站"))
                         {			
                         	String sSerialnumberID="";
                         	//库存直接发料Y,

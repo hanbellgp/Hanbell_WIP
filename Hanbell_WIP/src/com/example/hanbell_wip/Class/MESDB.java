@@ -19,10 +19,9 @@ import android.R.string;
 
 public class MESDB {
 	private static final String serviceNameSpace = "http://tempuri.org/";
-	//public static String serviceURL = "http://192.168.1.103/FtcMesWebService/FtcMesWebService.asmx";
-	public static String serviceURL = "http://172.16.10.94/FtcMesWebService_PDA/FtcMesWebService.asmx";
+	public static String serviceURL = "";
 	public MESDB(){
-		//
+		serviceURL = MESCommon.msDefaltURL;
 	}
 	public MESDB(String sURL) {
 		if (sURL != null) {
@@ -1049,5 +1048,347 @@ public class MESDB {
 		return sError;
 	}
 	
+	//服务维修报工专用
+	//取得MES单号或零部件资讯
+	public static String GetProductSerialNumber_CRM(String sBarCode,String sITNBR,String sPRODUCTORDERID ,String sSTATUS,String sProductType, String sType, List<HashMap<String, String>> ol) {
+		//List<HashMap<String, String>> ol = new ArrayList<HashMap<String, String>>();
+		//ol = new ArrayList<HashMap<String, String>>();
+		String sXML = "";
+		  String sError= "";
+		try {
+			// 1.实例化SoapObject对象
+			SoapObject rpc = new SoapObject(serviceNameSpace, "PDA_GetDatatableProductSerialNumber_CRM");
+			// 2.设置调用参数
+			rpc.addProperty("sBarCode", sBarCode);
+			rpc.addProperty("sITNBR", sITNBR);
+			rpc.addProperty("sPRODUCTORDERID", sPRODUCTORDERID);
+			rpc.addProperty("sSTATUS", sSTATUS);
+			rpc.addProperty("sSUPPLYLOTID", "");
+			rpc.addProperty("sProductType", sProductType);
+			rpc.addProperty("sType", sType);
+			// 3.设置Soap请求信息
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.bodyOut = rpc;
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(rpc);
+			// 4.构建传输对象
+			HttpTransportSE ht = new HttpTransportSE(serviceURL);
+			// 5.调用Webservice
+		
+			ht.call(serviceNameSpace + "PDA_GetDatatableProductSerialNumber_CRM", envelope);
+			// 6.返回结果
+			Object obj = envelope.getResponse();
+			if (obj != null) {
+				sXML = obj.toString().replace("\n", "");
+				int iResult = sXML.indexOf("<DataList");
+				if (sXML.indexOf("<DataList>") >= 0) {
+					DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+					DocumentBuilder db = dbf.newDocumentBuilder();
+					// 创建一个新的字符串
+					StringReader read = new StringReader(sXML);
+					// 创建新的输入源 解析器将使用 InputSource 对象来确定如何读取 XML 输入
+					InputSource source = new InputSource(read);
+					Document doc = db.parse(source);
+					Node nd = doc.getFirstChild();
+					NodeList lst = nd.getChildNodes();
+					for (int i = 0; i < lst.getLength(); i++) {
+						Node nd0 = lst.item(i);
+						if (nd0.getNodeName().trim() != "#text") {
+							NodeList lst0 = nd0.getChildNodes();
+							// List<String> sl = new ArrayList<String>();
+							HashMap<String, String> sh = new HashMap<String, String>();
+							for (int j = 0; j < lst0.getLength(); j++) {
+								Node nd1 = lst0.item(j);
+								if (nd1.getNodeName().trim() == "SHIPTYPE") {
+									String s = nd1.getNodeName().trim();
+								}
+								if (nd1.getNodeName().trim() != "#text") {
+									// sl.add(nd1.getTextContent());
+									sh.put(nd1.getNodeName(), nd1.getTextContent());
+								}
+							}
+							// ol.add(sl);
+							ol.add(sh);
+						}
+					}
+				}
+				else if (iResult < 0)
+				{
+					return sXML;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sError= e.toString();
+		}
+		return sError;
+		
+	}
+	
+	//服务维修报工专用
+	//检查MES单号的状态，并回传结果
+	public static String GetProductProcess_CRM(String sCrmno,List<HashMap<String, String>> ol) {
+		//List<HashMap<String, String>> ol = new ArrayList<HashMap<String, String>>();
+		//ol = new ArrayList<HashMap<String, String>>();
+		String sXML = "";
+		String sError= "";
+		try {
+			// 1.实例化SoapObject对象
+			SoapObject rpc = new SoapObject(serviceNameSpace, "PDA_GetProcess_CRM");
+			// 2.设置调用参数
+			rpc.addProperty("sCrmno", sCrmno);
+			
+			// 3.设置Soap请求信息
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.bodyOut = rpc;
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(rpc);
+			// 4.构建传输对象
+			HttpTransportSE ht = new HttpTransportSE(serviceURL);
+			// 5.调用Webservice
+		
+			ht.call(serviceNameSpace + "PDA_GetProcess_CRM", envelope);
+			// 6.返回结果
+			Object obj = envelope.getResponse();
+			if (obj != null) {
+				sXML = obj.toString().replace("\n", "");
+				int iResult = sXML.indexOf("<DataList");
+				if (sXML.indexOf("<DataList>") >= 0) {
+					DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+					DocumentBuilder db = dbf.newDocumentBuilder();
+					// 创建一个新的字符串
+					StringReader read = new StringReader(sXML);
+					// 创建新的输入源 解析器将使用 InputSource 对象来确定如何读取 XML 输入
+					InputSource source = new InputSource(read);
+					Document doc = db.parse(source);
+					Node nd = doc.getFirstChild();
+					NodeList lst = nd.getChildNodes();
+					for (int i = 0; i < lst.getLength(); i++) {
+						Node nd0 = lst.item(i);
+						if (nd0.getNodeName().trim() != "#text") {
+							NodeList lst0 = nd0.getChildNodes();
+							// List<String> sl = new ArrayList<String>();
+							HashMap<String, String> sh = new HashMap<String, String>();
+							for (int j = 0; j < lst0.getLength(); j++) {
+								Node nd1 = lst0.item(j);
+								if (nd1.getNodeName().trim() == "SHIPTYPE") {
+									String s = nd1.getNodeName().trim();
+								}
+								if (nd1.getNodeName().trim() != "#text") {
+									// sl.add(nd1.getTextContent());
+									sh.put(nd1.getNodeName(), nd1.getTextContent());
+								}
+							}
+							// ol.add(sl);
+							ol.add(sh);
+						}
+					}
+				}
+				else if (iResult < 0)
+				{
+					return sXML;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sError= e.toString();
+		}
+		return sError;
+	}
+	
+	//服务维修报工TrackIn
+	public static String SetStepInbyCRM(String sProductOrderId ,String sProductCompId,String sStepId, String sEqpId, String sUserId, String sUserName) {
+		String sError = "";
+		
+		try {
+			// 1.实例化SoapObject对象
+			SoapObject rpc = new SoapObject(serviceNameSpace, "PDA_SetStepInCRM");
+			// 2.设置调用参数
+			rpc.addProperty("sProductOrderId", sProductOrderId);
+			rpc.addProperty("sProductCompId", sProductCompId);		
+			rpc.addProperty("sStepId", sStepId);
+			rpc.addProperty("sEqpId", sEqpId);
+			rpc.addProperty("sUserId", sUserId);
+			rpc.addProperty("sUserName", sUserName);
+						
+			// 3.设置Soap请求信息
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.bodyOut = rpc;
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(rpc);
+			// 4.构建传输对象
+			HttpTransportSE ht = new HttpTransportSE(serviceURL);
+			// 5.调用Webservice
+			ht.call(serviceNameSpace + "PDA_SetStepInCRM", envelope);
+			// 6.返回结果
+			Object obj = envelope.getResponse();
+			if (obj != null) {
+				sError = obj.toString();
+				if (sError.equals("anyType{}")) sError = "";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sError= e.toString();
+		}
+		return sError;
+	}
+
+	//服务维修报工TrackIn
+	public static String SetStepOutbyCRM(String sProductOrderId ,String sProductCompId, String sStepId, String sEqpId, String sUserId, String sUserName,String sOK) {
+		String sError = "";
+		
+		try {
+			// 1.实例化SoapObject对象
+			SoapObject rpc = new SoapObject(serviceNameSpace, "PDA_SetStepOutCRM");
+			// 2.设置调用参数
+			rpc.addProperty("sProductOrderId", sProductOrderId);
+			rpc.addProperty("sProductCompId", sProductCompId);
+			rpc.addProperty("sStepId", sStepId);
+			rpc.addProperty("sEqpId", sEqpId);
+			rpc.addProperty("sUserId", sUserId);
+			rpc.addProperty("sUserName", sUserName);
+			rpc.addProperty("sOK", sOK);
+			
+			// 3.设置Soap请求信息
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.bodyOut = rpc;
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(rpc);
+			// 4.构建传输对象
+			HttpTransportSE ht = new HttpTransportSE(serviceURL);
+			// 5.调用Webservice
+			ht.call(serviceNameSpace + "PDA_SetStepOutCRM", envelope);
+			// 6.返回结果
+			Object obj = envelope.getResponse();
+			if (obj != null) {
+				sError = obj.toString();
+				if (sError.equals("anyType{}")) sError = "";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sError= e.toString();
+		}
+		return sError;
+	}
+	
+	//报工暂停
+	public static String SetStepPause(String sProductOrderId, String sProductCompId, String sStepId, String sStepSEQ, String sEqpId, String sUserId, String sUserName) {
+		String sError = "";
+		
+		try {
+			String sWebServiceName = "PDA_SetStepPause";
+			// 1.实例化SoapObject对象
+			SoapObject rpc = new SoapObject(serviceNameSpace, sWebServiceName);
+			// 2.设置调用参数
+			rpc.addProperty("sProductOrderId", sProductOrderId);
+			rpc.addProperty("sProductCompId", sProductCompId);
+			rpc.addProperty("sStepId", sStepId);
+			rpc.addProperty("sStepSEQ", sStepSEQ);
+			rpc.addProperty("sEqpId", sEqpId);
+			rpc.addProperty("sUserId", sUserId);
+			rpc.addProperty("sUserName", sUserName);
+			
+			// 3.设置Soap请求信息
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.bodyOut = rpc;
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(rpc);
+			// 4.构建传输对象
+			HttpTransportSE ht = new HttpTransportSE(serviceURL);
+			// 5.调用Webservice
+			ht.call(serviceNameSpace + sWebServiceName, envelope);
+			// 6.返回结果
+			Object obj = envelope.getResponse();
+			if (obj != null) {
+				sError = obj.toString();
+				if (sError.equals("anyType{}")) sError = "";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sError= e.toString();
+		}
+		return sError;
+	}
+	
+	//解除暂停
+	public static String SetStepResume(String sProductOrderId, String sProductCompId, String sStepId, String sStepSEQ, String sEqpId, String sUserId, String sUserName) {
+		String sError = "";
+		
+		try {
+			String sWebServiceName = "PDA_SetStepResume";
+			// 1.实例化SoapObject对象
+			SoapObject rpc = new SoapObject(serviceNameSpace, sWebServiceName);
+			// 2.设置调用参数
+			rpc.addProperty("sProductOrderId", sProductOrderId);
+			rpc.addProperty("sProductCompId", sProductCompId);
+			rpc.addProperty("sStepId", sStepId);
+			rpc.addProperty("sStepSEQ", sStepSEQ);
+			rpc.addProperty("sEqpId", sEqpId);
+			rpc.addProperty("sUserId", sUserId);
+			rpc.addProperty("sUserName", sUserName);
+			
+			// 3.设置Soap请求信息
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.bodyOut = rpc;
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(rpc);
+			// 4.构建传输对象
+			HttpTransportSE ht = new HttpTransportSE(serviceURL);
+			// 5.调用Webservice
+			ht.call(serviceNameSpace + sWebServiceName, envelope);
+			// 6.返回结果
+			Object obj = envelope.getResponse();
+			if (obj != null) {
+				sError = obj.toString();
+				if (sError.equals("anyType{}")) sError = "";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sError= e.toString();
+		}
+		return sError;
+	}
+		
+	//取得报工暂停状态
+	//True:报工暂停
+	//False:否
+	public static String IsStepPause(String sProductOrderId, String sProductCompId, String sStepId, String sEqpId) {
+		String sError = "";
+		
+		try {
+			String sWebServiceName = "PDA_IsStepPause";
+			// 1.实例化SoapObject对象
+			SoapObject rpc = new SoapObject(serviceNameSpace, sWebServiceName);
+			// 2.设置调用参数
+			rpc.addProperty("sProductOrderId", sProductOrderId);
+			rpc.addProperty("sProductCompId", sProductCompId);
+			rpc.addProperty("sStepId", sStepId);
+			rpc.addProperty("sEqpId", sEqpId);
+			
+			// 3.设置Soap请求信息
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.bodyOut = rpc;
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(rpc);
+			// 4.构建传输对象
+			HttpTransportSE ht = new HttpTransportSE(serviceURL);
+			// 5.调用Webservice
+			ht.call(serviceNameSpace + sWebServiceName, envelope);
+			// 6.返回结果
+			Object obj = envelope.getResponse();
+			if (obj != null) {
+				sError = obj.toString();
+				if (sError.equals("anyType{}")) sError = "";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sError= e.toString();
+		}
+		return sError;
+	}
+	
+	
+		
+		
 	
 }

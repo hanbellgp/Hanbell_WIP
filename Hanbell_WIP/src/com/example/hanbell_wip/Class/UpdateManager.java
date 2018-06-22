@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+//import hanbell.common.MESCommon;
 
 public class UpdateManager {
 	/* 下载中 */
@@ -50,7 +51,7 @@ public class UpdateManager {
 	
 	//String msDefaltURL = "http://10.214.226.81/FtcMesWebService/STK_Version.xml";
 	//String msDefaltURL = "http://192.168.1.103/FtcMesWebService/STK_Version.xml";
-	String msDefaltURL = "http://172.16.10.94/FtcMesWebService/PDA/WIP_Version.xml";
+	//String msDefaltURL = "http://172.16.10.94/FtcMesWebService/PDA/WIP_Version.xml";
 	String msProjectName = "com.example.hanbell_wip";
 	
 	private Handler mHandler = new Handler() {
@@ -98,7 +99,7 @@ public class UpdateManager {
 		int versionCode = getVersionCode(mContext);
 		URL url;//定义网络中version.xml的连接
 		try { //一个测试
-			url = new URL(msDefaltURL);//创建version.xml的连接地址。
+			url = new URL(MESCommon.msAppXML);//创建version.xml的连接地址。
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
 			connection.setConnectTimeout(5000);//请求反应时间
@@ -114,7 +115,7 @@ public class UpdateManager {
 		{
 			int serviceCode = Integer.valueOf(mHashMap.get("version"));
 			// 鐗堟湰鍒ゆ柇
-			if (serviceCode != versionCode)
+			if (serviceCode != MESCommon.miVersion)
 			{
 				return true;
 			}
