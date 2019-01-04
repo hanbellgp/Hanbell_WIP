@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class WIP_CompReplace extends Activity {
 	String msProductOrderId="", msOldSEQ="",  msProductId,  msProductCompId,  msProductSerialNumber,  msStepId="",  msISCOMPID3="",
 	  msEqpId="",msAnalysisformsID,msSampletimes,msStepSEQ="",msSUPPLYLOTID,msSUPPLYID,msQC_ITEM,msQCTYPE,msBomflag="";
 	int miQty;
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	static int milv0RowNum = 0;
 
 	private List<HashMap<String, String>> lsTable = new ArrayList<HashMap<String, String>>();
@@ -113,7 +113,7 @@ public class WIP_CompReplace extends Activity {
 		setContentView(R.layout.activity_main);
 		setContentView(R.layout.activity_wip_compreplace);
 
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 		
 			try{
 		editInput = (EditText) findViewById(R.id.wipcompreplace_tvnewProductserialnumber);	
@@ -133,8 +133,8 @@ public class WIP_CompReplace extends Activity {
 		prefercesService  =new PrefercesService(this);  
 	    params=prefercesService.getPreferences();  
 		ActionBar actionBar=getActionBar();
-	    actionBar.setSubtitle("±¨¹¤ÈËÔ±£º"+MESCommon.UserName); 
-	    actionBar.setTitle("Áã²¿¼şĞŞ¸Ä");
+	    actionBar.setSubtitle("æŠ¥å·¥äººå‘˜ï¼š"+MESCommon.UserName); 
+	    actionBar.setTitle("é›¶éƒ¨ä»¶ä¿®æ”¹");
 		
 	    Intent intent = this.getIntent();
 	    String MaterialId = intent.getStringExtra("MaterialId");
@@ -154,7 +154,7 @@ public class WIP_CompReplace extends Activity {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 					try {
 					EditText txtInput = (EditText) findViewById(R.id.wipcompreplace_tvnewProductserialnumber);
 					String   sResult="";
@@ -166,7 +166,7 @@ public class WIP_CompReplace extends Activity {
 					String   sSUPPLYID="";
 					String   sLNO="";
 					if (txtInput.getText().toString().trim().length() == 0) {
-						MESCommon.show(WIP_CompReplace.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(WIP_CompReplace.this, "è¯·æ‰«ææ¡ç !");
 						txtInput.setText("");
 						setFocus(editNewMaterialName);
 						return false;
@@ -174,22 +174,22 @@ public class WIP_CompReplace extends Activity {
 					lsCompID.clear();
 					if(msISCOMPID3.equals("Y"))
 					{
-						sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","ÖÆÔìºÅÂë","×°Åä", lsCompID);
+						sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","åˆ¶é€ å·ç ","è£…é…", lsCompID);
 					    if (!sResult.equals(""))
 	                    {   MESCommon.show(WIP_CompReplace.this,sResult);
 	                        setFocus(editNewMaterialName);
 					    	return false;
 	                    }
-					    //COMPID3²»Îª¿Õ£¬±íÊ¾ÒÑ¾­±»¶¯Á¦/Ë«¶Î/»ú×é°ó¶¨ÁËÖÆÔìºÅÂë
+					    //COMPID3ä¸ä¸ºç©ºï¼Œè¡¨ç¤ºå·²ç»è¢«åŠ¨åŠ›/åŒæ®µ/æœºç»„ç»‘å®šäº†åˆ¶é€ å·ç 
 					    if (!lsCompID.get(0).get("COMPID3").toString().equals("") && lsCompID.get(0).get("COMPID3").toString().equals(txtInput.getText().toString().trim()) )
 			            {
-		        		  MESCommon.show(WIP_CompReplace.this,"²»ÄÜÌæ»»ÀàĞÍÎª£¬¶¯Á¦/Ë«¶Î/»ú×éµÄÖÆÔìºÅÂë£º¡¾"+txtInput.getText().toString().trim()+"¡¿£¡");
+		        		  MESCommon.show(WIP_CompReplace.this,"ä¸èƒ½æ›¿æ¢ç±»å‹ä¸ºï¼ŒåŠ¨åŠ›/åŒæ®µ/æœºç»„çš„åˆ¶é€ å·ç ï¼šã€"+txtInput.getText().toString().trim()+"ã€‘ï¼");
 		        		  txtInput.setText("");
 		        		  setFocus(editNewMaterialName);
 		                  return false;
 			            }
 					    lsDoubleMsg.clear();
-					    //PROCESSSTATUS<>'ÒÑÍê³É' Î´À´Ó¦¸Ã²éºËÒÑÍê³ÉµÄË«¶Î¶¯Á¦
+					    //PROCESSSTATUS<>'å·²å®Œæˆ' æœªæ¥åº”è¯¥æŸ¥æ ¸å·²å®Œæˆçš„åŒæ®µåŠ¨åŠ›
 						String sSQL = "SELECT B.PRODUCTID,C.PRODUCTNAME,D.LEVEL2 FROM PROCESS A INNER JOIN PROCESS_PRE B ON A.PRODUCTORDERID=B.PRODUCTORDERID INNER JOIN MPRODUCT C ON B.PRODUCTID=C.PRODUCTID LEFT JOIN MSTKINVMAS D ON B.PRODUCTID=D.ITNBR  WHERE A.PRODUCTCOMPID='"+ lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString() + "'  ";
 						String sError = db.GetData(sSQL, lsDoubleMsg);
 						if (sError != "") {
@@ -207,7 +207,7 @@ public class WIP_CompReplace extends Activity {
 					}
 					else
 					{
-						sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","Áã²¿¼ş","×°Åä", lsCompID);
+						sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","é›¶éƒ¨ä»¶","è£…é…", lsCompID);
 					    if (!sResult.equals(""))
 	                    {   MESCommon.show(WIP_CompReplace.this,sResult);
 	                        setFocus(editNewMaterialName);
@@ -215,7 +215,7 @@ public class WIP_CompReplace extends Activity {
 	                    }
 			        	if (lsCompID.get(0).get("ISPRODUCTCOMPID").toString().equals("Y") )
 			            {
-		        		  MESCommon.show(WIP_CompReplace.this,"²»ÄÜÌæ»»ÖÆÔìºÅÂë!");
+		        		  MESCommon.show(WIP_CompReplace.this,"ä¸èƒ½æ›¿æ¢åˆ¶é€ å·ç !");
 		        		  txtInput.setText("");
 		        		  setFocus(editNewMaterialName);
 		                  return false;
@@ -230,7 +230,7 @@ public class WIP_CompReplace extends Activity {
 							      String sFinId=getCompid(sMaterialId);
 							      if(!sFinId.equals(""))
 							      {
-							    	  if(sFinId.equals("°ë³ÉÆ··½ĞÍ¼ş"))
+							    	  if(sFinId.equals("åŠæˆå“æ–¹å‹ä»¶"))
 							    	  {
 							    			txtInput.setText(lsCompID.get(0).get("RAWPROCESSID").toString());
 							    	  }else {
@@ -285,8 +285,8 @@ public class WIP_CompReplace extends Activity {
 						if(lsBom.size()==0)
 						{
 
-							AlertDialog alert=	new AlertDialog.Builder(WIP_CompReplace.this).setTitle("È·ÈÏ").setMessage("ÎïÁÏÌõÂë¡¾" +editInput.getText().toString() + "¡¿µÄÎïÁÏ¡¾"+sMaterialId+"¡¿ ²»ÔÚÎïÁÏÇåµ¥!,ÊÇ·ñ¼ÌĞøÌæ»»!")
-									.setPositiveButton("¼ÓÈë",new DialogInterface.OnClickListener() {  
+							AlertDialog alert=	new AlertDialog.Builder(WIP_CompReplace.this).setTitle("ç¡®è®¤").setMessage("ç‰©æ–™æ¡ç ã€" +editInput.getText().toString() + "ã€‘çš„ç‰©æ–™ã€"+sMaterialId+"ã€‘ ä¸åœ¨ç‰©æ–™æ¸…å•!,æ˜¯å¦ç»§ç»­æ›¿æ¢!")
+									.setPositiveButton("åŠ å…¥",new DialogInterface.OnClickListener() {  
 					            @Override  
 					            public void onClick(DialogInterface dialog,int which) {  
 					                // TODO Auto-generated method stub  			
@@ -297,7 +297,7 @@ public class WIP_CompReplace extends Activity {
 									setFocus(editNewMaterialName);		
 					            }  
 					        })  
-							.setNeutralButton("È¡Ïû",new DialogInterface.OnClickListener() {  
+							.setNeutralButton("å–æ¶ˆ",new DialogInterface.OnClickListener() {  
 							            @Override  
 							            public void onClick(DialogInterface dialog,int which) {  
 							                // TODO Auto-generated method stub  
@@ -345,7 +345,7 @@ public class WIP_CompReplace extends Activity {
 				try {	
 					if(editSEQ.getText().toString().trim().equals(""))
 					{
-						MESCommon.showMessage(WIP_CompReplace.this, "ÇëÏÈÉ¨ÃèÒªÌæ»»µÄÌõÂë±êÇ©£¬ÔÚ½øĞĞÎïÁÏÌæ»»£¡");
+						MESCommon.showMessage(WIP_CompReplace.this, "è¯·å…ˆæ‰«æè¦æ›¿æ¢çš„æ¡ç æ ‡ç­¾ï¼Œåœ¨è¿›è¡Œç‰©æ–™æ›¿æ¢ï¼");
 						return ;
 					}
 				    String sResult=	UpdateSTEP_P();
@@ -367,7 +367,7 @@ public class WIP_CompReplace extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					 finish(); // ¹Ø±ÕActivity  
+					 finish(); // å…³é—­Activity  
 				} catch (Exception e) {
 					MESCommon.showMessage(WIP_CompReplace.this, e.toString());
 				}
@@ -384,8 +384,8 @@ public class WIP_CompReplace extends Activity {
 	{  
 	 Intent intent = new Intent();  
 	 intent.putExtra("result", result);  
-	 this.setResult(RESULT_OK, intent); // ÉèÖÃ½á¹ûÊı¾İ  
-	 this.finish(); // ¹Ø±ÕActivity  
+	 this.setResult(RESULT_OK, intent); // è®¾ç½®ç»“æœæ•°æ®  
+	 this.finish(); // å…³é—­Activity  
 	}  
 
 	
@@ -409,7 +409,7 @@ public class WIP_CompReplace extends Activity {
 	}
 	
 	/// <summary>
-    /// Ìæ»»ÎïÁÏ
+    /// æ›¿æ¢ç‰©æ–™
     /// </summary>
     /// <returns></returns>
     private String UpdateSTEP_P()
@@ -418,24 +418,24 @@ public class WIP_CompReplace extends Activity {
     	String sSql = "";
         try
         {
-        	//ÎïÁÏÌæ»»²»¼ÓÖÆÁîAND PRODUCTORDERID='"+msProductOrderId+"'£¬ÒòÎªÊÇÒÔÖÆÔìºÅÂëÔÚ¿´
-        	//ÒòÎªÓĞÖØ¹¤ÖÆÁî£¬ËùÒÔÒª°ÑÖÆÁîµ±Ìõ¼ş¼ÓÉÏ¡£¹ıÂË¡£
+        	//ç‰©æ–™æ›¿æ¢ä¸åŠ åˆ¶ä»¤AND PRODUCTORDERID='"+msProductOrderId+"'ï¼Œå› ä¸ºæ˜¯ä»¥åˆ¶é€ å·ç åœ¨çœ‹
+        	//å› ä¸ºæœ‰é‡å·¥åˆ¶ä»¤ï¼Œæ‰€ä»¥è¦æŠŠåˆ¶ä»¤å½“æ¡ä»¶åŠ ä¸Šã€‚è¿‡æ»¤ã€‚
             List<HashMap<String, String>> lsoDtOLD_P = new ArrayList<HashMap<String, String>>();
-            //²éÑ¯ÒÔÇ°ÎïÁÏµÄ¹¤¼şOLDID
+            //æŸ¥è¯¢ä»¥å‰ç‰©æ–™çš„å·¥ä»¶OLDID
             sSql = " SELECT * FROM PROCESS_STEP_P WHERE PRODUCTSERIALNUMBER='" +msOldSEQ+ "'  AND PRODUCTCOMPID='" +msProductCompId+ "'   ;";
             db.GetData(sSql,lsoDtOLD_P);
 
             List<HashMap<String, String>> lsoDt = new ArrayList<HashMap<String, String>>();
-            //Á½¸ö¶¼ÓĞ±íÊ¾´Î×éÁ¢ºóĞè±£ÁôµÄÎïÁÏ
+            //ä¸¤ä¸ªéƒ½æœ‰è¡¨ç¤ºæ¬¡ç»„ç«‹åéœ€ä¿ç•™çš„ç‰©æ–™
             sSql = "SELECT * FROM PROCESS_STEP_PF WHERE PRODUCTSERIALNUMBER='" +msOldSEQ + "'  AND  SERIALNUMBER_P ='" +msOldSEQ + "' ;";
             db.GetData(sSql,lsoDt);
           
-            //Ìæ»»¹¤¼şÊÇ´Î×éÁ¢×é×°ºÃµÄ
+            //æ›¿æ¢å·¥ä»¶æ˜¯æ¬¡ç»„ç«‹ç»„è£…å¥½çš„
             if (lsoDt.size() > 0)
             {
                 sSql = "";
-                //ĞèÒª¸üĞÂ¡ªPºÍ-PF£¬ĞÂµÄÎïÁÏĞÅÏ¢¡£
-                //°Ñ±»Ìæ»»-PFµÄÎïÁÏ²åÈëPROCESS_STEP_REPLACE£¬ÒÔPRODUCTSERIALNUMBERÎªÌõ¼ş£¬Èç¹û¶à±ÊÔò°Ñ¶à±Ê¶¼°áÒÆµ½PROCESS_STEP_REPLACE±í£»                 
+                //éœ€è¦æ›´æ–°â€”På’Œ-PFï¼Œæ–°çš„ç‰©æ–™ä¿¡æ¯ã€‚
+                //æŠŠè¢«æ›¿æ¢-PFçš„ç‰©æ–™æ’å…¥PROCESS_STEP_REPLACEï¼Œä»¥PRODUCTSERIALNUMBERä¸ºæ¡ä»¶ï¼Œå¦‚æœå¤šç¬”åˆ™æŠŠå¤šç¬”éƒ½æ¬ç§»åˆ°PROCESS_STEP_REPLACEè¡¨ï¼›                 
                 sSql = sSql + "INSERT INTO PROCESS_STEP_REPLACE (SYSID,PRODUCTORDERID,PRODUCTCOMPID,STEPID,EQPID,PRODUCTSERIALNUMBER_OLD,  PRODUCTSERIALNUMBER, PROCESS_PRODUCTID,PROCESS_PRODUCTNAME, MATERIALMAINTYPE,RAWPROCESSID,FINEPROCESSID,SUPPLYID,LNO,MODIFYUSERID,MODIFYUSER,MODIFYTIME) " +
                        "SELECT SYSID, PRODUCTORDERID, PRODUCTCOMPID,  STEPID,  EQPID, PRODUCTSERIALNUMBER_OLD, PRODUCTSERIALNUMBER , PROCESS_PRODUCTID,PROCESS_PRODUCTNAME, MATERIALMAINTYPE,RAWPROCESSID, FINEPROCESSID, SUPPLYID, LNO, MODIFYUSERID, MODIFYUSER, convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) MODIFYTIME FROM PROCESS_STEP_P " +
                        "WHERE   PRODUCTSERIALNUMBER ='" +msOldSEQ + "'  AND PRODUCTCOMPID='" +msProductCompId+ "'  ;";
@@ -445,56 +445,56 @@ public class WIP_CompReplace extends Activity {
                        "WHERE   SERIALNUMBER_P ='" +msOldSEQ + "'  AND PRODUCTCOMPID='" +msProductCompId + "'   ;";
 
 
-                //É¾³ı±»Ìæ»»PµÄÎïÁÏĞÅÏ¢
+                //åˆ é™¤è¢«æ›¿æ¢Pçš„ç‰©æ–™ä¿¡æ¯
                 sSql = sSql + " DELETE PROCESS_STEP_P  WHERE   PRODUCTSERIALNUMBER ='" +msOldSEQ + "'  AND PRODUCTCOMPID='" +msProductCompId + "'   ;";
-                //É¾³ı±»Ìæ»»PFµÄÎïÁÏĞÅÏ¢
+                //åˆ é™¤è¢«æ›¿æ¢PFçš„ç‰©æ–™ä¿¡æ¯
                 sSql = sSql + " DELETE PROCESS_STEP_PF  WHERE   PRODUCTSERIALNUMBER ='" +msOldSEQ + "' AND SERIALNUMBER_P ='" +msOldSEQ + "' AND PRODUCTCOMPID='" + msProductCompId + "'   ;";
 
-                //²åÈëÌæ»»ºóPµÄÎïÁÏ±àºÅ
+                //æ’å…¥æ›¿æ¢åPçš„ç‰©æ–™ç¼–å·
                 sSql = sSql + "INSERT INTO PROCESS_STEP_P (SYSID, PRODUCTORDERID, PRODUCTCOMPID, PRODUCTID, STEPID, STEPSEQ, EQPID,PRODUCTSERIALNUMBER_OLD, PRODUCTSERIALNUMBER ,PROCESS_PRODUCTID, PROCESS_PRODUCTIDTYPE, PROCESS_PRODUCTNAME, MATERIALMAINTYPE, ISCHIEFCOMP,TRACETYPE, LOTID, RAWPROCESSID, FINEPROCESSID, SUPPLYID, LNO,BOMFLAGE, MODIFYUSERID, MODIFYUSER, MODIFYTIME) " +
-                     " VALUES (" +MESCommon.SysId+ ", '" + msProductOrderId + " ', '" + msProductCompId + "','" + msProductId + "', '×°ÅäĞÅÏ¢','' ,'','" +editProductserialnumber.getText().toString().trim()+ "', '" +editSEQ.getText().toString().trim()+ "', '" +lsCompID.get(0).get("MATERIALID").toString() + "','', '" + lsCompID.get(0).get("MATERIALNAME").toString() + "', " +
+                     " VALUES (" +MESCommon.SysId+ ", '" + msProductOrderId + " ', '" + msProductCompId + "','" + msProductId + "', 'è£…é…ä¿¡æ¯','' ,'','" +editProductserialnumber.getText().toString().trim()+ "', '" +editSEQ.getText().toString().trim()+ "', '" +lsCompID.get(0).get("MATERIALID").toString() + "','', '" + lsCompID.get(0).get("MATERIALNAME").toString() + "', " +
                      " '" + lsCompID.get(0).get("MATERIALMAINTYPE").toString() + "', 'N', '" + lsCompID.get(0).get("TRACETYPE").toString() + "', '" + lsCompID.get(0).get("LOTID").toString() + "','" + lsCompID.get(0).get("RAWPROCESSID").toString() + "', '" + lsCompID.get(0).get("FINEPROCESSID").toString() + "', '" + lsCompID.get(0).get("SUPPLYID").toString() + "', '" + lsCompID.get(0).get("FURNACENO").toString() + "','"+msBomflag+"', '" +MESCommon.UserId+ "', '" + MESCommon.UserName + "', " + MESCommon.ModifyTime + ") ;";
 
-                //²åÈëÌæ»»ºóPFµÄÎïÁÏ±àºÅ 
+                //æ’å…¥æ›¿æ¢åPFçš„ç‰©æ–™ç¼–å· 
                 sSql = sSql + " INSERT INTO PROCESS_STEP_PF (SYSID, PRODUCTORDERID, PRODUCTCOMPID, STEPID, EQPID,PRODUCTSERIALNUMBER_OLD, PRODUCTSERIALNUMBER,SERIALNUMBER_OLD_P, SERIALNUMBER_P, PROCESS_PRODUCTID, PROCESS_PRODUCTNAME, MATERIALMAINTYPE,TRACETYPE, LOTID, RAWPROCESSID, FINEPROCESSID, SUPPLYID, LNO,BOMFLAGE, MODIFYUSERID, MODIFYUSER, MODIFYTIME) " +
-                              " VALUES (" + MESCommon.SysId + ", '" + msProductOrderId + " ', '" + msProductCompId + "', '×°ÅäĞÅÏ¢', '','" + editProductserialnumber.getText().toString().trim() + "','" +  editSEQ .getText().toString().trim()+ "', '" +  lsoDt.get(0).get("SERIALNUMBER_OLD_P").toString().trim() + "', '" +editSEQ .getText().toString().trim() + "', '" + lsCompID.get(0).get("MATERIALID").toString() + "', '" + lsCompID.get(0).get("MATERIALNAME").toString() + "', " +
+                              " VALUES (" + MESCommon.SysId + ", '" + msProductOrderId + " ', '" + msProductCompId + "', 'è£…é…ä¿¡æ¯', '','" + editProductserialnumber.getText().toString().trim() + "','" +  editSEQ .getText().toString().trim()+ "', '" +  lsoDt.get(0).get("SERIALNUMBER_OLD_P").toString().trim() + "', '" +editSEQ .getText().toString().trim() + "', '" + lsCompID.get(0).get("MATERIALID").toString() + "', '" + lsCompID.get(0).get("MATERIALNAME").toString() + "', " +
                               " '" + lsCompID.get(0).get("MATERIALMAINTYPE").toString().trim() + "', '" + lsCompID.get(0).get("TRACETYPE").toString() + "', '" + lsCompID.get(0).get("LOTID").toString() + "','" + lsCompID.get(0).get("RAWPROCESSID").toString() + "', '" + lsCompID.get(0).get("FINEPROCESSID").toString() + "', '" + lsCompID.get(0).get("SUPPLYID").toString() + "', '" + lsCompID.get(0).get("FURNACENO").toString() + "', '"+msBomflag+"','" + MESCommon.UserId + "', '" + MESCommon.UserName + "', " +MESCommon.ModifyTime + ") ;";
-                //²éÑ¯ÒªÌæ»»µÄ¡ªPFÀïÃæµÄ×°ÅäÎïÁÏĞÅÏ¢
+                //æŸ¥è¯¢è¦æ›¿æ¢çš„â€”PFé‡Œé¢çš„è£…é…ç‰©æ–™ä¿¡æ¯
               
                   
-                //¸üĞÂÌæ»»µÄÖ¸Áî£¬ÖÆÔìºÅÂë
+                //æ›´æ–°æ›¿æ¢çš„æŒ‡ä»¤ï¼Œåˆ¶é€ å·ç 
                 sSql = sSql + " UPDATE  PROCESS_STEP_PF SET PRODUCTORDERID='" + msProductOrderId + "',  PRODUCTCOMPID ='" + msProductCompId + "',MODIFYUSERID ='" + MESCommon.UserId  + "', MODIFYUSER='" + MESCommon.UserName + "', MODIFYTIME= " + MESCommon.ModifyTime + ",   PRODUCTSERIALNUMBER_OLD='" + editProductserialnumber.getText().toString().trim() + "'  WHERE  PRODUCTSERIALNUMBER ='" + editSEQ.getText().toString().trim() + "' ;";
                     
                 
             }
-            //±íÊ¾±»Ìæ»»µÄÊÇÑ¹ÖÆºó²»×·×ÙÎïÁÏ
+            //è¡¨ç¤ºè¢«æ›¿æ¢çš„æ˜¯å‹åˆ¶åä¸è¿½è¸ªç‰©æ–™
             else
             {
             	 List<HashMap<String, String>> lsoDt_PF = new  ArrayList<HashMap<String, String>>();
-                //Ö»ÓĞSERIALNUMBER_PÓĞ±íÊ¾ÊÇ²»×·×ÙµÄÎïÁÏ
+                //åªæœ‰SERIALNUMBER_Pæœ‰è¡¨ç¤ºæ˜¯ä¸è¿½è¸ªçš„ç‰©æ–™
                 sSql = "SELECT * FROM PROCESS_STEP_PF WHERE   SERIALNUMBER_P ='" +msOldSEQ + "'  AND PRODUCTCOMPID='" +msProductCompId+ "'   ;";
                 db.GetData(sSql,lsoDt_PF);
                 sSql = "";
                 if (lsoDt_PF.size() > 0)
                 {
-                    //Èç¹ûÌæ»»µÄÊÇÑ¹ÖÆºóµÄÎïÁÏ£¬ĞèÒª²éÑ¯Ìæ»»µÄÎïÁÏÊÇ·ñÓĞÑ¹ÖÆµÄÎïÁÏ¡£Èç¹ûÓĞÔòĞèÒªÍ¬Ê±¸üĞÂµÄP±í¡£
-                    //°Ñ±»Ìæ»»-PFµÄÎïÁÏ²åÈëPROCESS_STEP_REPLACE£¬ÒÔPRODUCTSERIALNUMBERÎªÌõ¼ş£¬Èç¹û¶à±ÊÔò°Ñ¶à±Ê¶¼°áÒÆµ½PROCESS_STEP_REPLACE±í£»                 
+                    //å¦‚æœæ›¿æ¢çš„æ˜¯å‹åˆ¶åçš„ç‰©æ–™ï¼Œéœ€è¦æŸ¥è¯¢æ›¿æ¢çš„ç‰©æ–™æ˜¯å¦æœ‰å‹åˆ¶çš„ç‰©æ–™ã€‚å¦‚æœæœ‰åˆ™éœ€è¦åŒæ—¶æ›´æ–°çš„Pè¡¨ã€‚
+                    //æŠŠè¢«æ›¿æ¢-PFçš„ç‰©æ–™æ’å…¥PROCESS_STEP_REPLACEï¼Œä»¥PRODUCTSERIALNUMBERä¸ºæ¡ä»¶ï¼Œå¦‚æœå¤šç¬”åˆ™æŠŠå¤šç¬”éƒ½æ¬ç§»åˆ°PROCESS_STEP_REPLACEè¡¨ï¼›                 
                     sSql = sSql + "INSERT INTO PROCESS_STEP_REPLACE (SYSID,PRODUCTORDERID,PRODUCTCOMPID,STEPID,EQPID,PRODUCTSERIALNUMBER_OLD, SERIALNUMBER_OLD_P, PRODUCTSERIALNUMBER, SERIALNUMBER_P,PROCESS_PRODUCTID,PROCESS_PRODUCTNAME, MATERIALMAINTYPE,RAWPROCESSID,FINEPROCESSID,SUPPLYID,LNO,MODIFYUSERID,MODIFYUSER,MODIFYTIME) " +
                           "SELECT SYSID, PRODUCTORDERID, PRODUCTCOMPID,  STEPID,  EQPID, PRODUCTSERIALNUMBER_OLD ,SERIALNUMBER_OLD_P, PRODUCTSERIALNUMBER,SERIALNUMBER_P, PROCESS_PRODUCTID,PROCESS_PRODUCTNAME, MATERIALMAINTYPE,RAWPROCESSID, FINEPROCESSID, SUPPLYID, LNO, MODIFYUSERID, MODIFYUSER, convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) MODIFYTIME FROM PROCESS_STEP_PF " +
                           "WHERE   SERIALNUMBER_P ='" +msOldSEQ + "'  AND PRODUCTCOMPID='" +msProductCompId+ "'    ;";
 
-                    //É¾³ı±»Ìæ»»PFµÄÎïÁÏĞÅÏ¢
+                    //åˆ é™¤è¢«æ›¿æ¢PFçš„ç‰©æ–™ä¿¡æ¯
                     sSql = sSql + " DELETE PROCESS_STEP_PF  WHERE   SERIALNUMBER_P ='" +msOldSEQ + "'  AND PRODUCTCOMPID='" +msProductCompId + "'   ;";
 
-                    //²åÈëÌæ»»ºóPFµÄÎïÁÏ±àºÅ 
+                    //æ’å…¥æ›¿æ¢åPFçš„ç‰©æ–™ç¼–å· 
                     sSql = sSql + " INSERT INTO PROCESS_STEP_PF (SYSID, PRODUCTORDERID, PRODUCTCOMPID, STEPID, EQPID,PRODUCTSERIALNUMBER_OLD, PRODUCTSERIALNUMBER,SERIALNUMBER_OLD_P, SERIALNUMBER_P, PROCESS_PRODUCTID, PROCESS_PRODUCTNAME, MATERIALMAINTYPE,TRACETYPE, LOTID, RAWPROCESSID, FINEPROCESSID, SUPPLYID, LNO,BOMFLAGE, MODIFYUSERID, MODIFYUSER, MODIFYTIME) " +
-                                  " VALUES (" +MESCommon.SysId + ", '" + msProductOrderId + " ', '" + msProductCompId + "', '×°ÅäĞÅÏ¢', '','" + editProductserialnumber.getText().toString().trim() + "','" + lsoDt_PF.get(0).get("PRODUCTSERIALNUMBER").toString().trim() + "', '" +  editProductserialnumber.getText().toString().trim()+ "', '" +editSEQ .getText().toString().trim() + "', '" + lsCompID.get(0).get("MATERIALID").toString() + "', '" + lsCompID.get(0).get("MATERIALNAME").toString() + "', " +
+                                  " VALUES (" +MESCommon.SysId + ", '" + msProductOrderId + " ', '" + msProductCompId + "', 'è£…é…ä¿¡æ¯', '','" + editProductserialnumber.getText().toString().trim() + "','" + lsoDt_PF.get(0).get("PRODUCTSERIALNUMBER").toString().trim() + "', '" +  editProductserialnumber.getText().toString().trim()+ "', '" +editSEQ .getText().toString().trim() + "', '" + lsCompID.get(0).get("MATERIALID").toString() + "', '" + lsCompID.get(0).get("MATERIALNAME").toString() + "', " +
                                   " '" + lsCompID.get(0).get("MATERIALMAINTYPE").toString().trim() + "', '" + lsCompID.get(0).get("TRACETYPE").toString() + "', '" + lsCompID.get(0).get("LOTID").toString() + "', '" + lsCompID.get(0).get("RAWPROCESSID").toString() + "', '" + lsCompID.get(0).get("FINEPROCESSID").toString() + "', '" + lsCompID.get(0).get("SUPPLYID").toString() + "', '" + lsCompID.get(0).get("FURNACENO").toString() + "', '"+msBomflag+"','" +MESCommon.UserId + "', '" + MESCommon.UserName + "', " + MESCommon.ModifyTime + ") ;";
                 }
-                //±íÊ¾ÊÇPROCESS_STEP_PÀïÃæ±»Ìæ»»µÄ¡£
+                //è¡¨ç¤ºæ˜¯PROCESS_STEP_Pé‡Œé¢è¢«æ›¿æ¢çš„ã€‚
                 else
                 {
-                	if( lsCompID.get(0).get("MATERIALNAME").toString().contains("»ú¿Ç"))
+                	if( lsCompID.get(0).get("MATERIALNAME").toString().contains("æœºå£³"))
 					{
 					  sResult=UpdateSTKCOMP(msProductCompId,editInput.getText().toString().trim());
 					  if(!sResult.equals(""))
@@ -506,20 +506,20 @@ public class WIP_CompReplace extends Activity {
                            "SELECT SYSID, PRODUCTORDERID, PRODUCTCOMPID,  STEPID,  EQPID, PRODUCTSERIALNUMBER_OLD, '',PRODUCTSERIALNUMBER,'' ,PROCESS_PRODUCTID,PROCESS_PRODUCTNAME, MATERIALMAINTYPE,RAWPROCESSID, FINEPROCESSID, SUPPLYID, LNO, MODIFYUSERID, MODIFYUSER, convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) MODIFYTIME FROM PROCESS_STEP_P " +
                            "WHERE   PRODUCTSERIALNUMBER ='" +msOldSEQ + "'  AND PRODUCTCOMPID='" +msProductCompId + "'   ;";
 
-                    //É¾³ı±»Ìæ»»PµÄÎïÁÏĞÅÏ¢
+                    //åˆ é™¤è¢«æ›¿æ¢Pçš„ç‰©æ–™ä¿¡æ¯
                     sSql = sSql + " DELETE PROCESS_STEP_P  WHERE   PRODUCTSERIALNUMBER ='" +msOldSEQ + "'  AND PRODUCTCOMPID='" +msProductCompId + "'   ;";
 
-                    //²åÈëÌæ»»ºóPµÄÎïÁÏ±àºÅ
+                    //æ’å…¥æ›¿æ¢åPçš„ç‰©æ–™ç¼–å·
 
                     if(msISCOMPID3.equals("Y"))
                     {
                     sSql = sSql + "INSERT INTO PROCESS_STEP_P (SYSID, PRODUCTORDERID, PRODUCTCOMPID, PRODUCTID, STEPID, STEPSEQ, EQPID,PRODUCTSERIALNUMBER_OLD, PRODUCTSERIALNUMBER, PROCESS_PRODUCTID, PROCESS_PRODUCTIDTYPE, PROCESS_PRODUCTNAME, MATERIALMAINTYPE, ISCHIEFCOMP,TRACETYPE, LOTID, RAWPROCESSID, FINEPROCESSID, SUPPLYID, LNO,ISCOMPID3,BOMFLAGE, MODIFYUSERID, MODIFYUSER, MODIFYTIME) " +
-                                  " VALUES (" +MESCommon.SysId + ", '" + msProductOrderId + " ', '" + msProductCompId + "','" + msProductId + "', '×°ÅäĞÅÏ¢','' ,'','" + editProductserialnumber.getText().toString().trim() + "', '" + lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString().trim() + "', '" + lsDoubleMsg.get(0).get("PRODUCTID").toString() + "','', '" + lsDoubleMsg.get(0).get("PRODUCTNAME").toString() + "', " +
+                                  " VALUES (" +MESCommon.SysId + ", '" + msProductOrderId + " ', '" + msProductCompId + "','" + msProductId + "', 'è£…é…ä¿¡æ¯','' ,'','" + editProductserialnumber.getText().toString().trim() + "', '" + lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString().trim() + "', '" + lsDoubleMsg.get(0).get("PRODUCTID").toString() + "','', '" + lsDoubleMsg.get(0).get("PRODUCTNAME").toString() + "', " +
                                   " '" + lsDoubleMsg.get(0).get("LEVEL2").toString() + "', 'N', '" + lsCompID.get(0).get("TRACETYPE").toString() + "', '','" + lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString().trim() + "', '" +lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString().trim() + "', 'HZ', '','Y' ,'"+msBomflag+"','" + MESCommon.UserId + "', '" + MESCommon.UserName + "', " +MESCommon.ModifyTime + ") ;";
               
                     }else {
                     	 sSql = sSql + "INSERT INTO PROCESS_STEP_P (SYSID, PRODUCTORDERID, PRODUCTCOMPID, PRODUCTID, STEPID, STEPSEQ, EQPID,PRODUCTSERIALNUMBER_OLD, PRODUCTSERIALNUMBER, PROCESS_PRODUCTID, PROCESS_PRODUCTIDTYPE, PROCESS_PRODUCTNAME, MATERIALMAINTYPE, ISCHIEFCOMP,TRACETYPE, LOTID, RAWPROCESSID, FINEPROCESSID, SUPPLYID, LNO,BOMFLAGE, MODIFYUSERID, MODIFYUSER, MODIFYTIME) " +
-                                 " VALUES (" +MESCommon.SysId + ", '" + msProductOrderId + " ', '" + msProductCompId + "','" + msProductId + "', '×°ÅäĞÅÏ¢','' ,'','" + editProductserialnumber.getText().toString().trim() + "', '" + lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString().trim() + "', '" + lsCompID.get(0).get("MATERIALID").toString() + "','', '" + lsCompID.get(0).get("MATERIALNAME").toString() + "', " +
+                                 " VALUES (" +MESCommon.SysId + ", '" + msProductOrderId + " ', '" + msProductCompId + "','" + msProductId + "', 'è£…é…ä¿¡æ¯','' ,'','" + editProductserialnumber.getText().toString().trim() + "', '" + lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString().trim() + "', '" + lsCompID.get(0).get("MATERIALID").toString() + "','', '" + lsCompID.get(0).get("MATERIALNAME").toString() + "', " +
                                  " '" + lsCompID.get(0).get("MATERIALMAINTYPE").toString() + "', 'N', '" + lsCompID.get(0).get("TRACETYPE").toString() + "', '" + lsCompID.get(0).get("LOTID").toString() + "','" + lsCompID.get(0).get("RAWPROCESSID").toString() + "', '" + lsCompID.get(0).get("FINEPROCESSID").toString() + "', '" + lsCompID.get(0).get("SUPPLYID").toString() + "', '" + lsCompID.get(0).get("FURNACENO").toString() + "', '"+msBomflag+"','" + MESCommon.UserId + "', '" + MESCommon.UserName + "', " +MESCommon.ModifyTime + ") ;";
                           
 					}
@@ -562,7 +562,7 @@ public class WIP_CompReplace extends Activity {
 				MESCommon.showMessage(WIP_CompReplace.this, sResult);
 				return sResult = sResult;
 			}
-			//²éºËBOMºÍÉè¶¨Ö÷ÁÏ±êÖ¾
+			//æŸ¥æ ¸BOMå’Œè®¾å®šä¸»æ–™æ ‡å¿—
 			if(lscheckERPBOMSystem.get(0).get("PARAMETERVALUE").toString().equals("Y"))
 			{	lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.clear();
 				sSQL = "SELECT * FROM PROCESS_PRODUCTORDER_PRINTBARCODE WHERE PRODUCTCOMPID ='" + sPRODUCTCOMPID + "' AND PRODUCTORDERID='"+msProductOrderId+"' ";
@@ -581,7 +581,7 @@ public class WIP_CompReplace extends Activity {
 						return sResult = sResult;
 					}
 					  if (!lsDoubleProduct.get(0).get("PRODUCTID").toString().trim().equals(lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString()) ) {
-							return sResult = "¸Ã»ú¿ÇÎïÁÏÁÏºÅ£º"+lsDoubleProduct.get(0).get("PRODUCTID").toString().trim() + " ÓëÉú¹ÜÉè¶¨°ó¶¨ÎïÁÏÁÏºÅ£º" + lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString()+ "²»ÏàÍ¬£¬ÇëÈ·ÈÏ£¡";
+							return sResult = "è¯¥æœºå£³ç‰©æ–™æ–™å·ï¼š"+lsDoubleProduct.get(0).get("PRODUCTID").toString().trim() + " ä¸ç”Ÿç®¡è®¾å®šç»‘å®šç‰©æ–™æ–™å·ï¼š" + lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString()+ "ä¸ç›¸åŒï¼Œè¯·ç¡®è®¤ï¼";
 						   }
 			    }
 				else 
@@ -589,11 +589,11 @@ public class WIP_CompReplace extends Activity {
 				  if (!lscheckExistSTKCOMP.get(0).get("ITNBR2").toString().trim().equals(lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString()) && !lscheckExistSTKCOMP.get(0).get("ITNBR").toString().trim().equals(lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString())) {
 					if(!lscheckExistSTKCOMP.get(0).get("ITNBR2").toString().trim().equals(""))
 					{
-					  return sResult = "¸Ã»ú¿ÇÎïÁÏÁÏºÅ£º"+ lscheckExistSTKCOMP.get(0).get("ITNBR2").toString().trim() + " ÓëÉú¹ÜÉè¶¨°ó¶¨ÎïÁÏÁÏºÅ£º" + lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString()+ "²»ÏàÍ¬£¬ÇëÈ·ÈÏ£¡";
+					  return sResult = "è¯¥æœºå£³ç‰©æ–™æ–™å·ï¼š"+ lscheckExistSTKCOMP.get(0).get("ITNBR2").toString().trim() + " ä¸ç”Ÿç®¡è®¾å®šç»‘å®šç‰©æ–™æ–™å·ï¼š" + lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString()+ "ä¸ç›¸åŒï¼Œè¯·ç¡®è®¤ï¼";
 					} 
 					else if(!lscheckExistSTKCOMP.get(0).get("ITNBR").toString().trim().equals(""))
 					{
-						  return sResult = "¸Ã»ú¿ÇÎïÁÏÁÏºÅ£º"+ lscheckExistSTKCOMP.get(0).get("ITNBR").toString().trim() + " ÓëÉú¹ÜÉè¶¨°ó¶¨ÎïÁÏÁÏºÅ£º" + lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString()+ "²»ÏàÍ¬£¬ÇëÈ·ÈÏ£¡";
+						  return sResult = "è¯¥æœºå£³ç‰©æ–™æ–™å·ï¼š"+ lscheckExistSTKCOMP.get(0).get("ITNBR").toString().trim() + " ä¸ç”Ÿç®¡è®¾å®šç»‘å®šç‰©æ–™æ–™å·ï¼š" + lsoDtPROCESS_PRODUCTORDER_PRINTBARCODE.get(0).get("PROCESS_PRODUCTID").toString()+ "ä¸ç›¸åŒï¼Œè¯·ç¡®è®¤ï¼";
 					}
 				  }
 			    }
@@ -661,28 +661,28 @@ public class WIP_CompReplace extends Activity {
             db.GetData(sSql, lsExistcheck);
             if (lsExistcheck.size() > 0)
             {
-                return sResult = "Ë¢ÈëÌõÂë£º¡¾" + sSerialNumber + "¡¿,ÒÑ¾­±»×°ÅäÊ¹ÓÃ£¡";
+                return sResult = "åˆ·å…¥æ¡ç ï¼šã€" + sSerialNumber + "ã€‘,å·²ç»è¢«è£…é…ä½¿ç”¨ï¼";
             }
             lsExistcheck.clear();
             sSql = "SELECT * FROM PROCESS_STEP_PF WHERE SERIALNUMBER_P = '" + sSerialNumber + "'  AND isnull(PRODUCTCOMPID,'')='' ";
             db.GetData(sSql, lsExistcheck);
             if (lsExistcheck.size() > 0)
             {
-                return sResult = "Ë¢ÈëÌõÂë£º¡¾" + sSerialNumber + "¡¿,ÒÑ¾­±»´Î×éÁ¢×°ÅäÊ¹ÓÃ£¡";
+                return sResult = "åˆ·å…¥æ¡ç ï¼šã€" + sSerialNumber + "ã€‘,å·²ç»è¢«æ¬¡ç»„ç«‹è£…é…ä½¿ç”¨ï¼";
             }
             lsExistcheck.clear();
             sSql = "SELECT * FROM PROCESS_STEP_PF WHERE SERIALNUMBER_P = '" + sSerialNumber + "'  AND isnull(PRODUCTCOMPID,'')!=''";
             db.GetData(sSql, lsExistcheck);
             if (lsExistcheck.size() > 0)
             {
-                return sResult = "Ë¢ÈëÌõÂë£º¡¾" + sSerialNumber + "¡¿,ÒÑ¾­±»×°ÅäÊ¹ÓÃ£¡";
+                return sResult = "åˆ·å…¥æ¡ç ï¼šã€" + sSerialNumber + "ã€‘,å·²ç»è¢«è£…é…ä½¿ç”¨ï¼";
             }
             lsExistcheck.clear();
             sSql = "SELECT * FROM PROCESS_STEP_PF WHERE SERIALNUMBER_P = '" + sSerialNumber + "'  AND isnull(PRODUCTCOMPID,'')!=''";
             db.GetData(sSql, lsExistcheck);
             if (lsExistcheck.size() > 0)
             {
-                return sResult = "Ë¢ÈëÌõÂë£º¡¾" + sSerialNumber + "¡¿,ÒÑ¾­±»×°ÅäÊ¹ÓÃ£¡";
+                return sResult = "åˆ·å…¥æ¡ç ï¼šã€" + sSerialNumber + "ã€‘,å·²ç»è¢«è£…é…ä½¿ç”¨ï¼";
             }
 			 return sResult;
 		} catch (Exception e) {
@@ -693,7 +693,7 @@ public class WIP_CompReplace extends Activity {
 		
 	}
 	
-	//´Ë·½·¨Ö»ÊÇ¹Ø±ÕÈí¼üÅÌ
+	//æ­¤æ–¹æ³•åªæ˜¯å…³é—­è½¯é”®ç›˜
 	private void hintKbTwo() {
 		 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);			 
 		 if(imm.isActive()&&getCurrentFocus()!=null){

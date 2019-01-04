@@ -44,9 +44,9 @@ import org.xml.sax.InputSource;
 
 public class MESCommon {
 
-	public static String msDefaltURL = "http://172.16.10.95/FtcMesWebService_test/FtcMesWebService.asmx";
+	public static String msDefaltURL = "http://172.16.10.94/FtcMesWebService/FtcMesWebService.asmx";
 	public static String msAppXML = "http://172.16.10.94/FtcMesWebService/PDA/WIP_Version.xml";
-	public static int miVersion = 67;
+	public static int miVersion = 73;
 	public static String UserId = "";
 	public static String UserName = "";
 	public static String SysId = "convert(varchar,getdate(),112) ||  str_replace(convert(varchar,getdate(), 108),':',null) || CASE datalength( convert(VARCHAR,datepart(ms,getdate())) ) WHEN 1 THEN  '00' || convert(VARCHAR,datepart(ms,getdate()))  WHEN 2 THEN  '0' || convert(VARCHAR,datepart(ms,getdate()))  ELSE convert(VARCHAR,datepart(ms,getdate()))  END";
@@ -90,8 +90,15 @@ public class MESCommon {
 	  * @return 是整数返回true,否则返回false 
 	*/
 	public static boolean isNumeric(String str) {  
-	    Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");  
-	    return pattern.matcher(str).matches();  
+	    Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");  
+	    return pattern.matcher(str).matches();
+//	    try{
+//	    	Integer.parseInt(str);
+//	     }catch(NumberFormatException e)
+//	     {
+//	    	 return false;
+//	     }
+//	    return true;
 	}
 	
 	/**

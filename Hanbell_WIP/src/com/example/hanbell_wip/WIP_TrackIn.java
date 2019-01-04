@@ -386,7 +386,7 @@ public class WIP_TrackIn extends Activity {
 				}
 			}
 		});
-		// 添加Spinner事件监听
+		//装配规范查询触发事件
 		spBid.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -605,7 +605,8 @@ public class WIP_TrackIn extends Activity {
 									return false;
 								}	
 							}
-							if (params.get("StepName").contains("机体") && !params.get("StepName").contains("P机"))
+							//finishcode 请勿删除此标记：依需求新增代码
+							if (params.get("StepName").contains("机体") && !params.get("StepName").contains("P机") && !params.get("StepName").contains("涡旋"))
 							{
 								//判断一些控件是否显示；生管有设定值时候
 								if((lsProcess.get(0).get("MWHEEL").toString().equals("")&& lsProcess.get(0).get("DWHEEL").toString().equals(""))&&!lsProcess.get(0).get("PMMESSAGE").toString().equals(""))
@@ -2485,41 +2486,41 @@ public class WIP_TrackIn extends Activity {
 		String sResult = "", sSQL = "";
 		List<HashMap<String, String>> ls = new ArrayList<HashMap<String, String>>();
 		try {
-			//1.先组合已扫描的零部件，再查询专配表HZ_SPECIALMATCH
-			//2.若某个零部件存在于专配表HZ_SPECIALMATCH，则
-			String sCompids = "";
-			for(int i=0;i<lsCompTable.size();i++)
-		    {
-				String sCompid = lsCompTable.get(i).get("PRODUCTSERIALNUMBER").toString();
-		    	sCompids += sCompids.equals("") ? "'" + sCompid + "'" : ",'" + sCompid + "'";
-		    }
-			if (!sCompids.equals(""))
-			{
-				sSQL = "SELECT DISTINCT PRODUCTSERIALNUMBER ID1,INFORMATION ID2 FROM HZ_SPECIALMATCH WHERE PRODUCTSERIALNUMBER IN (" + sCompids + ") OR INFORMATION IN (" + sCompids + ")";
-				sResult = db.GetData(sSQL, ls);
-				if (!sResult.equals("")) return sResult;
-				if (ls.size() != 0)
-				{
-					//有专配零件,检查专配规划
-					for(int i=0;i<ls.size();i++)
-				    {
-						String sID1 = ls.get(i).get("ID1").toString();
-						String sID2 = ls.get(i).get("ID2").toString();
-				    	if (!sCompids.contains("'" + sID1 + "'") || !sCompids.contains("'" + sID2 + "'"))
-				    	{
-				    		sResult += sResult.equals("") ? "以下零部件不符合专配规则：" : "";
-				    		if (sCompids.contains("'" + sID1 + "'"))
-				    		{
-				    			sResult += "\n*" + sID1 + " 应专配 " + sID2;
-				    		}
-				    		else
-				    		{
-				    			sResult += "\n*" + sID2 + " 应专配 " + sID1;
-				    		}
-				    	}
-				    }
-				}
-			}
+//			//1.先组合已扫描的零部件，再查询专配表HZ_SPECIALMATCH
+//			//2.若某个零部件存在于专配表HZ_SPECIALMATCH，则
+//			String sCompids = "";
+//			for(int i=0;i<lsCompTable.size();i++)
+//		    {
+//				String sCompid = lsCompTable.get(i).get("PRODUCTSERIALNUMBER").toString();
+//		    	sCompids += sCompids.equals("") ? "'" + sCompid + "'" : ",'" + sCompid + "'";
+//		    }
+//			if (!sCompids.equals(""))
+//			{
+//				sSQL = "SELECT DISTINCT PRODUCTSERIALNUMBER ID1,INFORMATION ID2 FROM HZ_SPECIALMATCH WHERE PRODUCTSERIALNUMBER IN (" + sCompids + ") OR INFORMATION IN (" + sCompids + ")";
+//				sResult = db.GetData(sSQL, ls);
+//				if (!sResult.equals("")) return sResult;
+//				if (ls.size() != 0)
+//				{
+//					//有专配零件,检查专配规划
+//					for(int i=0;i<ls.size();i++)
+//				    {
+//						String sID1 = ls.get(i).get("ID1").toString();
+//						String sID2 = ls.get(i).get("ID2").toString();
+//				    	if (!sCompids.contains("'" + sID1 + "'") || !sCompids.contains("'" + sID2 + "'"))
+//				    	{
+//				    		sResult += sResult.equals("") ? "以下零部件不符合专配规则：" : "";
+//				    		if (sCompids.contains("'" + sID1 + "'"))
+//				    		{
+//				    			sResult += "\n*" + sID1 + " 应专配 " + sID2;
+//				    		}
+//				    		else
+//				    		{
+//				    			sResult += "\n*" + sID2 + " 应专配 " + sID1;
+//				    		}
+//				    	}
+//				    }
+//				}
+//			}
 			
 			return sResult;
 		

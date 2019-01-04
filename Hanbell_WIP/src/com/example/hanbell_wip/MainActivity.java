@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 
 	Button btnLogin, btnLogout, btnTrackIn,  btnEqpStart,btnVersion,
 			   btnEQPSetting,btnSEQEdit, btnWipPaintingEnd,btnAnalysisitem,
-			btnWIPDefect,btnTrackIn_pre,btnBarcodeUpdate,btnWIPInstock,btnCompEdit,btnOQC,btnOUTStock,btnCompTemp;
+			btnWIPDefect,btnTrackIn_pre,btnBarcodeUpdate,btnWIPInstock,btnCompEdit,btnOQC,btnOUTStock,btnCompTemp,btnFinishTemp;
 	PrefercesService prefercesService;
 	Map<String,String> params;
 
@@ -80,6 +80,7 @@ try{
 		btnOQC=(Button) findViewById(R.id.btnOQC);
 		btnOUTStock=(Button) findViewById(R.id.btnOUTStock);
 		btnCompTemp=(Button) findViewById(R.id.btnCompTemp);
+		btnFinishTemp=(Button) findViewById(R.id.btnFinishTemp);
 		btnAnalysisitem=(Button) findViewById(R.id.btnAnalysisitem);
 		prefercesService  =new PrefercesService(this);  
 	    params=prefercesService.getPreferences();  
@@ -388,6 +389,20 @@ try{
 						}
 					}
 				});
+		//btnCompTemp：半成品盘点作业
+		btnFinishTemp.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						try {
+							// 开启新Activity
+							Intent i = new Intent(MainActivity.this,
+								FINISH_TEMP.class);
+							startActivity(i);
+						} catch (Exception e) {
+							MESCommon.showMessage(MainActivity.this, e.toString());
+						}
+					}
+				});
 		//btnAnalysisitem：装配检验
 		btnAnalysisitem.setOnClickListener(new OnClickListener() {
 			@Override
@@ -436,6 +451,7 @@ try{
             btnOQC.setEnabled(true);
 			btnOUTStock.setEnabled(true);
 			btnCompTemp.setEnabled(true);
+			btnFinishTemp.setEnabled(true);
 			btnAnalysisitem.setEnabled(true);
 			// MESCommon.showMessage(MainActivity.this, "登录人：" + strName);
 		}
@@ -465,6 +481,7 @@ try{
 			btnOQC.setEnabled(false);
 			btnOUTStock.setEnabled(false);
 			btnCompTemp.setEnabled(false);
+			btnFinishTemp.setEnabled(false);
 			btnAnalysisitem.setEnabled(false);
 		} catch (Exception e) {
 			MESCommon.showMessage(MainActivity.this, e.toString());

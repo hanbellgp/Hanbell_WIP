@@ -1,4 +1,4 @@
-package com.example.hanbell_wip.Class;
+ï»¿package com.example.hanbell_wip.Class;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -94,7 +94,7 @@ public class MESSTK {
 			
 			TransformerFactory  tf  =  TransformerFactory.newInstance();
 			Transformer t = tf.newTransformer();
-			//t.setOutputProperty(\"encoding\",\"GB23121\"); //½â¾öÖĞÎÄÎÊÌâ£¬ÊÔ¹ıÓÃGBK²»ĞĞ
+			//t.setOutputProperty(\"encoding\",\"GB23121\"); //è§£å†³ä¸­æ–‡é—®é¢˜ï¼Œè¯•è¿‡ç”¨GBKä¸è¡Œ
 			ByteArrayOutputStream  bos  =  new  ByteArrayOutputStream();
 			t.transform(new DOMSource(document), new StreamResult(bos));
 			sXML = bos.toString();
@@ -141,7 +141,7 @@ public class MESSTK {
 			
 			TransformerFactory  tf  =  TransformerFactory.newInstance();
 			Transformer t = tf.newTransformer();
-			//t.setOutputProperty(\"encoding\",\"GB23121\"); //½â¾öÖĞÎÄÎÊÌâ£¬ÊÔ¹ıÓÃGBK²»ĞĞ
+			//t.setOutputProperty(\"encoding\",\"GB23121\"); //è§£å†³ä¸­æ–‡é—®é¢˜ï¼Œè¯•è¿‡ç”¨GBKä¸è¡Œ
 			ByteArrayOutputStream  bos  =  new  ByteArrayOutputStream();
 			t.transform(new DOMSource(document), new StreamResult(bos));
 			sXML = bos.toString();
@@ -158,9 +158,9 @@ public class MESSTK {
 	}
     
     
-    //¼ì²éÉ¨ÃèµÄÈë¿âÌõÂëÊÇ·ñºÏ·¨
-    //1.STKINSTOCK_PALT²»ÄÜÓĞÖµ
-    //2.STKINSTOCK²»ÄÜÒÑÈë¿â
+    //æ£€æŸ¥æ‰«æçš„å…¥åº“æ¡ç æ˜¯å¦åˆæ³•
+    //1.STKINSTOCK_PALTä¸èƒ½æœ‰å€¼
+    //2.STKINSTOCKä¸èƒ½å·²å…¥åº“
     public String CheckScanId_InStock(String sScanId, List<HashMap<String, String>> lsData, List<HashMap<String, String>> lsMain, List<HashMap<String, String>> lsDetail)
     {
     	String sSql = "";
@@ -169,21 +169,21 @@ public class MESSTK {
     	boolean bFindItnbr = false;
     	boolean bFindCompid = false;
     	try {
-    		if (lsData.size() == 0) return "Èë¿âÌõÂë²éÎŞ¿ÉÈë¿â×ÊÁÏ!";
+    		if (lsData.size() == 0) return "å…¥åº“æ¡ç æŸ¥æ— å¯å…¥åº“èµ„æ–™!";
     		
     		String sWhere = "";
 //    		if (lsData.size() == 1)
 //    		{
-//    			//Òò½»»õµ¥²»°ó¶¨¹¤¼ş£¬¹Ê²»¼ì²éÖ±½ÓÌø¹ı
+//    			//å› äº¤è´§å•ä¸ç»‘å®šå·¥ä»¶ï¼Œæ•…ä¸æ£€æŸ¥ç›´æ¥è·³è¿‡
 //    			return "";
-//    			//¼ì²éShipType, AcceptNoµÄºÏ·¨ĞÔ
+//    			//æ£€æŸ¥ShipType, AcceptNoçš„åˆæ³•æ€§
 ////    			String sItnbr = lsData.get(0).get("ITNBR").toString();
 ////    			String sShipType = lsData.get(0).get("SHIPTYPE").toString();
 ////    			//String sAcceptNo = lsData.get(0).get("ACCEPTNO").toString();
 ////    			String sCompid = lsData.get(0).get("COMPID").toString();
-////    			if (sCompid.equals("")) return "ÌõÂë¡¸" + sScanId + "¡¹·Ç¹¤¼ş×·×ÙÎïÁÏ¡¸" + sItnbr + "¡¹!";
-////    			if (sShipType.indexOf("ASRS") < 0) return "ÌõÂë¡¸" + sCompid + "¡¹²»ÊÇ×Ô¶¯²Ö¿â±ğ¡¸" + sShipType + "¡¹!";
-////    			if (!sShipType.equals(sWareh)) return "ÌõÂë¡¸" + sCompid + "¡¹Ö®¿â±ğ¡¸" + sShipType + "¡¹²»Ïà·û!";
+////    			if (sCompid.equals("")) return "æ¡ç ã€Œ" + sScanId + "ã€éå·¥ä»¶è¿½è¸ªç‰©æ–™ã€Œ" + sItnbr + "ã€!";
+////    			if (sShipType.indexOf("ASRS") < 0) return "æ¡ç ã€Œ" + sCompid + "ã€ä¸æ˜¯è‡ªåŠ¨ä»“åº“åˆ«ã€Œ" + sShipType + "ã€!";
+////    			if (!sShipType.equals(sWareh)) return "æ¡ç ã€Œ" + sCompid + "ã€ä¹‹åº“åˆ«ã€Œ" + sShipType + "ã€ä¸ç›¸ç¬¦!";
 ////    			sResult = CheckErpDataByCompInfo(sCompid, sItnbr, sShipType, sAcceptNo, lsErpData);
 ////				if (!sResult.equals("")) return sResult;
 //    		}
@@ -191,7 +191,7 @@ public class MESSTK {
 			{
 				String sCompid = lsData.get(i).get("COMPID").toString();
 				String sCompidseq = lsData.get(i).get("COMPIDSEQ").toString();
-				//Ö»ĞèÒª¼ì²éCompid
+				//åªéœ€è¦æ£€æŸ¥Compid
 				if (!sCompid.equals(""))
 				{
 					if (sWhere.equals(""))
@@ -204,10 +204,10 @@ public class MESSTK {
 				else
 					lsData.get(i).put("IsConfirm", "N");
 			}
-    		if (!bFindItnbr) return "ÌõÂë¡¸" + sScanId + "¡¹²éÎŞ¿ÉÈë¿â×ÊÁÏ!";
+    		if (!bFindItnbr) return "æ¡ç ã€Œ" + sScanId + "ã€æŸ¥æ— å¯å…¥åº“èµ„æ–™!";
     		
-    		if (sWhere.equals("")) return "";	//ÈôÎŞ¹¤¼şÔò½áÊø¼ì²é
-    		//1.STKINSTOCK_PALT²»ÄÜÓĞÖµ
+    		if (sWhere.equals("")) return "";	//è‹¥æ— å·¥ä»¶åˆ™ç»“æŸæ£€æŸ¥
+    		//1.STKINSTOCK_PALTä¸èƒ½æœ‰å€¼
     		ls.clear();
 			sSql = "SELECT DISTINCT COMPID, COMPIDSEQ FROM STKINSTOCK_PALT WHERE 1=1 and STATUS='N' and (" + sWhere + ")";
 			sResult = db.GetData(sSql, ls);
@@ -217,11 +217,11 @@ public class MESSTK {
 			{
 				String sCompid = ls.get(i).get("COMPID").toString();
 				if (sCompids.equals(""))
-					sCompids = "ÒÔÏÂ¹¤¼ş±àºÅÒÑÓĞÈë¿âÕ»°å¼ÇÂ¼£¬²»ÄÜÖØ¸²½¨µµ£º" + "\n" + sCompid;
+					sCompids = "ä»¥ä¸‹å·¥ä»¶ç¼–å·å·²æœ‰å…¥åº“æ ˆæ¿è®°å½•ï¼Œä¸èƒ½é‡è¦†å»ºæ¡£ï¼š" + "\n" + sCompid;
 				else
 					sCompids = sCompids + "\n" + sCompid;
 				if (lsData.size() == 1 && ls.size() != 0)
-					return "ÌõÂë¡¸" + sCompid + "¡¹ÒÑÓĞÈë¿âÕ»°å¼ÇÂ¼£¬²»ÄÜÖØ¸²½¨µµ!";
+					return "æ¡ç ã€Œ" + sCompid + "ã€å·²æœ‰å…¥åº“æ ˆæ¿è®°å½•ï¼Œä¸èƒ½é‡è¦†å»ºæ¡£!";
 				else
 				{
 					for (int j =0; j< ls.size(); j++)
@@ -236,7 +236,7 @@ public class MESSTK {
 			}
 			if (!sCompids.equals("")) return sCompids;
 			
-			//2.STKINSTOCK²»ÄÜÒÑÈë¿â
+			//2.STKINSTOCKä¸èƒ½å·²å…¥åº“
 			ls.clear();
 			sSql = "SELECT DISTINCT COMPID, COMPIDSEQ FROM STKINSTOCK WHERE 1=1 and (" + sWhere + ")";
 			sResult = db.GetData(sSql, ls);
@@ -245,11 +245,11 @@ public class MESSTK {
 			{
 				String sCompid = ls.get(i).get("COMPID").toString();
 				if (sCompids.equals(""))
-					sCompids = "ÒÔÏÂ¹¤¼ş±àºÅÒÑÈë¿â£¬²»ÄÜÖØ¸²Èë¿â£º" + "\n" + sCompid;
+					sCompids = "ä»¥ä¸‹å·¥ä»¶ç¼–å·å·²å…¥åº“ï¼Œä¸èƒ½é‡è¦†å…¥åº“ï¼š" + "\n" + sCompid;
 				else
 					sCompids = sCompids + "\n" + sCompid;
 				if (lsData.size() == 1 && ls.size() != 0)
-					return "ÌõÂë¡¸" + sCompid + "¡¹ÒÑÈë¿â£¬²»ÄÜÖØ¸²Èë¿â!";
+					return "æ¡ç ã€Œ" + sCompid + "ã€å·²å…¥åº“ï¼Œä¸èƒ½é‡è¦†å…¥åº“!";
 				else
 				{
 					for (int j =0; j< ls.size(); j++)
@@ -264,7 +264,7 @@ public class MESSTK {
 			}
 			if (!sCompids.equals("")) return sCompids;
 			
-			//¼ì²éÊÇ·ñÓĞ¿ÉÈë¿â×ÊÁÏ
+			//æ£€æŸ¥æ˜¯å¦æœ‰å¯å…¥åº“èµ„æ–™
 //			bFindCompid = false;
 //			for (int i =0; i< lsData.size(); i++)
 //			{
@@ -275,7 +275,7 @@ public class MESSTK {
 //					return "";
 //				}
 //			}
-//			if (!bFindCompid) return "Èë¿âÌõÂë²éÎŞ¿ÉÈë¿â×ÊÁÏ!";
+//			if (!bFindCompid) return "å…¥åº“æ¡ç æŸ¥æ— å¯å…¥åº“èµ„æ–™!";
 			
 			
 		} catch (Exception e) {
@@ -290,20 +290,20 @@ public class MESSTK {
     	String sResult = "";
     	boolean bFindItnbr = false;
     	try {
-    		//¼ì²éShipType, AcceptNoµÄºÏ·¨ĞÔ
+    		//æ£€æŸ¥ShipType, AcceptNoçš„åˆæ³•æ€§
 			for (int i =0; i< lsErpData.size(); i++)
 			{
 				if (!lsErpData.get(i).get("doc_no").equals(sAcceptNo) && !sAcceptNo.equals(""))
-					return "ÌõÂë¡¸" + sCompid + "¡¹Ö®µ¥¾İ±àºÅ¡¸" + sAcceptNo + "¡¹²»·ûºÏ!";
+					return "æ¡ç ã€Œ" + sCompid + "ã€ä¹‹å•æ®ç¼–å·ã€Œ" + sAcceptNo + "ã€ä¸ç¬¦åˆ!";
 				else if (lsErpData.get(i).get("item_no").equals(sItnbr))
 				{
 					if (!lsErpData.get(i).get("wareh").equals(sShipType) && !sShipType.equals(""))
-						return "ÌõÂë¡¸" + sCompid + "¡¹Ö®¿â±ğ¡¸" + sShipType + "¡¹²»·ûºÏ!";
+						return "æ¡ç ã€Œ" + sCompid + "ã€ä¹‹åº“åˆ«ã€Œ" + sShipType + "ã€ä¸ç¬¦åˆ!";
 					bFindItnbr = true;
 					break;
 				}
 			}
-			if (!bFindItnbr) return "ÌõÂë¡¸" + sCompid + "¡¹Ö®Æ·ºÅ¡¸" + sItnbr + "¡¹ÔÚµ¥¾İ±àºÅ¡¸" + lsErpData.get(0).get("doc_no").toString() + "¡¹ÕÒ²»µ½, ÇëÈ·ÈÏÎïÁÏ¿â±ğÊÇ·ñÏà·û!";
+			if (!bFindItnbr) return "æ¡ç ã€Œ" + sCompid + "ã€ä¹‹å“å·ã€Œ" + sItnbr + "ã€åœ¨å•æ®ç¼–å·ã€Œ" + lsErpData.get(0).get("doc_no").toString() + "ã€æ‰¾ä¸åˆ°, è¯·ç¡®è®¤ç‰©æ–™åº“åˆ«æ˜¯å¦ç›¸ç¬¦!";
 		} catch (Exception e) {
 			return e.toString();
 		}

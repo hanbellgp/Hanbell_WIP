@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <TableLayout
+        android:id="@+id/TableLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="工件编号"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wiptrackinsp_tvCompid"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="17sp" />
+        </TableRow>
+        
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="不合格单"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wiptrackinsp_tvProjectId"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="不良原因"
+                android:inputType="textMultiLine"
+                android:minLines="4"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/wiptrackinsp_tvDefectName"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="17sp" />
+        </TableRow>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/wiptrackinsp_btnExit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:text="离开" />
+        </LinearLayout>
+    </TableLayout>
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -70,9 +70,9 @@ public class STK_OutStock extends Activity {
 	TextView tvUserId;
 	TextView h0, h1, h2, h3, h4;
 	
-	//¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
-	//List<HashMap<String, String>> mlsMain = new ArrayList<HashMap<String, String>>();	//ÎïÁÏ
-	List<HashMap<String, String>> mlsDetail = new ArrayList<HashMap<String, String>>();	//ÎïÁÏÃ÷Ï¸
+	//è¯¥ç‰©æ–™çš„HashMapè®°å½•
+	//List<HashMap<String, String>> mlsMain = new ArrayList<HashMap<String, String>>();	//ç‰©æ–™
+	List<HashMap<String, String>> mlsDetail = new ArrayList<HashMap<String, String>>();	//ç‰©æ–™æ˜ç»†
 	//List<HashMap<String, String>> mlsScanId = new ArrayList<HashMap<String, String>>();
 	
 	List<HashMap<String, String>> mls = new ArrayList<HashMap<String, String>>();
@@ -83,7 +83,7 @@ public class STK_OutStock extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_stk_outstock);
 		try{
-		//È¡µÃ¿Ø¼ş
+		//å–å¾—æ§ä»¶
 		tvUserId = (TextView) findViewById(R.id.stkoutstock_tvUserId);
 		editTotalQty = (EditText) findViewById(R.id.stkoutstock_editTotalQty);
 		editScanId = (EditText) findViewById(R.id.stkoutstock_editScanId);
@@ -115,15 +115,15 @@ public class STK_OutStock extends Activity {
 		editTotalQty.setText("0");
 		//***********************************************End
 		
-		//¿Ø¼şÊÂ¼ş
+		//æ§ä»¶äº‹ä»¶
 		lv.setOnItemClickListener(new OnItemClickListener() {
             @Override  
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-            	// È¡µÃViewHolder¶ÔÏó£¬ÕâÑù¾ÍÊ¡È¥ÁËÍ¨¹ı²ã²ãµÄfindViewByIdÈ¥ÊµÀı»¯ÎÒÃÇĞèÒªµÄcbÊµÀıµÄ²½Öè
+            	// å–å¾—ViewHolderå¯¹è±¡ï¼Œè¿™æ ·å°±çœå»äº†é€šè¿‡å±‚å±‚çš„findViewByIdå»å®ä¾‹åŒ–æˆ‘ä»¬éœ€è¦çš„cbå®ä¾‹çš„æ­¥éª¤
             	OutStockAdapter.ViewHolder holder = (OutStockAdapter.ViewHolder) arg1.getTag();
-                // ¸Ä±äCheckBoxµÄ×´Ì¬  
+                // æ”¹å˜CheckBoxçš„çŠ¶æ€  
                 holder.cb.toggle();
-                // ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´  
+                // å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥  
                 OutStockAdapter.getIsSelected().put(position, holder.cb.isChecked());
                 
                 if (holder.cb.isChecked() == true) {
@@ -140,12 +140,12 @@ public class STK_OutStock extends Activity {
 		    public boolean onKey(View v, int keyCode, KeyEvent event) {
 				try {
 					if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-						//²éÑ¯½»»õµ¥
+						//æŸ¥è¯¢äº¤è´§å•
 						String sScanId = editScanId.getText().toString().trim();
 						msScanId = sScanId;
 						if (sScanId.length() == 0) 
 						{
-							MESCommon.showMessage(STK_OutStock.this,"ÇëÉ¨Ãè³ö¿âÌõÂë!");
+							MESCommon.showMessage(STK_OutStock.this,"è¯·æ‰«æå‡ºåº“æ¡ç !");
 							return false;
 						}
 						String sResult = "";
@@ -183,8 +183,8 @@ public class STK_OutStock extends Activity {
 			public void onClick(View v) {
 				try {
 					DialogHandler appdialog = new DialogHandler();
-			        appdialog.Confirm(STK_OutStock.this, "È·ÈÏÊÓ´°", "È·¶¨´¢´æ£¿",
-			                "È¡Ïû", "È·ÈÏ", Confirm(), Cancel());
+			        appdialog.Confirm(STK_OutStock.this, "ç¡®è®¤è§†çª—", "ç¡®å®šå‚¨å­˜ï¼Ÿ",
+			                "å–æ¶ˆ", "ç¡®è®¤", Confirm(), Cancel());
 				} catch (Exception e) {
 					MESCommon.showMessage(STK_OutStock.this,e.toString());
 				}
@@ -196,8 +196,8 @@ public class STK_OutStock extends Activity {
 			public void onClick(View v) {
 				try {
 					DialogHandler appdialog = new DialogHandler();
-			        appdialog.Confirm(STK_OutStock.this, "È·ÈÏÊÓ´°", "È·¶¨ÒªÉ¾³ı£¿",
-			                "È¡Ïû", "È·ÈÏ", ConfirmDelete(), Cancel());
+			        appdialog.Confirm(STK_OutStock.this, "ç¡®è®¤è§†çª—", "ç¡®å®šè¦åˆ é™¤ï¼Ÿ",
+			                "å–æ¶ˆ", "ç¡®è®¤", ConfirmDelete(), Cancel());
 				} catch (Exception e) {
 					MESCommon.showMessage(STK_OutStock.this,e.toString());
 				}
@@ -209,8 +209,8 @@ public class STK_OutStock extends Activity {
 			public void onClick(View v) {
 				try {
 					DialogHandler appdialog = new DialogHandler();
-			        appdialog.Confirm(STK_OutStock.this, "È·ÈÏÊÓ´°", "È·¶¨ÒªÖØÖÃ£¿",
-			                "È¡Ïû", "È·ÈÏ", ConfirmReset(), Cancel());
+			        appdialog.Confirm(STK_OutStock.this, "ç¡®è®¤è§†çª—", "ç¡®å®šè¦é‡ç½®ï¼Ÿ",
+			                "å–æ¶ˆ", "ç¡®è®¤", ConfirmReset(), Cancel());
 					
 				} catch (Exception e) {
 					MESCommon.showMessage(STK_OutStock.this,e.toString());
@@ -234,13 +234,13 @@ public class STK_OutStock extends Activity {
 	}
 	
 	private static class OutStockAdapter extends BaseAdapter {
-		//ÎïÁÏ¼ÇŠá
+		//ç‰©æ–™è®°å¨½
 		private List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
-		// ÓÃÀ´¿ØÖÆCheckBoxµÄÑ¡ÖĞ×´¿ö 
+		// ç”¨æ¥æ§åˆ¶CheckBoxçš„é€‰ä¸­çŠ¶å†µ 
 	    private static HashMap<Integer, Boolean> isSelected; 
-	    // ÉÏÏÂÎÄ 
+	    // ä¸Šä¸‹æ–‡ 
 	    private Context context; 
-	    // ÓÃÀ´µ¼Èë²¼¾Ö 
+	    // ç”¨æ¥å¯¼å…¥å¸ƒå±€ 
 	    private LayoutInflater inflater = null; 
 	    
 		CheckBox cb;
@@ -250,11 +250,11 @@ public class STK_OutStock extends Activity {
 			this.context = context;
 	        inflater = LayoutInflater.from(context); 
 	        isSelected = new HashMap<Integer, Boolean>(); 
-	        // ³õÊ¼»¯Êı¾İ 
+	        // åˆå§‹åŒ–æ•°æ® 
 	        initData();
 		}
 		
-		// ³õÊ¼»¯isSelectedµÄÊı¾İ 
+		// åˆå§‹åŒ–isSelectedçš„æ•°æ® 
 	    private void initData() { 
 	        for (int i = 0; i < items.size(); i++) { 
 	            getIsSelected().put(i, false); 
@@ -266,37 +266,37 @@ public class STK_OutStock extends Activity {
 			// TODO Auto-generated method stub
 			ViewHolder holder = null; 
 	        if (convertView == null) { 
-	            // »ñµÃViewHolder¶ÔÏó 
+	            // è·å¾—ViewHolderå¯¹è±¡ 
 	            holder = new ViewHolder(); 
-	            // µ¼Èë²¼¾Ö²¢¸³Öµ¸øconvertview 
+	            // å¯¼å…¥å¸ƒå±€å¹¶èµ‹å€¼ç»™convertview 
 	            convertView = inflater.inflate(R.layout.activity_stk_outstock_listview, null);
 	            holder.cb = (CheckBox) convertView.findViewById(R.id.stkoutstocklv_cb);
 	            holder.tvCompid = (TextView) convertView.findViewById(R.id.stkoutstocklv_tvCompid);
 	            holder.tvLotQty = (TextView) convertView.findViewById(R.id.stkoutstocklv_tvLotQty);
 	            holder.tvItnbr = (TextView) convertView.findViewById(R.id.stkoutstocklv_tvItnbr);
 	            holder.tvItdsc = (TextView) convertView.findViewById(R.id.stkoutstocklv_tvItdsc);
-	            // ÎªviewÉèÖÃ±êÇ© 
+	            // ä¸ºviewè®¾ç½®æ ‡ç­¾ 
 	            convertView.setTag(holder); 
 	        } else {
-	            // È¡³öholder 
+	            // å–å‡ºholder 
 	            holder = (ViewHolder) convertView.getTag(); 
 	        } 
-	        // ÉèÖÃlistÖĞTextViewµÄÏÔÊ¾ 
+	        // è®¾ç½®listä¸­TextViewçš„æ˜¾ç¤º 
 	        holder.tvCompid.setText(getItem(position).get("Compid").toString());
 	        holder.tvLotQty.setText(getItem(position).get("LotQty").toString());
 	        holder.tvItnbr.setText(getItem(position).get("Itnbr").toString());
             holder.tvItdsc.setText(getItem(position).get("Itdsc").toString());
             if (getItem(position).get("CheckFlag").toString().equals("Y"))
             {
-            	// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´  
+            	// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥  
                 getIsSelected().put(position, true);
             }
             else
             {
-            	// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´  
+            	// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥  
                 getIsSelected().put(position, false);
             }
-            // ¸ù¾İisSelectedÀ´ÉèÖÃcheckboxµÄÑ¡ÖĞ×´¿ö  
+            // æ ¹æ®isSelectedæ¥è®¾ç½®checkboxçš„é€‰ä¸­çŠ¶å†µ  
             holder.cb.setChecked(getIsSelected().get(position));
             
 	        return convertView;
@@ -362,7 +362,7 @@ public class STK_OutStock extends Activity {
 		String sSql = "";
 		
 		try {
-			//ÖØ¸´É¨Ãè¼ì²é
+			//é‡å¤æ‰«ææ£€æŸ¥
 			boolean bFind = false;
 			for (int i =0; i< lsDetail.size(); i++)
 			{
@@ -372,9 +372,9 @@ public class STK_OutStock extends Activity {
 					break;
 				}
 			}
-			if (bFind) return "ÌõÂë¡¸" + sScanId + "¡¹ÖØ¸´É¨Ãè!";
+			if (bFind) return "æ¡ç ã€Œ" + sScanId + "ã€é‡å¤æ‰«æ!";
 			
-			//ÏÈ²éSTKCOMP
+			//å…ˆæŸ¥STKCOMP
 			mls.clear();
 			sSql = "SELECT DISTINCT A.STOCKID, A.SUPPLYID, A.ITNBR, A.LOTID, A.LOTIDSEQ, A.COMPID, A.COMPIDSEQ, " +
 					"A.LOTQTY, A.STOCKTIME, A.SHIPTYPE, B.ITDSC " +
@@ -383,7 +383,7 @@ public class STK_OutStock extends Activity {
 			if (!sResult.equals("")) return sResult;
 			if (mls.size() == 0)
 			{
-				return "ÌõÂë¡¸" + sScanId + "¡¹²éÎŞÈë¿â×ÊÁÏ!";
+				return "æ¡ç ã€Œ" + sScanId + "ã€æŸ¥æ— å…¥åº“èµ„æ–™!";
 			}
 			String sStockid = mls.get(0).get("STOCKID").toString();
 			String sSupplyId = mls.get(0).get("SUPPLYID").toString();
@@ -458,10 +458,10 @@ public class STK_OutStock extends Activity {
             	String sResult = "";
             	String sSql = "";
             	try {
-            		//¼ì²é
+            		//æ£€æŸ¥
             		if (mlsDetail.size() == 0)
             		{
-            			MESCommon.showMessage(STK_OutStock.this, "ÇëÉ¨ÃèÌõÂë!!");
+            			MESCommon.showMessage(STK_OutStock.this, "è¯·æ‰«ææ¡ç !!");
             			return;
             		}
             		for (int i=0; i < mlsDetail.size(); i++)
@@ -513,7 +513,7 @@ public class STK_OutStock extends Activity {
         			}
             		ClearData();
             		
-            		MESCommon.showMessage(STK_OutStock.this, "³ö¿â³É¹¦!");
+            		MESCommon.showMessage(STK_OutStock.this, "å‡ºåº“æˆåŠŸ!");
             			
         		} catch (Exception e) {
         			MESCommon.showMessage(STK_OutStock.this,e.toString());

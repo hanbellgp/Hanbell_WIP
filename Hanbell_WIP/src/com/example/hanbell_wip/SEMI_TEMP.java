@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class SEMI_TEMP  extends Activity {
 	wiptrackinAdapter adapter;	
 	PrefercesService prefercesService;
 	String msTime="";
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	private List<HashMap<String, String>> lsCompID = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsCompTable = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsDefStep = new ArrayList<HashMap<String, String>>();
@@ -60,7 +60,7 @@ public class SEMI_TEMP  extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_semi_temp);
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 		editInput = (EditText) findViewById(R.id.semitempedit_tvInput);		
 		editMaterialID = (EditText) findViewById(R.id.semitempedit_tveditMaterialID);
 		editMaterialName = (EditText) findViewById(R.id.semitempedit_tveditMaterialName);
@@ -85,26 +85,26 @@ public class SEMI_TEMP  extends Activity {
 		lv0.setAdapter(adapter);	
 		
 		
-		// ¶ÁÈ¡¹¤Ğò
+		// è¯»å–å·¥åº
 		lsDefStep.clear();
 
 		ArrayList<SpinnerData> lst = new ArrayList<SpinnerData>();
 		
 		SpinnerData c0 = new SpinnerData("", "");
 		lst.add(c0);
-			SpinnerData c = new SpinnerData("·½ĞÍ¼ş¾«¼Ó¹¤", "·½ĞÍ¼ş¾«¼Ó¹¤");
+			SpinnerData c = new SpinnerData("æ–¹å‹ä»¶ç²¾åŠ å·¥", "æ–¹å‹ä»¶ç²¾åŠ å·¥");
 			lst.add(c);
-			SpinnerData c1 = new SpinnerData("·½ĞÍ¼şÇåÏ´", "·½ĞÍ¼şÇåÏ´");
+			SpinnerData c1 = new SpinnerData("æ–¹å‹ä»¶æ¸…æ´—", "æ–¹å‹ä»¶æ¸…æ´—");
 			lst.add(c1);
-			SpinnerData c2 = new SpinnerData("Ô²ĞÍ¼ş³İĞÎ´ÖÏ³NSM", "Ô²ĞÍ¼ş³İĞÎ´ÖÏ³NSM");
+			SpinnerData c2 = new SpinnerData("åœ†å‹ä»¶é½¿å½¢ç²—é“£NSM", "åœ†å‹ä»¶é½¿å½¢ç²—é“£NSM");
 			lst.add(c2);	
-			SpinnerData c3 = new SpinnerData("Ô²ĞÍ¼şÖá¾¶¾«³µNL", "Ô²ĞÍ¼şÖá¾¶¾«³µNL");
+			SpinnerData c3 = new SpinnerData("åœ†å‹ä»¶è½´å¾„ç²¾è½¦NL", "åœ†å‹ä»¶è½´å¾„ç²¾è½¦NL");
 			lst.add(c3);
-			SpinnerData c4 = new SpinnerData("Ô²ĞÍ¼şÖá¾¶ÑĞÄ¥CG", "Ô²ĞÍ¼şÖá¾¶ÑĞÄ¥CG");
+			SpinnerData c4 = new SpinnerData("åœ†å‹ä»¶è½´å¾„ç ”ç£¨CG", "åœ†å‹ä»¶è½´å¾„ç ”ç£¨CG");
 			lst.add(c4);
-			SpinnerData c5 = new SpinnerData("Ô²ĞÍ¼ş¾«ÑĞKAPP", "Ô²ĞÍ¼ş¾«ÑĞKAPP");
+			SpinnerData c5 = new SpinnerData("åœ†å‹ä»¶ç²¾ç ”KAPP", "åœ†å‹ä»¶ç²¾ç ”KAPP");
 			lst.add(c5);
-			SpinnerData c6 = new SpinnerData("Ô²ĞÍ¼şÇåÏ´°ü×°", "Ô²ĞÍ¼şÇåÏ´°ü×°");
+			SpinnerData c6 = new SpinnerData("åœ†å‹ä»¶æ¸…æ´—åŒ…è£…", "åœ†å‹ä»¶æ¸…æ´—åŒ…è£…");
 			lst.add(c6);
 			
 		ArrayAdapter<SpinnerData> Adapter1 = new ArrayAdapter<SpinnerData>(
@@ -118,7 +118,7 @@ public class SEMI_TEMP  extends Activity {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 			 try {
 					EditText txtInput = (EditText) findViewById(R.id.semitempedit_tvInput);
 				      
@@ -126,7 +126,7 @@ public class SEMI_TEMP  extends Activity {
 					RadioButton	radio2=(RadioButton)findViewById(R.id.radio2); 
 					
 					if (txtInput.getText().toString().trim().length() == 0) {
-						MESCommon.show(SEMI_TEMP.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(SEMI_TEMP.this, "è¯·æ‰«ææ¡ç !");
 						txtInput.setText("");
 						setFocus(editMaterialID );
 						return false;
@@ -167,7 +167,7 @@ public class SEMI_TEMP  extends Activity {
 //					hs.put("CHECKFLAG", "N");			
 //					lsCompTable.add(0,  hs);					    
 //					adapter.notifyDataSetChanged();	
-//					Toast.makeText(SEMI_TEMP.this, "ÌõÂë¡¾"+lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+"¡¿,¼ÓÈëÅÌµãÁĞ±í³É¹¦!",Toast.LENGTH_SHORT).show(); 
+//					Toast.makeText(SEMI_TEMP.this, "æ¡ç ã€"+lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+"ã€‘,åŠ å…¥ç›˜ç‚¹åˆ—è¡¨æˆåŠŸ!",Toast.LENGTH_SHORT).show(); 
 //				    editInput.setText("");
 			
 					setFocus(editMaterialID);
@@ -204,8 +204,8 @@ public class SEMI_TEMP  extends Activity {
 					{						
 					if (!editStep.getText().toString().equals(STEP.text.toString())) {
 						
-					 AlertDialog alert=	new AlertDialog.Builder(SEMI_TEMP.this).setTitle("È·ÈÏ").setMessage("ÌõÂë¡¾" +lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString() + "¡¿Ä¿Ç°¹¤Ğò¡¾"+lsCompID.get(0).get("STEPID").toString()+"¡¿,ÊÇ·ñĞŞ¸Ä³É¡¾"+STEP.text+"¡¿!")
-								.setPositiveButton("È·¶¨",new DialogInterface.OnClickListener() {  
+					 AlertDialog alert=	new AlertDialog.Builder(SEMI_TEMP.this).setTitle("ç¡®è®¤").setMessage("æ¡ç ã€" +lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString() + "ã€‘ç›®å‰å·¥åºã€"+lsCompID.get(0).get("STEPID").toString()+"ã€‘,æ˜¯å¦ä¿®æ”¹æˆã€"+STEP.text+"ã€‘!")
+								.setPositiveButton("ç¡®å®š",new DialogInterface.OnClickListener() {  
 				            @Override  
 				            public void onClick(DialogInterface dialog,int which) {  
 				            	SpinnerData STEP = (SpinnerData) spStep .getSelectedItem();
@@ -239,12 +239,12 @@ public class SEMI_TEMP  extends Activity {
 								lsCompTable.add(0,  hs);					    
 							
 						    	adapter.notifyDataSetChanged();	
-						    	Toast.makeText(SEMI_TEMP.this, "ÌõÂë¡¾"+lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+"¡¿,¹¤Ğò¸üĞÂ³É¹¦!",Toast.LENGTH_SHORT).show(); 
+						    	Toast.makeText(SEMI_TEMP.this, "æ¡ç ã€"+lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+"ã€‘,å·¥åºæ›´æ–°æˆåŠŸ!",Toast.LENGTH_SHORT).show(); 
 						    	setFocus(editMaterialID );
 						    	Clear();
 				            }  
 				        })  
-						.setNeutralButton("È¡Ïû",new DialogInterface.OnClickListener() {  
+						.setNeutralButton("å–æ¶ˆ",new DialogInterface.OnClickListener() {  
 						            @Override  
 						            public void onClick(DialogInterface dialog,int which) {  
 						                // TODO Auto-generated method stub  
@@ -286,8 +286,8 @@ public class SEMI_TEMP  extends Activity {
 						lsCompTable.add(0,  hs);					    
 				
 				    	adapter.notifyDataSetChanged();	
-				    	//Toast.makeText(SEMI_TEMP.this, "ÌõÂë¡¾"+lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+"¡¿,¹¤Ğò¸üĞÂ³É¹¦!",Toast.LENGTH_SHORT).show(); 
-				    	Toast.makeText(SEMI_TEMP.this, "ÌõÂë¡¾"+lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+"¡¿,¼ÓÈëÅÌµãÁĞ±í³É¹¦!",Toast.LENGTH_SHORT).show(); 
+				    	//Toast.makeText(SEMI_TEMP.this, "æ¡ç ã€"+lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+"ã€‘,å·¥åºæ›´æ–°æˆåŠŸ!",Toast.LENGTH_SHORT).show(); 
+				    	Toast.makeText(SEMI_TEMP.this, "æ¡ç ã€"+lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+"ã€‘,åŠ å…¥ç›˜ç‚¹åˆ—è¡¨æˆåŠŸ!",Toast.LENGTH_SHORT).show(); 
 				    	setFocus(editMaterialID );
 				    	Clear();
 					}
@@ -301,13 +301,13 @@ public class SEMI_TEMP  extends Activity {
   }
 
 	public static class wiptrackinAdapter extends BaseAdapter {
-		// ÎïÁÏ¼ÇŠá
+		// ç‰©æ–™è®°å¨½
 		private List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
-		// ÉÏÏÂÎÄ
+		// ä¸Šä¸‹æ–‡
 		private Context context;
-		// ÓÃÀ´¿ØÖÆCheckBoxµÄÑ¡ÖĞ×´¿ö
+		// ç”¨æ¥æ§åˆ¶CheckBoxçš„é€‰ä¸­çŠ¶å†µ
 		private static HashMap<Integer, Boolean> isSelected;
-		// ÓÃÀ´µ¼Èë²¼¾Ö
+		// ç”¨æ¥å¯¼å…¥å¸ƒå±€
 		private LayoutInflater inflater = null;
 		int iPosition = -1;
 
@@ -317,11 +317,11 @@ public class SEMI_TEMP  extends Activity {
 			this.context = context;
 			inflater = LayoutInflater.from(context);	
 			isSelected = new HashMap<Integer, Boolean>();
-			// ³õÊ¼»¯Êı¾İ
+			// åˆå§‹åŒ–æ•°æ®
 			initData();
 
 		}
-		// ³õÊ¼»¯isSelectedµÄÊı¾İ
+		// åˆå§‹åŒ–isSelectedçš„æ•°æ®
 		private void initData() {
 			for (int i = 0; i < items.size(); i++) {
 				getIsSelected().put(i, false);
@@ -335,9 +335,9 @@ public class SEMI_TEMP  extends Activity {
 			ViewHolder holder = null;		
 			try{
 				if (convertView == null) {
-					// »ñµÃViewHolder¶ÔÏó
+					// è·å¾—ViewHolderå¯¹è±¡
 					holder = new ViewHolder();
-					// µ¼Èë²¼¾Ö²¢¸³Öµ¸øconvertview
+					// å¯¼å…¥å¸ƒå±€å¹¶èµ‹å€¼ç»™convertview
 					convertView = inflater.inflate(R.layout.activity_semi_temp_listview, null);
 					
 					holder.tvSerialnumberseq = (TextView) convertView.findViewById(R.id.semitemp_tvSerialnumberseq);
@@ -346,14 +346,14 @@ public class SEMI_TEMP  extends Activity {
 					holder.tvMaterialName = (TextView) convertView.findViewById(R.id.semitemp_tvMaterialName);
 					holder.tvNewStep = (TextView) convertView.findViewById(R.id.semitemp_tvNewStep);
 		
-					// ÎªviewÉèÖÃ±êÇ©
+					// ä¸ºviewè®¾ç½®æ ‡ç­¾
 					convertView.setTag(holder);
 				} else {
-					// È¡³öholder
+					// å–å‡ºholder
 					holder = (ViewHolder) convertView.getTag();
 					
 				}
-				// ÉèÖÃlistÖĞTextViewµÄÏÔÊ¾
+				// è®¾ç½®listä¸­TextViewçš„æ˜¾ç¤º
 				holder.tvSerialnumberseq.setText(getItem(position).get("PRODUCTSERIALNUMBER").toString());	
 				holder.tvStepId.setText(getItem(position).get("STEPID").toString());
 				holder.tvMaterialId.setText(getItem(position).get("MATERIALID").toString());	
@@ -361,13 +361,13 @@ public class SEMI_TEMP  extends Activity {
 				holder.tvNewStep.setText(getItem(position).get("NEWSTEPID").toString());
 				
 				if (getItem(position).get("CHECKFLAG").toString().equals("Y")) {
-					// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+					// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 					getIsSelected().put(position, true);
 				} else {
-					// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+					// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 					getIsSelected().put(position, false);
 				}
-				// ¸ù¾İisSelectedÀ´ÉèÖÃcheckboxµÄÑ¡ÖĞ×´¿ö
+				// æ ¹æ®isSelectedæ¥è®¾ç½®checkboxçš„é€‰ä¸­çŠ¶å†µ
 				holder.cb.setChecked(getIsSelected().get(position));
 				return convertView;
 			}

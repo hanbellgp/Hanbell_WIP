@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class SEMI_ReWork  extends Activity {
 	wiptrackinAdapter adapter;	
 	PrefercesService prefercesService;
 
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	private List<HashMap<String, String>> lsCompID = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsCompTable = new ArrayList<HashMap<String, String>>();
 	
@@ -51,7 +51,7 @@ public class SEMI_ReWork  extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_semi_rework);
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 		editInput = (EditText) findViewById(R.id.semireworkedit_tvInput);		
 		editProductORderID = (EditText) findViewById(R.id.semireworkedit_tvProductOrderid);
 		editQty= (EditText) findViewById(R.id.semireworkedit_tvQty);
@@ -77,15 +77,15 @@ public class SEMI_ReWork  extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				// È¡µÃViewHolder¶ÔÏó£¬ÕâÑù¾ÍÊ¡È¥ÁËÍ¨¹ı²ã²ãµÄfindViewByIdÈ¥ÊµÀı»¯ÎÒÃÇĞèÒªµÄcbÊµÀıµÄ²½Öè
+				// å–å¾—ViewHolderå¯¹è±¡ï¼Œè¿™æ ·å°±çœå»äº†é€šè¿‡å±‚å±‚çš„findViewByIdå»å®ä¾‹åŒ–æˆ‘ä»¬éœ€è¦çš„cbå®ä¾‹çš„æ­¥éª¤
 				wiptrackinAdapter.ViewHolder holder = (wiptrackinAdapter.ViewHolder) arg1
 						.getTag();
-				// ¸Ä±äCheckBoxµÄ×´Ì¬
+				// æ”¹å˜CheckBoxçš„çŠ¶æ€
 				holder.cb.toggle();
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 				wiptrackinAdapter.getIsSelected().put(position,
 						holder.cb.isChecked());
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 				if (holder.cb.isChecked()) {
 					lsCompTable.get(position).put("CHECKFLAG", "Y");
 				} else {
@@ -97,12 +97,12 @@ public class SEMI_ReWork  extends Activity {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 					try {
 					EditText txtInput = (EditText) findViewById(R.id.semireworkedit_tvInput);
 					
 					if (txtInput.getText().toString().trim().length() == 0) {
-						MESCommon.show(SEMI_ReWork.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(SEMI_ReWork.this, "è¯·æ‰«ææ¡ç !");
 						txtInput.setText("");
 						setFocus(editProductORderID );
 						return false;
@@ -126,19 +126,19 @@ public class SEMI_ReWork  extends Activity {
 						if(lsPlan.size()>0)
 						{
 							
-							 //¿É±¨¹¤ÊıÊÇ0
+							 //å¯æŠ¥å·¥æ•°æ˜¯0
 	                        if (lsPlan.get(0).get("LEFTQTY").toString() == "0")
 	                        {
-	                            if (lsPlan.get(0).get("PROCESSSTATE").toString() == "Î´ÏÂÏß")
+	                            if (lsPlan.get(0).get("PROCESSSTATE").toString() == "æœªä¸‹çº¿")
 	                            {
-	                            	MESCommon.show(SEMI_ReWork.this, "ÖÆÁî[" + editInput.getText().toString().trim().toUpperCase() + "]»¹Ã»ÏÂÏß£¬²»ÄÜ±¨¹¤!");
+	                            	MESCommon.show(SEMI_ReWork.this, "åˆ¶ä»¤[" + editInput.getText().toString().trim().toUpperCase() + "]è¿˜æ²¡ä¸‹çº¿ï¼Œä¸èƒ½æŠ¥å·¥!");
 	                                editInput.setText("");
 	                                  setFocus(editProductORderID);
 	                                return false;
 	                            }
 	                            else
 	                            {
-	                                MESCommon.show(SEMI_ReWork.this, "ÖÆÁî[" + editInput.getText().toString().trim().toUpperCase() + "]¿É±¨¹¤ÊıÊÇ0£¬²»ÄÜ±¨¹¤£¡");
+	                                MESCommon.show(SEMI_ReWork.this, "åˆ¶ä»¤[" + editInput.getText().toString().trim().toUpperCase() + "]å¯æŠ¥å·¥æ•°æ˜¯0ï¼Œä¸èƒ½æŠ¥å·¥ï¼");
 	                                editInput.setText("");
 	                                  setFocus(editProductORderID);
 	                                return false;
@@ -147,9 +147,9 @@ public class SEMI_ReWork  extends Activity {
 	                        }
 
 
-	                        if (lsPlan.get(0).get("PRODUCTORDERTYPE").toString() == "Ò»°ãÖÆÁî")
+	                        if (lsPlan.get(0).get("PRODUCTORDERTYPE").toString() == "ä¸€èˆ¬åˆ¶ä»¤")
 	                        {
-	                            MESCommon.show(SEMI_ReWork.this, "ÖÆÁî[" + editInput.getText().toString().trim().toUpperCase() + "]ÊÇÒ»°ãÖÆÁî£¬²»ÄÜÔÚÖØ¹¤°ó¶¨±¨¹¤£¡");
+	                            MESCommon.show(SEMI_ReWork.this, "åˆ¶ä»¤[" + editInput.getText().toString().trim().toUpperCase() + "]æ˜¯ä¸€èˆ¬åˆ¶ä»¤ï¼Œä¸èƒ½åœ¨é‡å·¥ç»‘å®šæŠ¥å·¥ï¼");
                                 editInput.setText("");
                                   setFocus(editProductORderID);
                                 return false;
@@ -169,7 +169,7 @@ public class SEMI_ReWork  extends Activity {
 
 	                        if (lsBOM.size() == 0)
 	                        {
-	                        	MESCommon.show(SEMI_ReWork.this,"ÖÆÁî[" + editInput.getText().toString().trim().toUpperCase() + "]»¹Ã»ÁìÁÏÈ·ÈÏ£¬ÇëÏÈÍ¨Öª²Ö¿âÁìÁÏÈ·ÈÏ!");
+	                        	MESCommon.show(SEMI_ReWork.this,"åˆ¶ä»¤[" + editInput.getText().toString().trim().toUpperCase() + "]è¿˜æ²¡é¢†æ–™ç¡®è®¤ï¼Œè¯·å…ˆé€šçŸ¥ä»“åº“é¢†æ–™ç¡®è®¤!");
 	                        	setFocus(editProductORderID);
 	                        	return false;
 	                        }  
@@ -180,7 +180,7 @@ public class SEMI_ReWork  extends Activity {
 	                        
 						}else
 						{
-							MESCommon.show(SEMI_ReWork.this, "ÖÆÁîºÅÂë£º¡¾"+editInput.getText().toString().trim()+"¡¿,ÔÚMESÏµÍ³ÖĞ²»´æÔÚ£¡");
+							MESCommon.show(SEMI_ReWork.this, "åˆ¶ä»¤å·ç ï¼šã€"+editInput.getText().toString().trim()+"ã€‘,åœ¨MESç³»ç»Ÿä¸­ä¸å­˜åœ¨ï¼");
 							return false;
 						}
 						editInput.setText("");						
@@ -190,14 +190,14 @@ public class SEMI_ReWork  extends Activity {
 						{
 							for (int i = 0; i < lsCompTable.size(); i++) {
 								if (lsCompTable.get(i).get("SerialnumberID").toString().equals(txtInput.getText().toString().trim())) {
-									MESCommon.show(SEMI_ReWork.this, "¹¤¼şÌõÂë["+ txtInput.getText().toString().trim()+ "] ÒÑÔÚÇåµ¥ÖĞ,ÇëÑ¡ÔñĞÂµÄ¹¤¼şÌõÂë!");
+									MESCommon.show(SEMI_ReWork.this, "å·¥ä»¶æ¡ç ["+ txtInput.getText().toString().trim()+ "] å·²åœ¨æ¸…å•ä¸­,è¯·é€‰æ‹©æ–°çš„å·¥ä»¶æ¡ç !");
 									setFocus(editProductORderID);
 									return false;
 								}
 							}
 		
 							lsCompID.clear();
-							String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","°ë³ÉÆ·","", lsCompID);
+							String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","åŠæˆå“","", lsCompID);
 						    if (!sResult.equals(""))
 		                    {   MESCommon.show(SEMI_ReWork.this,sResult);
 		                        setFocus(editProductORderID);
@@ -215,7 +215,7 @@ public class SEMI_ReWork  extends Activity {
 	                      
 	                        if (lsProcess.size() > 0)
 	                        {
-	                        	MESCommon.show(SEMI_ReWork.this, "¹¤¼ş[" +lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+ "]ÒÑ¾­°ó¶¨ÁËÖÆÁî["+editProductORderID.getText().toString().trim()+"]£¬²»ÄÜÖØ¸´°ó¶¨!");
+	                        	MESCommon.show(SEMI_ReWork.this, "å·¥ä»¶[" +lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString()+ "]å·²ç»ç»‘å®šäº†åˆ¶ä»¤["+editProductORderID.getText().toString().trim()+"]ï¼Œä¸èƒ½é‡å¤ç»‘å®š!");
 	                        	setFocus(editProductORderID);
 	                        	return false;
 	                        } 
@@ -238,7 +238,7 @@ public class SEMI_ReWork  extends Activity {
 						}
 						else
 						{
-							MESCommon.show(SEMI_ReWork.this, "ÖÆÁîºÅÂë£º¡¾"+editProductORderID.getText().toString()+"¡¿,ÒÑ¾­È«²¿°ó¶¨Íê£¡ÇëÑ¡ÔñĞÂµÄÖÆÁî");
+							MESCommon.show(SEMI_ReWork.this, "åˆ¶ä»¤å·ç ï¼šã€"+editProductORderID.getText().toString()+"ã€‘,å·²ç»å…¨éƒ¨ç»‘å®šå®Œï¼è¯·é€‰æ‹©æ–°çš„åˆ¶ä»¤");
 							return false;
 						}
 					    editInput.setText("");
@@ -269,7 +269,7 @@ public class SEMI_ReWork  extends Activity {
 									lsCompTableCopy.add(lsCompTable.get(i));
 								}
 								if (!isSelect) {
-									MESCommon.show(SEMI_ReWork .this,	"ÇëÑ¡ÔñÒªÉ¾³ıµÄÁã²¿¼ş");
+									MESCommon.show(SEMI_ReWork .this,	"è¯·é€‰æ‹©è¦åˆ é™¤çš„é›¶éƒ¨ä»¶");
 									return;
 								}
 								for (int i = lsCompTableCopy.size() - 1; i >= 0; i--) {
@@ -304,7 +304,7 @@ public class SEMI_ReWork  extends Activity {
 						String sResult="";
 						if(lsCompTable.size()==0)
 						{
-							MESCommon.show(SEMI_ReWork.this, "ÇëÏÈÌí¼ÓÒª°ó¶¨µÄ¹¤¼şÌõÂë£¬ÔÚ½øĞĞÖØ¹¤ÖÆÁî°ó¶¨!");
+							MESCommon.show(SEMI_ReWork.this, "è¯·å…ˆæ·»åŠ è¦ç»‘å®šçš„å·¥ä»¶æ¡ç ï¼Œåœ¨è¿›è¡Œé‡å·¥åˆ¶ä»¤ç»‘å®š!");
 							return ;
 						}
 						for (int i = 0; i < lsCompTable.size(); i++) {
@@ -320,7 +320,7 @@ public class SEMI_ReWork  extends Activity {
 							MESCommon.show(SEMI_ReWork.this, sResult);
 							return ;
 						}
-						Toast.makeText(SEMI_ReWork.this, "°ó¶¨³É¹¦!",Toast.LENGTH_SHORT).show();
+						Toast.makeText(SEMI_ReWork.this, "ç»‘å®šæˆåŠŸ!",Toast.LENGTH_SHORT).show();
 					
 						Clear();
 					} catch (Exception e) {
@@ -342,13 +342,13 @@ public class SEMI_ReWork  extends Activity {
 	}
 
 	public static class wiptrackinAdapter extends BaseAdapter {
-		// ÎïÁÏ¼ÇŠá
+		// ç‰©æ–™è®°å¨½
 		private List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
-		// ÉÏÏÂÎÄ
+		// ä¸Šä¸‹æ–‡
 		private Context context;
-		// ÓÃÀ´¿ØÖÆCheckBoxµÄÑ¡ÖĞ×´¿ö
+		// ç”¨æ¥æ§åˆ¶CheckBoxçš„é€‰ä¸­çŠ¶å†µ
 		private static HashMap<Integer, Boolean> isSelected;
-		// ÓÃÀ´µ¼Èë²¼¾Ö
+		// ç”¨æ¥å¯¼å…¥å¸ƒå±€
 		private LayoutInflater inflater = null;
 		int iPosition = -1;
 
@@ -358,11 +358,11 @@ public class SEMI_ReWork  extends Activity {
 			this.context = context;
 			inflater = LayoutInflater.from(context);	
 			isSelected = new HashMap<Integer, Boolean>();
-			// ³õÊ¼»¯Êı¾İ
+			// åˆå§‹åŒ–æ•°æ®
 			initData();
 
 		}
-		// ³õÊ¼»¯isSelectedµÄÊı¾İ
+		// åˆå§‹åŒ–isSelectedçš„æ•°æ®
 		private void initData() {
 			for (int i = 0; i < items.size(); i++) {
 				getIsSelected().put(i, false);
@@ -376,33 +376,33 @@ public class SEMI_ReWork  extends Activity {
 			ViewHolder holder = null;		
 			try{
 				if (convertView == null) {
-					// »ñµÃViewHolder¶ÔÏó
+					// è·å¾—ViewHolderå¯¹è±¡
 					holder = new ViewHolder();
-					// µ¼Èë²¼¾Ö²¢¸³Öµ¸øconvertview
+					// å¯¼å…¥å¸ƒå±€å¹¶èµ‹å€¼ç»™convertview
 					convertView = inflater.inflate(R.layout.activity_semi_rework_listview, null);
 					holder.cb = (CheckBox) convertView.findViewById(R.id.semiReworklv_cb);
 					holder.tvOrderId = (TextView) convertView.findViewById(R.id.semiRework_tvOrderId);
 					holder.tvSerialnumber = (TextView) convertView.findViewById(R.id.semiRework_tvSerialnumber);
 				
-					// ÎªviewÉèÖÃ±êÇ©
+					// ä¸ºviewè®¾ç½®æ ‡ç­¾
 					convertView.setTag(holder);
 				} else {
-					// È¡³öholder
+					// å–å‡ºholder
 					holder = (ViewHolder) convertView.getTag();
 					
 				}
-				// ÉèÖÃlistÖĞTextViewµÄÏÔÊ¾
+				// è®¾ç½®listä¸­TextViewçš„æ˜¾ç¤º
 				holder.tvOrderId.setText(getItem(position).get("OrderId").toString());	
 				holder.tvSerialnumber.setText(getItem(position).get("Serialnumber").toString());	
 				
 				if (getItem(position).get("CHECKFLAG").toString().equals("Y")) {
-					// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+					// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 					getIsSelected().put(position, true);
 				} else {
-					// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+					// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 					getIsSelected().put(position, false);
 				}
-				// ¸ù¾İisSelectedÀ´ÉèÖÃcheckboxµÄÑ¡ÖĞ×´¿ö
+				// æ ¹æ®isSelectedæ¥è®¾ç½®checkboxçš„é€‰ä¸­çŠ¶å†µ
 				holder.cb.setChecked(getIsSelected().get(position));
 				return convertView;
 			}

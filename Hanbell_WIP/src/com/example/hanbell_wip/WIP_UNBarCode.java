@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -83,7 +83,7 @@ public class WIP_UNBarCode extends Activity {
 	Button  btnExit, btnUnbind;
 	EditText editInput,editProductCompID,editMaterialID,editProductModel ,editProductSerNumber,editRawNumber,editFinNumber;
 	
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	static int milv0RowNum = 0;
 
 	private	List<HashMap<String, String>> lsCompID = new ArrayList<HashMap<String, String>>();	
@@ -102,7 +102,7 @@ public class WIP_UNBarCode extends Activity {
 		setContentView(R.layout.activity_main);
 		setContentView(R.layout.activity_wip_unbar_code);
 try{
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 		editInput = (EditText) findViewById(R.id.wipunBarcode_tvInput);	
 		editProductCompID = (EditText) findViewById(R.id.wipunBarcode_tvProductCompid);	
 		editMaterialID = (EditText) findViewById(R.id.wipunBarcode_tvMaterialid);	
@@ -116,10 +116,10 @@ try{
 		// ***********************************************Start
 		
 		ActionBar actionBar=getActionBar();
-	    actionBar.setSubtitle("±¨¹¤ÈËÔ±£º"+MESCommon.UserName); 
-	    actionBar.setTitle("ÖÆÔìºÅÂë½â°ó");
+	    actionBar.setSubtitle("æŠ¥å·¥äººå‘˜ï¼š"+MESCommon.UserName); 
+	    actionBar.setTitle("åˆ¶é€ å·ç è§£ç»‘");
 	
-		// È¡µÃ¿Ø¼ş	 
+		// å–å¾—æ§ä»¶	 
 		String date = sDateFormatShort.format(new java.util.Date());	
 	
 		
@@ -128,19 +128,19 @@ try{
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 					try {
 					EditText txtInput = (EditText) findViewById(R.id.wipunBarcode_tvInput);
 					
 					if (txtInput.getText().toString().trim().length() == 0) {
-						MESCommon.show(WIP_UNBarCode.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(WIP_UNBarCode.this, "è¯·æ‰«ææ¡ç !");
 						txtInput.setText("");
 						setFocus(editProductCompID);
 						return false;
 					}					
 					editInput.setText(txtInput.getText().toString().trim().toUpperCase());
 					lsCompID.clear();						
-					String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","ÖÆÔìºÅÂë","×°Åä", lsCompID);
+					String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","åˆ¶é€ å·ç ","è£…é…", lsCompID);
 				    if (!sResult.equals(""))
                     {   MESCommon.show(WIP_UNBarCode.this,sResult);
                         setFocus(editProductCompID);
@@ -148,7 +148,7 @@ try{
                     }
 	            	if (lsCompID.get(0).get("ISPRODUCTCOMPID").toString().equals("N") )
 	                {
-            		   MESCommon.show(WIP_UNBarCode.this,"ÇëË¢ÈëÖÆÔìºÅÂë!");
+            		   MESCommon.show(WIP_UNBarCode.this,"è¯·åˆ·å…¥åˆ¶é€ å·ç !");
             		   txtInput.setText("");
             		   setFocus(editProductCompID);
                        return false;
@@ -162,7 +162,7 @@ try{
 					}			
 					if(lsProcess.size()==0)
 					{
-						MESCommon.show(WIP_UNBarCode.this, " ÖÆÔìºÅÂë¡¾"+txtInput.getText().toString().trim() +"¡¿£¬Ã»ÓĞÉè¶¨Éú²ú¹¤ÒÕÁ÷³Ì£¡");
+						MESCommon.show(WIP_UNBarCode.this, " åˆ¶é€ å·ç ã€"+txtInput.getText().toString().trim() +"ã€‘ï¼Œæ²¡æœ‰è®¾å®šç”Ÿäº§å·¥è‰ºæµç¨‹ï¼");
 						Clear();
 						return false;
 					}
@@ -182,7 +182,7 @@ try{
 								return false;
 						 }
 						 
-					//³õÊ¼»¯¹¤¼şĞÅÏ¢
+					//åˆå§‹åŒ–å·¥ä»¶ä¿¡æ¯
 					editProductCompID.setText(lsCompID.get(0).get("PRODUCTCOMPID").toString());
 					editMaterialID.setText(lsProduct.get(0).get("PRODUCTNAME").toString());						
 					editProductModel.setText(lsProduct.get(0).get("PRODUCTMODEL").toString());	
@@ -223,20 +223,20 @@ try{
 			public void onClick(View v) {
 				try {
 					if (editProductCompID.getText().toString().trim().length() == 0) {
-						MESCommon.show(WIP_UNBarCode.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(WIP_UNBarCode.this, "è¯·æ‰«ææ¡ç !");
 						setFocus(editProductCompID);
 						return ;
 					}					
 					
-					AlertDialog alert=	new AlertDialog.Builder(WIP_UNBarCode.this).setTitle("È·ÈÏ").setMessage("È·¶¨Òª¶ÔÖÆÔìºÅÂë¡¾"+editProductCompID.getText().toString()+"¡¿,½øĞĞ½â°ó×÷Òµ£¿")
-							.setNeutralButton("È¡Ïû",new DialogInterface.OnClickListener() {  
+					AlertDialog alert=	new AlertDialog.Builder(WIP_UNBarCode.this).setTitle("ç¡®è®¤").setMessage("ç¡®å®šè¦å¯¹åˆ¶é€ å·ç ã€"+editProductCompID.getText().toString()+"ã€‘,è¿›è¡Œè§£ç»‘ä½œä¸šï¼Ÿ")
+							.setNeutralButton("å–æ¶ˆ",new DialogInterface.OnClickListener() {  
 					            @Override  
 					            public void onClick(DialogInterface dialog,int which) {  
 					                // TODO Auto-generated method stub  
 					            	return ;
 					            }  
 					 })
-							.setPositiveButton("È·¶¨",new DialogInterface.OnClickListener() {  
+							.setPositiveButton("ç¡®å®š",new DialogInterface.OnClickListener() {  
 			            @Override  
 			            public void onClick(DialogInterface dialog,int which) {  
 			                // TODO Auto-generated method stub  
@@ -272,7 +272,7 @@ try{
 								MESCommon.showMessage(WIP_UNBarCode.this, sError);
 								return;
 							 } 
-							 Toast.makeText(WIP_UNBarCode.this, "½â°ó³É¹¦!", Toast.LENGTH_SHORT).show();
+							 Toast.makeText(WIP_UNBarCode.this, "è§£ç»‘æˆåŠŸ!", Toast.LENGTH_SHORT).show();
 			                  
 				            Clear();
 			            }  

@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -92,7 +92,7 @@ public class WIP_SEQEdit extends Activity {
 	  msEqpId="",msAnalysisformsID,msSampletimes,msStepSEQ="",msSUPPLYLOTID,msSUPPLYID,msQC_ITEM,msQCTYPE, msSysid="";
 	 
 	int miQty;
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	static int milv0RowNum = 0;
 	private List<HashMap<String, String>> lsuser = new ArrayList<HashMap<String, String>>();
 	private	List<HashMap<String, String>> lsCompID = new ArrayList<HashMap<String, String>>();
@@ -115,7 +115,7 @@ public class WIP_SEQEdit extends Activity {
 		setContentView(R.layout.activity_main);
 		setContentView(R.layout.activity_wip_seqedit);
 		try{
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 		editInput = (EditText) findViewById(R.id.wipseqedit_tvInput);		
 		editMaterialID = (EditText) findViewById(R.id.wipseqedit_tvMaterialid);	
 		cb	= (CheckBox) findViewById(R.id.wipseqedit_cb);	
@@ -144,23 +144,23 @@ public class WIP_SEQEdit extends Activity {
 		prefercesService  =new PrefercesService(this);  
 	    params=prefercesService.getPreferences();  
 		ActionBar actionBar=getActionBar();
-	    actionBar.setSubtitle("±¨¹¤ÈËÔ±£º"+MESCommon.UserName); 
-	    actionBar.setTitle("´Î×éÁ¢×°ÅäĞÅÏ¢");
+	    actionBar.setSubtitle("æŠ¥å·¥äººå‘˜ï¼š"+MESCommon.UserName); 
+	    actionBar.setTitle("æ¬¡ç»„ç«‹è£…é…ä¿¡æ¯");
 	    msStepId=params.get("StepID");
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 	 
 		String date = sDateFormatShort.format(new java.util.Date());	
 	
-		// ¿Ø¼şÊÂ¼ş
+		// æ§ä»¶äº‹ä»¶
 		lv0.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				// È¡µÃViewHolder¶ÔÏó£¬ÕâÑù¾ÍÊ¡È¥ÁËÍ¨¹ı²ã²ãµÄfindViewByIdÈ¥ÊµÀı»¯ÎÒÃÇĞèÒªµÄcbÊµÀıµÄ²½Öè
+				// å–å¾—ViewHolderå¯¹è±¡ï¼Œè¿™æ ·å°±çœå»äº†é€šè¿‡å±‚å±‚çš„findViewByIdå»å®ä¾‹åŒ–æˆ‘ä»¬éœ€è¦çš„cbå®ä¾‹çš„æ­¥éª¤
 				wiptrackinAdapter.ViewHolder holder = (wiptrackinAdapter.ViewHolder) arg1.getTag();
-				// ¸Ä±äCheckBoxµÄ×´Ì¬
+				// æ”¹å˜CheckBoxçš„çŠ¶æ€
 				holder.cb.toggle();
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 			
 				wiptrackinAdapter.getIsSelected().put(position,
 						holder.cb.isChecked());
@@ -187,47 +187,47 @@ public class WIP_SEQEdit extends Activity {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 					try {
 					EditText txtInput = (EditText) findViewById(R.id.wipseqedit_tvInput);
 					
 					if (txtInput.getText().toString().trim().length() == 0) {
-						MESCommon.show(WIP_SEQEdit.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(WIP_SEQEdit.this, "è¯·æ‰«ææ¡ç !");
 						txtInput.setText("");
 						setFocus(editMaterialID );
 						return false;
 					}					
-					//Ë¢Ö÷¼ş
+					//åˆ·ä¸»ä»¶
 					if(!cb.isChecked())
 					{
 						lsCompID.clear();						
-						String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","Áã²¿¼ş","×°Åä", lsCompID);
+						String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","é›¶éƒ¨ä»¶","è£…é…", lsCompID);
 					    if (!sResult.equals(""))
 	                    {   MESCommon.show(WIP_SEQEdit.this,sResult);
 	                        setFocus(editMaterialID);
 					    	return false;
 	                    }
 		            	
-						//³õÊ¼»¯¹¤¼şĞÅÏ¢					
+						//åˆå§‹åŒ–å·¥ä»¶ä¿¡æ¯					
 						editMaterialID.setText(lsCompID.get(0).get("MATERIALNAME").toString());									
-						//¸Ä±äÄ¬ÈÏµÄµ¥ĞĞÄ£Ê½  
+						//æ”¹å˜é»˜è®¤çš„å•è¡Œæ¨¡å¼  
 						editMaterialID.setSingleLine(false);  
-						//Ë®Æ½¹ö¶¯ÉèÖÃÎªFalse  
+						//æ°´å¹³æ»šåŠ¨è®¾ç½®ä¸ºFalse  
 						editMaterialID.setHorizontallyScrolling(false);	
-						GetProcessSTEP_P();//³õÊ¼Áã²¿¼ş
+						GetProcessSTEP_P();//åˆå§‹é›¶éƒ¨ä»¶
 						editInput.setText("");
 						setFocus(editMaterialID);
 					}
-					//Ë¢Áã²¿¼ş
+					//åˆ·é›¶éƒ¨ä»¶
 					else
 					{	if(lsCompTable.size()==0)
 						{
-							MESCommon.show(WIP_SEQEdit.this,"Ã»ÓĞÒª¼ÓÈëµÄ´Î×éÁ¢×é£¡");
+							MESCommon.show(WIP_SEQEdit.this,"æ²¡æœ‰è¦åŠ å…¥çš„æ¬¡ç»„ç«‹ç»„ï¼");
 							cb.setChecked(false);
 							return false;
 						}
 						lsCompID.clear();				 
-					    String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"",msProductOrderId, "QF", "Áã²¿¼ş","×°Åä",lsCompID);
+					    String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"",msProductOrderId, "QF", "é›¶éƒ¨ä»¶","è£…é…",lsCompID);
 						if(!sResult.equals(""))
 						{
 							MESCommon.show(WIP_SEQEdit.this,sResult);
@@ -259,7 +259,7 @@ public class WIP_SEQEdit extends Activity {
 						String sCheckResult="";
 						if(lsCompID.get(0).get("ISPRODUCTCOMPID").toString().equals("Y"))
 						{
-							MESCommon.show(WIP_SEQEdit.this,"×°ÅäÁã²¿¼şÊ±,²»ÄÜ×°ÅäÌõÂëÎª£º¡¾"+txtInput.getText().toString().trim()+"¡¿µÄÖÆÔìºÅÂë£¡");
+							MESCommon.show(WIP_SEQEdit.this,"è£…é…é›¶éƒ¨ä»¶æ—¶,ä¸èƒ½è£…é…æ¡ç ä¸ºï¼šã€"+txtInput.getText().toString().trim()+"ã€‘çš„åˆ¶é€ å·ç ï¼");
 							return false;
 						}
 						
@@ -288,7 +288,7 @@ public class WIP_SEQEdit extends Activity {
 							} 
 							if(lsBom.size()==0)
 							{
-								MESCommon.show(WIP_SEQEdit.this, "ÎïÁÏÌõÂë¡¾" +editInput.getText().toString() + "¡¿µÄÎïÁÏ¡¾"+sMaterialId+"¡¿£¬ ²»ÔÚÎïÁÏÇåµ¥ÖĞ!");
+								MESCommon.show(WIP_SEQEdit.this, "ç‰©æ–™æ¡ç ã€" +editInput.getText().toString() + "ã€‘çš„ç‰©æ–™ã€"+sMaterialId+"ã€‘ï¼Œ ä¸åœ¨ç‰©æ–™æ¸…å•ä¸­!");
 								editInput.setText("");
 								setFocus(editInput);				
 								return false ;
@@ -315,12 +315,12 @@ public class WIP_SEQEdit extends Activity {
 									if(editInput.getText().toString().trim().equals(lsCompTable.get(i).get("SEQ").toString()))
 									{
 										
-										MESCommon.show(WIP_SEQEdit.this, "ÎïÁÏÌõÂë[" + sSEQ + "] ÒÑÔÚÎïÁÏÇåµ¥ÖĞ!");
+										MESCommon.show(WIP_SEQEdit.this, "ç‰©æ–™æ¡ç [" + sSEQ + "] å·²åœ¨ç‰©æ–™æ¸…å•ä¸­!");
 										return false ;
 									}
 									if(lsodtBom.get(0).get("ISCHIEF").toString().equals("Y") && lsCompTable.get(i).get("ISCHIEF").toString().equals("Y"))
 									{
-										MESCommon.show(WIP_SEQEdit.this, "Ğè±£ÁôÌõÂëÎïÁÏÒÑÔÚÎïÁÏÇåµ¥ÖĞ!");
+										MESCommon.show(WIP_SEQEdit.this, "éœ€ä¿ç•™æ¡ç ç‰©æ–™å·²åœ¨ç‰©æ–™æ¸…å•ä¸­!");
 										return false ;
 									}
 							
@@ -340,7 +340,7 @@ public class WIP_SEQEdit extends Activity {
 						{
 							if(txtInput.getText().toString().trim().equals(lsCompTable.get(i).get("SEQ").toString()))
 							{
-								MESCommon.show(WIP_SEQEdit.this, "ÎïÁÏÌõÂë[" + sSEQ + "] ÒÑÔÚÎïÁÏÇåµ¥ÖĞ!");
+								MESCommon.show(WIP_SEQEdit.this, "ç‰©æ–™æ¡ç [" + sSEQ + "] å·²åœ¨ç‰©æ–™æ¸…å•ä¸­!");
 							    return false;
 							}								
 							
@@ -365,7 +365,7 @@ public class WIP_SEQEdit extends Activity {
 						lsCompTable.add(hs);							
 						adapter.notifyDataSetChanged();	
 						InsertSTEP_P();
-						Toast.makeText(WIP_SEQEdit.this, "Áã²¿¼ş£º¡¾"+txtInput.getText().toString().trim()+"¡¿,¼ÓÈë³É¹¦£¡", Toast.LENGTH_SHORT).show();	
+						Toast.makeText(WIP_SEQEdit.this, "é›¶éƒ¨ä»¶ï¼šã€"+txtInput.getText().toString().trim()+"ã€‘,åŠ å…¥æˆåŠŸï¼", Toast.LENGTH_SHORT).show();	
 						editInput.setText("");
 						setFocus(editMaterialID);
 					}
@@ -409,11 +409,11 @@ public class WIP_SEQEdit extends Activity {
 						}
 						if(!isSelect)
 						{
-							MESCommon.show(WIP_SEQEdit.this, "ÇëÑ¡ÔñÒªÉ¾³ıµÄÁã²¿¼ş");
+							MESCommon.show(WIP_SEQEdit.this, "è¯·é€‰æ‹©è¦åˆ é™¤çš„é›¶éƒ¨ä»¶");
 							return;
 						}
-						AlertDialog alert=	new AlertDialog.Builder(WIP_SEQEdit.this).setTitle("È·ÈÏ").setMessage("ÊÇ·ñÈ·ÈÏÉ¾³ıÑ¡ÔñµÄÁã²¿¼ş£¡")
-								.setPositiveButton("È·¶¨",new DialogInterface.OnClickListener() {  
+						AlertDialog alert=	new AlertDialog.Builder(WIP_SEQEdit.this).setTitle("ç¡®è®¤").setMessage("æ˜¯å¦ç¡®è®¤åˆ é™¤é€‰æ‹©çš„é›¶éƒ¨ä»¶ï¼")
+								.setPositiveButton("ç¡®å®š",new DialogInterface.OnClickListener() {  
 				            @Override  
 				            public void onClick(DialogInterface dialog,int which) {  
 				                // TODO Auto-generated method stub  
@@ -432,7 +432,7 @@ public class WIP_SEQEdit extends Activity {
 								
 				            }  
 				        })  
-						.setNeutralButton("È¡Ïû",new DialogInterface.OnClickListener() {  
+						.setNeutralButton("å–æ¶ˆ",new DialogInterface.OnClickListener() {  
 						            @Override  
 						            public void onClick(DialogInterface dialog,int which) {  
 						                // TODO Auto-generated method stub  
@@ -469,7 +469,7 @@ public class WIP_SEQEdit extends Activity {
 	}
 
 
-	// ÓĞ·µ»ØÖµµÄActivity  
+	// æœ‰è¿”å›å€¼çš„Activity  
 	public void openNewActivity2(View v)  
 	{  try{
 	 Intent intent = new Intent();  
@@ -491,8 +491,8 @@ public class WIP_SEQEdit extends Activity {
 	@Override  
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)  
 	{  try{
-	 // requestCodeÓÃÓÚÇø·ÖÒµÎñ  
-	 // resultCodeÓÃÓÚÇø·ÖÄ³ÖÖÒµÎñµÄÖ´ĞĞÇé¿ö  
+	 // requestCodeç”¨äºåŒºåˆ†ä¸šåŠ¡  
+	 // resultCodeç”¨äºåŒºåˆ†æŸç§ä¸šåŠ¡çš„æ‰§è¡Œæƒ…å†µ  
 	 if (1 == requestCode && RESULT_OK == resultCode)  
 	 {  
 	  String result = data.getStringExtra("result");  
@@ -538,14 +538,14 @@ public class WIP_SEQEdit extends Activity {
 	}
 
 	public static class wiptrackinAdapter extends BaseAdapter {
-		// ÎïÁÏ¼ÇŠá
+		// ç‰©æ–™è®°å¨½
 		private List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
 		
-		// ÉÏÏÂÎÄ
+		// ä¸Šä¸‹æ–‡
 		private Context context;
-		// ÓÃÀ´¿ØÖÆCheckBoxµÄÑ¡ÖĞ×´¿ö
+		// ç”¨æ¥æ§åˆ¶CheckBoxçš„é€‰ä¸­çŠ¶å†µ
 		private static HashMap<Integer, Boolean> isSelected;
-		// ÓÃÀ´µ¼Èë²¼¾Ö
+		// ç”¨æ¥å¯¼å…¥å¸ƒå±€
 		private LayoutInflater inflater = null;
 		int iPosition = -1;
 
@@ -555,11 +555,11 @@ public class WIP_SEQEdit extends Activity {
 			this.context = context;
 			inflater = LayoutInflater.from(context);	
 			isSelected = new HashMap<Integer, Boolean>();
-			// ³õÊ¼»¯Êı¾İ
+			// åˆå§‹åŒ–æ•°æ®
 			initData();
 
 		}
-		// ³õÊ¼»¯isSelectedµÄÊı¾İ
+		// åˆå§‹åŒ–isSelectedçš„æ•°æ®
 		private void initData() {
 			for (int i = 0; i < items.size(); i++) {
 				getIsSelected().put(i, false);
@@ -574,35 +574,35 @@ public class WIP_SEQEdit extends Activity {
 			
 			if (convertView == null) {
 			
-				// »ñµÃViewHolder¶ÔÏó
+				// è·å¾—ViewHolderå¯¹è±¡
 				holder = new ViewHolder();
-				// µ¼Èë²¼¾Ö²¢¸³Öµ¸øconvertview
+				// å¯¼å…¥å¸ƒå±€å¹¶èµ‹å€¼ç»™convertview
 				convertView = inflater.inflate(R.layout.activity_wip_compedit_listview, null);
 				holder.cb = (CheckBox) convertView.findViewById(R.id.wipcompeditlv0_cb);
 				holder.tvSerialnumberId = (TextView) convertView.findViewById(R.id.wipcompeditlv0_tvSerialnumberId);
 				holder.tvMaterialName = (TextView) convertView.findViewById(R.id.wipcompeditlv0_tvMaterialName);
 				holder.tvMaterialId= (TextView) convertView.findViewById(R.id.wipcompeditlv0_tvMaterialId);
 				
-				// ÎªviewÉèÖÃ±êÇ©
+				// ä¸ºviewè®¾ç½®æ ‡ç­¾
 				convertView.setTag(holder);
 			} else {
-				// È¡³öholder
+				// å–å‡ºholder
 				holder = (ViewHolder) convertView.getTag();
 				
 			}
-			// ÉèÖÃlistÖĞTextViewµÄÏÔÊ¾
+			// è®¾ç½®listä¸­TextViewçš„æ˜¾ç¤º
 			holder.tvSerialnumberId.setText(getItem(position).get("PRODUCTSERIALNUMBER").toString());	
 			holder.tvMaterialName.setText(getItem(position).get("MaterialMame").toString());	
 			holder.tvMaterialId.setText(getItem(position).get("MaterialId").toString());	
 			if (getItem(position).get("CHECKFLAG").toString().equals("Y")) {
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 				getIsSelected().put(position, true);
 			} else {
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 				getIsSelected().put(position, false);
 			}
 		
-			// ¸ù¾İisSelectedÀ´ÉèÖÃcheckboxµÄÑ¡ÖĞ×´¿ö
+			// æ ¹æ®isSelectedæ¥è®¾ç½®checkboxçš„é€‰ä¸­çŠ¶å†µ
 			holder.cb.setChecked(getIsSelected().get(position));
 			return convertView;
 		}
@@ -799,7 +799,7 @@ public class WIP_SEQEdit extends Activity {
 			 }
 			 if(lscheckExist.size()>0)
 			 {
-				 return sResult="É¨ÃèÌõÂë¡¾"+number+"¡¿,ÒÑ¾­×é×°×°Åä¹ı£¬ÇëÖØĞÂÉ¨ÃèĞÂµÄÌõÂë£¡";
+				 return sResult="æ‰«ææ¡ç ã€"+number+"ã€‘,å·²ç»ç»„è£…è£…é…è¿‡ï¼Œè¯·é‡æ–°æ‰«ææ–°çš„æ¡ç ï¼";
 			 }
 			 return sResult;
 		} catch (Exception e) {
@@ -810,7 +810,7 @@ public class WIP_SEQEdit extends Activity {
 		
 	}
 	
-	//´Ë·½·¨Ö»ÊÇ¹Ø±ÕÈí¼üÅÌ
+	//æ­¤æ–¹æ³•åªæ˜¯å…³é—­è½¯é”®ç›˜
 	private void hintKbTwo() {
 		 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);			 
 		 if(imm.isActive()&&getCurrentFocus()!=null){

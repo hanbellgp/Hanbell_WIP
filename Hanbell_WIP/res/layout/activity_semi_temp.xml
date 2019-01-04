@@ -129,7 +129,7 @@
 
                 <RadioButton
                     android:id="@+id/radio1"
-                    android:layout_width="80dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:text="1" >
@@ -138,11 +138,19 @@
 
                 <RadioButton
                     android:id="@+id/radio2"
-                    android:layout_width="80dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="2" >
                 </RadioButton>
             </RadioGroup>
+            
+            <Button
+                android:id="@+id/finishtempedit_btnConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:paddingTop="2dp"
+                android:text="确认"
+                android:textSize="15sp" />
         </TableRow>
 
         <LinearLayout

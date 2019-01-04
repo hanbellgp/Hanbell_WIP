@@ -979,6 +979,7 @@ public class MESDB {
 		return sResult;
 	}
 	
+	//半成品在制盘点
 	public static String BindCOMPTEMP(String sSeq,String sUserID,String sUserName,String sTIMES, List<HashMap<String, String>> ol) {
 		String sXML = "";
 		String sError= "";
@@ -1000,6 +1001,74 @@ public class MESDB {
 			HttpTransportSE ht = new HttpTransportSE(serviceURL);
 			// 5.调用Webservice
 			ht.call(serviceNameSpace + "PDA_COMP_TEMP_ADD", envelope);
+			// 6.返回结果
+			Object obj = envelope.getResponse();
+			if (obj != null) {
+				sXML = obj.toString().replace("\n", "");
+				int iResult = sXML.indexOf("<DataList");
+				if (sXML.indexOf("<DataList>") >= 0) {
+					DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+					DocumentBuilder db = dbf.newDocumentBuilder();
+					// 创建一个新的字符串
+					StringReader read = new StringReader(sXML);
+					// 创建新的输入源 解析器将使用 InputSource 对象来确定如何读取 XML 输入
+					InputSource source = new InputSource(read);
+					Document doc = db.parse(source);
+					Node nd = doc.getFirstChild();
+					NodeList lst = nd.getChildNodes();
+					for (int i = 0; i < lst.getLength(); i++) {
+						Node nd0 = lst.item(i);
+						if (nd0.getNodeName().trim() != "#text") {
+							NodeList lst0 = nd0.getChildNodes();
+							// List<String> sl = new ArrayList<String>();
+							HashMap<String, String> sh = new HashMap<String, String>();
+							for (int j = 0; j < lst0.getLength(); j++) {
+								Node nd1 = lst0.item(j);
+								if (nd1.getNodeName().trim() == "SHIPTYPE") {
+									String s = nd1.getNodeName().trim();
+								}
+								if (nd1.getNodeName().trim() != "#text") {
+									// sl.add(nd1.getTextContent());
+									sh.put(nd1.getNodeName(), nd1.getTextContent());
+								}
+							}
+							// ol.add(sl);
+							ol.add(sh);
+						}
+					}
+				}
+				else if (iResult < 0)
+				{
+					return sXML;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			sError= e.toString();
+		}
+		return sError;
+	}
+
+	//装配在制盘点
+	public static String BindFINISHTEMP(String sSeq,String sSelWrcode, List<HashMap<String, String>> ol) {
+		String sXML = "";
+		String sError= "";
+		try {
+			// 1.实例化SoapObject对象
+			SoapObject rpc = new SoapObject(serviceNameSpace, "PDA_FINISH_TEMP_ADD");
+			// 2.设置调用参数
+			rpc.addProperty("sSEQ", sSeq);
+			rpc.addProperty("sSelWrcode", sSelWrcode);
+			
+			// 3.设置Soap请求信息
+			SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+			envelope.bodyOut = rpc;
+			envelope.dotNet = true;
+			envelope.setOutputSoapObject(rpc);
+			// 4.构建传输对象
+			HttpTransportSE ht = new HttpTransportSE(serviceURL);
+			// 5.调用Webservice
+			ht.call(serviceNameSpace + "PDA_FINISH_TEMP_ADD", envelope);
 			// 6.返回结果
 			Object obj = envelope.getResponse();
 			if (obj != null) {

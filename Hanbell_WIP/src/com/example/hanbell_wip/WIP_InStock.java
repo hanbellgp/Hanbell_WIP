@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class WIP_InStock extends Activity {
 			msSampletimes, msStepSEQ;
 	static int miRowNum = 0;
 	int miQty = 0;
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	private List<HashMap<String, String>> lsuser = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsCompID = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsCompTable = new ArrayList<HashMap<String, String>>();
@@ -107,9 +107,9 @@ public class WIP_InStock extends Activity {
 		prefercesService = new PrefercesService(this);
 		params = prefercesService.getPreferences();
 		ActionBar actionBar=getActionBar();
-	    actionBar.setSubtitle("±¨¹¤ÈËÔ±£º"+MESCommon.UserName); 
+	    actionBar.setSubtitle("æŠ¥å·¥äººå‘˜ï¼š"+MESCommon.UserName); 
 	    actionBar.setTitle(params.get("StepName"));
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 		editInput = (EditText) findViewById(R.id.wipinstock_tvInput);
 		editCompID= (EditText) findViewById(R.id.wipinstock_tvProductCompid);
 		editMaterialID= (EditText) findViewById(R.id.wipinstock_tvProductid);
@@ -125,12 +125,12 @@ public class WIP_InStock extends Activity {
 
 		// ***********************************************Start
 		String date = sDateFormatShort.format(new java.util.Date());
-		// ¶ÁÈ¡±¨¹¤ÈËÔ±
+		// è¯»å–æŠ¥å·¥äººå‘˜
 		String sSql = "SELECT DISTINCT PROCESSUSERID, PROCESSUSER FROM EQP_RESULT_USER WHERE EQPID ='"
 				+ params.get("EQPID")
 				+ "' AND ISNULL(WORKDATE,'')='"
 				+ date
-				+ "' AND ISNULL(LOGINTIME,'')!='' AND  ISNULL (LOGOUTTIME,'')=''   AND ISNULL(STATUS,'')<>'ÒÑÉ¾³ı' AND PROCESSUSERID='"
+				+ "' AND ISNULL(LOGINTIME,'')!='' AND  ISNULL (LOGOUTTIME,'')=''   AND ISNULL(STATUS,'')<>'å·²åˆ é™¤' AND PROCESSUSERID='"
 				+ MESCommon.UserId + "' ";
 		String sResult = db.GetData(sSql, lsuser);		
 		if (sResult != "") {
@@ -139,20 +139,20 @@ public class WIP_InStock extends Activity {
 		}
 	
 		if ( lsuser.size()==0) {
-			MESCommon.showMessage(WIP_InStock.this, "ÇëÏÈ½øĞĞÈËÔ±Éè±¸±¨¹¤£¡");
+			MESCommon.showMessage(WIP_InStock.this, "è¯·å…ˆè¿›è¡Œäººå‘˜è®¾å¤‡æŠ¥å·¥ï¼");
 		
 		}
 		
-		// ¿â±ğ				
+		// åº“åˆ«				
 		List<SpinnerData> lst = new ArrayList<SpinnerData>();
 		
-			SpinnerData c = new SpinnerData("W01", "³ÉÆ·²Ö");		
+			SpinnerData c = new SpinnerData("W01", "æˆå“ä»“");		
 			lst.add(c);
-			c = new  SpinnerData("ASRS03", "×Ô¶¯²Ö");	
+			c = new  SpinnerData("ASRS03", "è‡ªåŠ¨ä»“");	
 			lst.add(c);
-			c = new  SpinnerData("XTM01", "ĞËËşÔ­ÁÏ²Ö¿â");	
+			c = new  SpinnerData("XTM01", "å…´å¡”åŸæ–™ä»“åº“");	
 			lst.add(c);
-			c = new  SpinnerData("EW01", "ĞËËş³ÉÆ·²Ö¿â");	
+			c = new  SpinnerData("EW01", "å…´å¡”æˆå“ä»“åº“");	
 			lst.add(c);
 
 		ArrayAdapter<SpinnerData> Adapter = new ArrayAdapter<SpinnerData>(this,
@@ -166,26 +166,67 @@ public class WIP_InStock extends Activity {
 		editInput.setOnKeyListener(new OnKeyListener() {
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				String sResult = "", sSQL = "";
+				List<HashMap<String, String>> ls = new ArrayList<HashMap<String, String>>();
 				if (keyCode == KeyEvent.KEYCODE_ENTER
 						&& event.getAction() == KeyEvent.ACTION_DOWN) {
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 					EditText txtInput = (EditText) findViewById(R.id.wipinstock_tvInput);
 					if ( lsuser.size()==0) {
-						MESCommon.showMessage(WIP_InStock.this, "ÇëÏÈ½øĞĞÈËÔ±Éè±¸±¨¹¤£¡");
+						MESCommon.showMessage(WIP_InStock.this, "è¯·å…ˆè¿›è¡Œäººå‘˜è®¾å¤‡æŠ¥å·¥ï¼");
 						return false;
 					}
-					String strCompID = txtInput.getText().toString().trim();
+					String strCompID = txtInput.getText().toString().trim().toUpperCase();
 				    if (strCompID.length() == 0) {
-						MESCommon.show(WIP_InStock.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(WIP_InStock.this, "è¯·æ‰«ææ¡ç !");
 						return false;
 					}
-					lsCompID.clear();
-					String sResult = db.GetProductSerialNumber(strCompID,"", msProductOrderId,"QF","ÖÆÔìºÅÂë","×°Åä",	lsCompID);
-					if (!sResult.equals( "")) {
+				    //æœºç»„è£…é…å…¥åº“ç‰¹æ®Šï¼Œä¸èƒ½å‘¼å«GetProductSerialNumber
+				    String sProductType = "";
+				    sSQL = "SELECT DISTINCT B.PRODUCTTYPE FROM PROCESS A INNER JOIN MPRODUCT B ON A.PRODUCTID=B.PRODUCTID WHERE A.PRODUCTCOMPID='" + strCompID + "'";
+				    sResult = db.GetData(sSQL, ls);
+				    if (!sResult.equals( "")) {
 						MESCommon.showMessage(WIP_InStock.this, sResult);
 						setFocus(editCompID);
 						return false;
 					}
+				    if (ls.size() <= 0)
+				    {
+				    	MESCommon.show(WIP_InStock.this,"æ¡ç ã€"+txtInput.getText().toString().trim() +"ã€‘ï¼Œä¸æ˜¯åˆ¶é€ å·ç ï¼");
+	              		  Clear();
+						  setFocus(editCompID);
+	                      return false;
+				    }
+				    sProductType = ls.get(0).get("PRODUCTTYPE").toString();
+				    
+					lsCompID.clear();
+					if (!sProductType.equals("æœºç»„è£…é…"))
+					{
+						sResult = db.GetProductSerialNumber(strCompID,"", msProductOrderId,"QF","åˆ¶é€ å·ç ","è£…é…",	lsCompID);
+						if (!sResult.equals( "")) {
+							MESCommon.showMessage(WIP_InStock.this, sResult);
+							setFocus(editCompID);
+							return false;
+						}
+					}
+					else
+					{
+						sSQL = "SELECT DISTINCT A.PRODUCTORDERID, A.PRODUCTCOMPID PRODUCTSERIALNUMBER, 'Y' ISPRODUCTCOMPID FROM PROCESS A WHERE A.PRODUCTCOMPID='" + strCompID + "' ORDER BY A.SYSID DESC";
+					    sResult = db.GetData(sSQL, lsCompID);
+					    if (!sResult.equals( "")) {
+							MESCommon.showMessage(WIP_InStock.this, sResult);
+							setFocus(editCompID);
+							return false;
+						}
+					    if (ls.size() <= 0)
+					    {
+					    	MESCommon.show(WIP_InStock.this,"æ¡ç ã€"+txtInput.getText().toString().trim() +"ã€‘ï¼Œä¸æ˜¯åˆ¶é€ å·ç ï¼");
+		              		  Clear();
+							  setFocus(editCompID);
+		                      return false;
+					    }
+					}
+						
 					if(lsCompID.size()>0)
 					{
 						txtInput.setText(lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString());
@@ -200,21 +241,21 @@ public class WIP_InStock extends Activity {
 					}			
 					if(lsProcess.size()==0)
 					{
-						MESCommon.show(WIP_InStock.this, " ÖÆÔìºÅÂë¡¾"+txtInput.getText().toString().trim() +"¡¿£¬Ã»ÓĞÉè¶¨Éú²ú¹¤ÒÕÁ÷³Ì£¡");
+						MESCommon.show(WIP_InStock.this, " åˆ¶é€ å·ç ã€"+txtInput.getText().toString().trim() +"ã€‘ï¼Œæ²¡æœ‰è®¾å®šç”Ÿäº§å·¥è‰ºæµç¨‹ï¼");
 						Clear();
 						return false;
 					}
-					if(lsProcess.get(0).get("STEPID").toString().contains("Èë¿âÇ°¼ìÑé")&&lsProcess.get(0).get("PROCESSSTATUS").toString().equals("ÒÑÍê³É"))
+					if(lsProcess.get(0).get("STEPID").toString().contains("å…¥åº“å‰æ£€éªŒ")&&lsProcess.get(0).get("PROCESSSTATUS").toString().equals("å·²å®Œæˆ"))
 					{
 						
 					}else {
-						MESCommon.show(WIP_InStock.this, "¹¤¼şÄ¿Ç°¹¤ĞòÎª¡¾"+lsProcess.get(0).get("STEPID").toString()+"¡¿£¬²»ÄÜÔÚ¡¾"+params.get("StepID")+"¡¿±¨¹¤£¡");
+						MESCommon.show(WIP_InStock.this, "å·¥ä»¶ç›®å‰å·¥åºä¸ºã€"+lsProcess.get(0).get("STEPID").toString()+"ã€‘ï¼Œä¸èƒ½åœ¨ã€"+params.get("StepID")+"ã€‘æŠ¥å·¥ï¼");
 						Clear();
 						return false;
 					}	
 					if (lsCompID.get(0).get("ISPRODUCTCOMPID").toString().equals("N") )
                     {
-              		  MESCommon.show(WIP_InStock.this,"ÇëË¢ÈëÖÆÔìºÅÂë!");
+              		  MESCommon.show(WIP_InStock.this,"è¯·åˆ·å…¥åˆ¶é€ å·ç !");
               		  Clear();
 					  setFocus(editCompID);
                       return false;
@@ -235,13 +276,13 @@ public class WIP_InStock extends Activity {
 						tvCM.setVisibility(8);
 						editCustomerName.setVisibility(8);		
 					}
-					//³õÊ¼»¯¹¤¼şĞÅÏ¢
+					//åˆå§‹åŒ–å·¥ä»¶ä¿¡æ¯
 					editCompID.setText(lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString());
 					editMaterialID.setText(lsProcess.get(0).get("PRODUCTID").toString());
 					editProductName.setText(lsProduct.get(0).get("PRODUCTNAME").toString());					
-					//¸Ä±äÄ¬ÈÏµÄµ¥ĞĞÄ£Ê½  
+					//æ”¹å˜é»˜è®¤çš„å•è¡Œæ¨¡å¼  
 					editProductName.setSingleLine(false);  
-					//Ë®Æ½¹ö¶¯ÉèÖÃÎªFalse  
+					//æ°´å¹³æ»šåŠ¨è®¾ç½®ä¸ºFalse  
 					editProductName.setHorizontallyScrolling(false);	
 					editColer.setText(lsProcess.get(0).get("COLER").toString());
 					editDescripTion.setText(lsProcess.get(0).get("PMMESSAGE").toString());
@@ -270,7 +311,7 @@ public class WIP_InStock extends Activity {
 					 if(lsINSTOCK.size()>0)
 					 {
 						
-							MESCommon.showMessage(WIP_InStock.this, "ÖÆÔìºÅÂë£º¡¾"+msProductCompId+"¡¿,ÒÑ¾­Èë¿âÍê³ÉÇëÖØĞÂÑ¡ÔñÒªÈë¿âµÄÖÆÔìºÅÂë£¡");							
+							MESCommon.showMessage(WIP_InStock.this, "åˆ¶é€ å·ç ï¼šã€"+msProductCompId+"ã€‘,å·²ç»å…¥åº“å®Œæˆè¯·é‡æ–°é€‰æ‹©è¦å…¥åº“çš„åˆ¶é€ å·ç ï¼");							
 							setFocus(editCompID);
 							 Clear();
 							return false;
@@ -302,7 +343,7 @@ public class WIP_InStock extends Activity {
 				try {
 
 					if (lsCompID.size() <= 0) {
-						MESCommon.show(WIP_InStock.this, "ÇëÏÈÉ¨ÃèÌõÂëÔÚ½øĞĞÈë¿â±¨¹¤£¡");
+						MESCommon.show(WIP_InStock.this, "è¯·å…ˆæ‰«ææ¡ç åœ¨è¿›è¡Œå…¥åº“æŠ¥å·¥ï¼");
 						return;
 					}	
 					SpinnerData spW = (SpinnerData) spWareh.getSelectedItem();
@@ -326,7 +367,7 @@ public class WIP_InStock extends Activity {
                     {
                     	if (sInPno.substring(0, 2).equals("OK")) {
                     		 InsertINSTOCK();
-                    		 Toast.makeText(WIP_InStock.this,"Èë¿â³É¹¦£¬Èë¿âµ¥ºÅ£º" +sInPno.substring(1, sInPno.length()-2), Toast.LENGTH_SHORT).show();	
+                    		 Toast.makeText(WIP_InStock.this,"å…¥åº“æˆåŠŸï¼Œå…¥åº“å•å·ï¼š" +sInPno.substring(1, sInPno.length()-2), Toast.LENGTH_SHORT).show();	
 						}else if (sInPno.substring(0, 2).equals("NG"))  {
 							
 							MESCommon.showMessage(WIP_InStock.this, sInPno.substring(1, sInPno.length()-2));
@@ -334,7 +375,7 @@ public class WIP_InStock extends Activity {
 						}
                        
                     }
-				    //Ö´ĞĞ×îÖÕÅĞ¶¨                
+				    //æ‰§è¡Œæœ€ç»ˆåˆ¤å®š                
                     Clear();            
 				
 				} catch (Exception e) {

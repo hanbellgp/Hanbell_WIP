@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class WIP_ANALYSISITEM extends Activity {
 	String msProductOrderId="",msProductOrderIdold="",  msProductId="",  msProductCompId,  msProductSerialNumber,  msStepId,  
 	  msEqpId,msAnalysisformsID="",msSampletimes,msSUPPLYLOTID,msSUPPLYID,msQC_ITEM,msQCTYPE,msMMT="";
 
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	static int milv0RowNum = 0;int milv1RowNum = 0;
 	private List<HashMap<String, String>> lsuser = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsCompID = new ArrayList<HashMap<String, String>>();
@@ -76,7 +76,7 @@ public class WIP_ANALYSISITEM extends Activity {
 		setContentView(R.layout.activity_main);
 		setContentView(R.layout.activity_wip_analysisitem);
 try{
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 		editInput = (EditText) findViewById(R.id.wipanalysisitem_tvInput);		
 		editMaterialName = (EditText) findViewById(R.id.wipanalysisitem_tvMaterialName);	
 		h10 = (TextView) findViewById(R.id.wipanalysisitem_h10);
@@ -109,12 +109,12 @@ try{
 		prefercesService  =new PrefercesService(this);  
 	    params=prefercesService.getPreferences();  
 	    ActionBar actionBar=getActionBar();
-		actionBar.setSubtitle("±¨¹¤ÈËÔ±£º"+MESCommon.UserName); 
+		actionBar.setSubtitle("æŠ¥å·¥äººå‘˜ï¼š"+MESCommon.UserName); 
 		actionBar.setTitle(params.get("StepName"));
 		String date = sDateFormatShort.format(new java.util.Date());	
 		
-		// ¶ÁÈ¡±¨¹¤ÈËÔ±
-		String sSql = "SELECT DISTINCT PROCESSUSERID, PROCESSUSER FROM EQP_RESULT_USER WHERE EQPID ='"+params.get("EQPID")+"' AND ISNULL(WORKDATE,'')='"+date+"' AND ISNULL(LOGINTIME,'')!='' AND  ISNULL (LOGOUTTIME,'')=''   AND ISNULL(STATUS,'')<>'ÒÑÉ¾³ı' AND (PROCESSUSERID='"+ MESCommon.UserId + "' OR PROCESSUSERID='"+ MESCommon.UserId.toUpperCase()+"') ";
+		// è¯»å–æŠ¥å·¥äººå‘˜
+		String sSql = "SELECT DISTINCT PROCESSUSERID, PROCESSUSER FROM EQP_RESULT_USER WHERE EQPID ='"+params.get("EQPID")+"' AND ISNULL(WORKDATE,'')='"+date+"' AND ISNULL(LOGINTIME,'')!='' AND  ISNULL (LOGOUTTIME,'')=''   AND ISNULL(STATUS,'')<>'å·²åˆ é™¤' AND (PROCESSUSERID='"+ MESCommon.UserId + "' OR PROCESSUSERID='"+ MESCommon.UserId.toUpperCase()+"') ";
 		String sResult = db.GetData(sSql, lsuser);
 		if (sResult != "") {
 			MESCommon.showMessage(WIP_ANALYSISITEM.this, sResult);
@@ -122,7 +122,7 @@ try{
 		}
 	
 		if ( lsuser.size()==0) {
-			MESCommon.showMessage(WIP_ANALYSISITEM.this, "ÇëÏÈ½øĞĞÈËÔ±Éè±¸±¨¹¤£¡");
+			MESCommon.showMessage(WIP_ANALYSISITEM.this, "è¯·å…ˆè¿›è¡Œäººå‘˜è®¾å¤‡æŠ¥å·¥ï¼");
 		
 		}
 
@@ -202,12 +202,12 @@ try{
 			}
 		});
 		
-		// ¿Ø¼şÊÂ¼ş
+		// æ§ä»¶äº‹ä»¶
 		lv0.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				// È¡µÃViewHolder¶ÔÏó£¬ÕâÑù¾ÍÊ¡È¥ÁËÍ¨¹ı²ã²ãµÄfindViewByIdÈ¥ÊµÀı»¯ÎÒÃÇĞèÒªµÄcbÊµÀıµÄ²½Öè
+				// å–å¾—ViewHolderå¯¹è±¡ï¼Œè¿™æ ·å°±çœå»äº†é€šè¿‡å±‚å±‚çš„findViewByIdå»å®ä¾‹åŒ–æˆ‘ä»¬éœ€è¦çš„cbå®ä¾‹çš„æ­¥éª¤
 				wiptrackinpreAdapter.ViewHolder holder = (wiptrackinpreAdapter.ViewHolder) arg1.getTag();
 				showRow(arg2);
 				}});
@@ -218,23 +218,23 @@ try{
 				
 				if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {
 					
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 					try {
 						
 						EditText txtInput = (EditText) findViewById(R.id.wipanalysisitem_tvInput);						
 						
 						if(lsuser.size()==0)
-						{   MESCommon.show(WIP_ANALYSISITEM.this, "ÇëÏÈ½øĞĞÉè±¸ÈËÔ±±¨¹¤!");
+						{   MESCommon.show(WIP_ANALYSISITEM.this, "è¯·å…ˆè¿›è¡Œè®¾å¤‡äººå‘˜æŠ¥å·¥!");
 						setFocus(editInput)	;
 						    return false;
 						}
 						if (txtInput.getText().toString().trim().length() == 0) {
 							txtInput.setText("");
-							MESCommon.show(WIP_ANALYSISITEM.this, "ÇëÉ¨ÃèÌõÂë!");
+							MESCommon.show(WIP_ANALYSISITEM.this, "è¯·æ‰«ææ¡ç !");
 							return false;
 						}
 						lsCompID.clear();					
-						String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","Áã²¿¼ş","×°Åä", lsCompID);			
+						String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","é›¶éƒ¨ä»¶","è£…é…", lsCompID);			
 						if (sResult != "") {
 							MESCommon.showMessage(WIP_ANALYSISITEM.this, sResult);
 							setFocus(editInput)	;	
@@ -244,7 +244,7 @@ try{
 						msProductSerialNumber=lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString();					
 						if(lsAnalysisTable.size()==0)
 						{
-							if(params.get("StepName") .contains("»úÌå"))
+							if(params.get("StepName") .contains("æœºä½“"))
 							{
 							     msProductId="35325-A00";
 							}else {
@@ -253,14 +253,14 @@ try{
 							
 						editMaterialName.setText(lsCompID.get(0).get("MATERIALNAME").toString());
 							
-						//³õÊ¼»¯¼ìÑéÏîÄ¿
+						//åˆå§‹åŒ–æ£€éªŒé¡¹ç›®
 						lsAnalysisData.clear();
 						msStepId=params.get("StepID").toString();	
 						msEqpId=params.get("EQPID").toString();
-						//²éÑ¯ÊÇ·ñÒÑ¾­¼ìÑé¹ı¡£
+						//æŸ¥è¯¢æ˜¯å¦å·²ç»æ£€éªŒè¿‡ã€‚
 						List<HashMap<String, String>> lscheckAnal = new ArrayList<HashMap<String, String>>();
 						lscheckAnal.clear();
-						String sSQL = "SELECT * FROM ANALYSISWAITLIST where PRODUCTSERIALNUMBER='"+msProductSerialNumber+"'  AND ANALYSISSTATUS='ÒÑÍê³É' ";
+						String sSQL = "SELECT * FROM ANALYSISWAITLIST where PRODUCTSERIALNUMBER='"+msProductSerialNumber+"'  AND ANALYSISSTATUS='å·²å®Œæˆ' ";
 			             String sError = db.GetData(sSQL, lscheckAnal);
 						 if (sError != "") {
 							MESCommon.showMessage(WIP_ANALYSISITEM.this, sError);
@@ -268,20 +268,20 @@ try{
 						 }
 						 if(lscheckAnal.size()>0)
 						 {
-								MESCommon.showMessage(WIP_ANALYSISITEM.this, "ÌõÂë¡¾"+msProductSerialNumber+"¡¿,ÒÑ¾­Íê³É×°Åä¼ìÑé£¡ÇëÖØĞÂÑ¡Ôñ£¡");
+								MESCommon.showMessage(WIP_ANALYSISITEM.this, "æ¡ç ã€"+msProductSerialNumber+"ã€‘,å·²ç»å®Œæˆè£…é…æ£€éªŒï¼è¯·é‡æ–°é€‰æ‹©ï¼");
 								return false;
 						 }
-						 if(msStepId.equals("ÀäÃ½µç»ú´Î×éÁ¢Õ¾"))
+						 if(msStepId.equals("å†·åª’ç”µæœºæ¬¡ç»„ç«‹ç«™"))
 						 {
-							 if(!lsCompID.get(0).get("MATERIALNAME").toString().contains("¶¨²¿"))
+							 if(!lsCompID.get(0).get("MATERIALNAME").toString().contains("å®šéƒ¨"))
 							 {
-								 MESCommon.showMessage(WIP_ANALYSISITEM.this, "ÌõÂë¡¾"+msProductSerialNumber+"¡¿,²»ÊÇ¡¾¶¨²¿¡¿£¬ÇëÉ¨ÃèÕıÈ·µÄÌõÂë£¡");
+								 MESCommon.showMessage(WIP_ANALYSISITEM.this, "æ¡ç ã€"+msProductSerialNumber+"ã€‘,ä¸æ˜¯ã€å®šéƒ¨ã€‘ï¼Œè¯·æ‰«ææ­£ç¡®çš„æ¡ç ï¼");
 									return false;
 							 }
 						 }
 						
 
-						sResult = db.GetAnalysisDatabyProductSerialNumber(msProductOrderId,msProductId,msProductSerialNumber,msStepId,MESCommon.UserId ,msEqpId,"×ÔÖ÷¼ìÑé",lsAnalysisData);
+						sResult = db.GetAnalysisDatabyProductSerialNumber(msProductOrderId,msProductId,msProductSerialNumber,msStepId,MESCommon.UserId ,msEqpId,"è‡ªä¸»æ£€éªŒ",lsAnalysisData);
 						if (sResult != "") {
 							MESCommon.showMessage(WIP_ANALYSISITEM.this, sResult);
 							finish();
@@ -307,11 +307,11 @@ try{
 								hs.put("ISNEED", lsAnalysisData.get(i).get("ISNEED").toString());
 								hs.put("ISJUDGE", lsAnalysisData.get(i).get("ISJUDGE").toString());
 								
-								//ÏÈÅĞ¶ÏÀàĞÍ
-								if (lsAnalysisData.get(i).get("RESULTTYPE").toString().equals("ÊıÖµ")) {
-									//¼ì²éÊÇ·ñÓĞÊäÈë¼ì²â½á¹ûÖµ¡£
+								//å…ˆåˆ¤æ–­ç±»å‹
+								if (lsAnalysisData.get(i).get("RESULTTYPE").toString().equals("æ•°å€¼")) {
+									//æ£€æŸ¥æ˜¯å¦æœ‰è¾“å…¥æ£€æµ‹ç»“æœå€¼ã€‚
 									if(!lsAnalysisData.get(i).get("DATAVALUE").toString().trim().equals(""))
-									{ //ÊÇ·ñ±ØĞëÅĞ¶Ï
+									{ //æ˜¯å¦å¿…é¡»åˆ¤æ–­
 										if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
 										{
 											if (Double.parseDouble(lsAnalysisData.get(i).get("DATAVALUE").toString())>=Double.parseDouble(lsAnalysisData.get(i).get("SPECMINVALUE").toString())&&
@@ -330,9 +330,9 @@ try{
 										hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
 								     }
 									 else
-									 {   //¼ì²éÊÇ·ñÓĞÄ¬ÈÏÖµ£¬Èç¹ûÃ»ÓĞÊäÈëÖµÒÑÄ¬ÈÏÖµÎªÄ¬ÈÏ½á¹û
+									 {   //æ£€æŸ¥æ˜¯å¦æœ‰é»˜è®¤å€¼ï¼Œå¦‚æœæ²¡æœ‰è¾“å…¥å€¼å·²é»˜è®¤å€¼ä¸ºé»˜è®¤ç»“æœ
 										if(!lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim().equals(""))
-										{//ÊÇ·ñ±ØĞëÅĞ¶Ï
+										{//æ˜¯å¦å¿…é¡»åˆ¤æ–­
 											if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
 											{
 												if (Double.parseDouble(lsAnalysisData.get(i).get("DEFAULTSVALUE").toString())>=Double.parseDouble(lsAnalysisData.get(i).get("SPECMINVALUE").toString())&&
@@ -350,7 +350,7 @@ try{
 											hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
 											hs.put("DATAVALUE", lsAnalysisData.get(i).get("DEFAULTSVALUE").toString());
 										}else
-										{  //ÊÇ·ñ±ØĞëÅĞ¶Ï
+										{  //æ˜¯å¦å¿…é¡»åˆ¤æ–­
 											if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
 											{
 											hs.put("FINALVALUE", "");
@@ -362,13 +362,13 @@ try{
 											hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
 										}
 									  }						
-									} else if (lsAnalysisData.get(i).get("RESULTTYPE").toString().equals("²¼¶û")) {
+									} else if (lsAnalysisData.get(i).get("RESULTTYPE").toString().equals("å¸ƒå°”")) {
 										if(!lsAnalysisData.get(i).get("DATAVALUE").toString().trim().equals(""))
-										{   //¼ì²éµ½×ÊÁÏ¿âÓĞ¸Ã¼ìÑéÏîÄ¿µÄ´æ´¢Öµ
-											//ÊÇ·ñ±ØĞëÅĞ¶Ï
+										{   //æ£€æŸ¥åˆ°èµ„æ–™åº“æœ‰è¯¥æ£€éªŒé¡¹ç›®çš„å­˜å‚¨å€¼
+											//æ˜¯å¦å¿…é¡»åˆ¤æ–­
 											if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
 											{   
-												//±ØĞëÅĞ£¬Èç¹ûÊÇtrueÔò×îÖÕÅĞ¶ÏÎªOK,elseNG£¬ÏÔÊ¾Ãû×ÖÎªtrueword or falseword
+												//å¿…é¡»åˆ¤ï¼Œå¦‚æœæ˜¯trueåˆ™æœ€ç»ˆåˆ¤æ–­ä¸ºOK,elseNGï¼Œæ˜¾ç¤ºåå­—ä¸ºtrueword or falseword
 												if (lsAnalysisData.get(i).get("DATAVALUE").toString().toUpperCase().equals("TRUE"))
 												{
 													hs.put("FINALVALUE", "OK");	
@@ -378,7 +378,7 @@ try{
 												    hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());	
 												}
 											}else
-											{   //²»ÅĞ¶Ï£¬Ôò×îÖÕÅĞ¶ÏÎª¿Ï¶¨ÎªOK,ÏÔÊ¾Ãû×ÖÎªtrueword or falseword
+											{   //ä¸åˆ¤æ–­ï¼Œåˆ™æœ€ç»ˆåˆ¤æ–­ä¸ºè‚¯å®šä¸ºOK,æ˜¾ç¤ºåå­—ä¸ºtrueword or falseword
 												hs.put("FINALVALUE", "OK");
 												if (lsAnalysisData.get(i).get("DATAVALUE").toString().toUpperCase().equals("TRUE"))
 												{											
@@ -387,16 +387,16 @@ try{
 												hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());
 												}
 											}
-											//ÅĞ¶Ï²»ÅĞ¶Ï£¬Èç¹ûÔÚÎÒÃÇ×ÊÁÏ¿âÓĞÖµ£¬Ò»¶¨´øµÄÖµÊÇ×ÊÁÏ¿âÖĞµÄ¡£
+											//åˆ¤æ–­ä¸åˆ¤æ–­ï¼Œå¦‚æœåœ¨æˆ‘ä»¬èµ„æ–™åº“æœ‰å€¼ï¼Œä¸€å®šå¸¦çš„å€¼æ˜¯èµ„æ–™åº“ä¸­çš„ã€‚
 											hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
 										}else
-										{    //¼ì²éµ½×ÊÁÏ¿âÃ»ÓĞ¸Ã¼ìÑéÏîÄ¿µÄ´æ´¢Öµ
-											//¼ì²éÊÇ·ñÓĞÄ¬ÈÏÖµ£¬Èç¹ûÃ»ÓĞÊäÈëÖµÒÑÄ¬ÈÏÖµÎªÄ¬ÈÏ½á¹û
+										{    //æ£€æŸ¥åˆ°èµ„æ–™åº“æ²¡æœ‰è¯¥æ£€éªŒé¡¹ç›®çš„å­˜å‚¨å€¼
+											//æ£€æŸ¥æ˜¯å¦æœ‰é»˜è®¤å€¼ï¼Œå¦‚æœæ²¡æœ‰è¾“å…¥å€¼å·²é»˜è®¤å€¼ä¸ºé»˜è®¤ç»“æœ
 											if(!lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim().equals(""))
 											{
-												  //ÊÇ·ñ±ØĞëÅĞ¶Ï
+												  //æ˜¯å¦å¿…é¡»åˆ¤æ–­
 												if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
-												{//±ØĞëÅĞ£¬Èç¹ûÊÇtrueÔò×îÖÕÅĞ¶ÏÎªOK,elseNG£¬ÏÔÊ¾Ãû×ÖÎªtrueword or falseword
+												{//å¿…é¡»åˆ¤ï¼Œå¦‚æœæ˜¯trueåˆ™æœ€ç»ˆåˆ¤æ–­ä¸ºOK,elseNGï¼Œæ˜¾ç¤ºåå­—ä¸ºtrueword or falseword
 													if (lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().toUpperCase().equals("TRUE"))
 													{
 														hs.put("FINALVALUE", "OK");	
@@ -410,7 +410,7 @@ try{
 												}
 												else
 												{ 
-													//²»ÅĞ¶Ï£¬ÓĞÔò×îÖÕÅĞ¶ÏÎª¿Ï¶¨ÎªOK,ÏÔÊ¾Ãû×ÖÎªtrueword or falseword
+													//ä¸åˆ¤æ–­ï¼Œæœ‰åˆ™æœ€ç»ˆåˆ¤æ–­ä¸ºè‚¯å®šä¸ºOK,æ˜¾ç¤ºåå­—ä¸ºtrueword or falseword
 													hs.put("FINALVALUE", "OK");
 													if (lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().toUpperCase().equals("TRUE"))
 													{											
@@ -421,14 +421,14 @@ try{
 													hs.put("DATAVALUE", lsAnalysisData.get(i).get("DEFAULTSVALUE").toString());
 												}
 												
-											}//Ã»ÓĞÔ¤ÉèÖµ£¬Ä¬ÈÏÊÇOK£¬×îÖÕÊÇºÏ¸ñ£¬ÏÔÊ¾Ãû×Ö´øtrueword
+											}//æ²¡æœ‰é¢„è®¾å€¼ï¼Œé»˜è®¤æ˜¯OKï¼Œæœ€ç»ˆæ˜¯åˆæ ¼ï¼Œæ˜¾ç¤ºåå­—å¸¦trueword
 											else{
 												hs.put("FINALVALUE", "OK");
 												hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
 												hs.put("DATAVALUE", "True");
 											}
 										}
-							}else//³ı¿ªÊıÖµ£¬ºÍÎÄ±¾
+							}else//é™¤å¼€æ•°å€¼ï¼Œå’Œæ–‡æœ¬
 							{
 								hs.put("FINALVALUE", "OK");
 								hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
@@ -467,7 +467,7 @@ try{
 			@Override
 			public void onClick(View v) {
 				try {
-					String sResult="ºÏ¸ñ";		
+					String sResult="åˆæ ¼";		
 					
 					for(int i=0;i<lsAnalysisTable.size();i++)
 					{
@@ -475,28 +475,28 @@ try{
 						{
 							if(lsAnalysisTable.get(i).get("DISPLAYVALUE").toString().trim().equals(""))
 							{		
-								MESCommon.show(WIP_ANALYSISITEM.this, "ÇëÊäÈë¡¾"+lsAnalysisTable.get(i).get("ITEMALIAS").toString()+"¡¿¼ìÑé½á¹û");				
+								MESCommon.show(WIP_ANALYSISITEM.this, "è¯·è¾“å…¥ã€"+lsAnalysisTable.get(i).get("ITEMALIAS").toString()+"ã€‘æ£€éªŒç»“æœ");				
 								return;
 							}
 						}						
 					}
 
-			 	   if(sResult.equals("²»ºÏ¸ñ"))
+			 	   if(sResult.equals("ä¸åˆæ ¼"))
 					{
 						
-						AlertDialog alert=	new AlertDialog.Builder(WIP_ANALYSISITEM.this).setTitle("È·ÈÏ").setMessage("¼ìÑé²»ºÏ¸ñ,ÊÇ·ñÈ·ÈÏ¼ÌĞø±¨¹¤£¡")
-								.setPositiveButton("È·¶¨",new DialogInterface.OnClickListener() {  
+						AlertDialog alert=	new AlertDialog.Builder(WIP_ANALYSISITEM.this).setTitle("ç¡®è®¤").setMessage("æ£€éªŒä¸åˆæ ¼,æ˜¯å¦ç¡®è®¤ç»§ç»­æŠ¥å·¥ï¼")
+								.setPositiveButton("ç¡®å®š",new DialogInterface.OnClickListener() {  
 				            @Override  
 				            public void onClick(DialogInterface dialog,int which) {  
 				                // TODO Auto-generated method stub  
-				            	Save("²»ºÏ¸ñ", lsAnalysisTable, lsAnalysisData);
-				            	//Ö´ĞĞ×îÖÕÅĞ¶¨
-					            db.FinalSaveData(msAnalysisformsID,msSampletimes,"²»ºÏ¸ñ",MESCommon.UserId ,MESCommon.UserName,"");
-								Toast.makeText(WIP_ANALYSISITEM.this, "´¢´æ³É¹¦!", Toast.LENGTH_SHORT).show();
+				            	Save("ä¸åˆæ ¼", lsAnalysisTable, lsAnalysisData);
+				            	//æ‰§è¡Œæœ€ç»ˆåˆ¤å®š
+					            db.FinalSaveData(msAnalysisformsID,msSampletimes,"ä¸åˆæ ¼",MESCommon.UserId ,MESCommon.UserName,"");
+								Toast.makeText(WIP_ANALYSISITEM.this, "å‚¨å­˜æˆåŠŸ!", Toast.LENGTH_SHORT).show();
 					            Clear();
 				            }  
 				        })  
-						.setNeutralButton("È¡Ïû",new DialogInterface.OnClickListener() {  
+						.setNeutralButton("å–æ¶ˆ",new DialogInterface.OnClickListener() {  
 						            @Override  
 						            public void onClick(DialogInterface dialog,int which) {  
 						                // TODO Auto-generated method stub  
@@ -506,12 +506,12 @@ try{
 					
 					} else
 					{
-						//²åÈë¼ÇÂ¼
+						//æ’å…¥è®°å½•
 					if (InsertPROCESS_STEP_P_ANALYSISITEM()) {
 					 Save(sResult, lsAnalysisTable, lsAnalysisData);
-						//Ö´ĞĞ×îÖÕÅĞ¶¨
+						//æ‰§è¡Œæœ€ç»ˆåˆ¤å®š
 		         	 db.FinalSaveData(msAnalysisformsID,msSampletimes,sResult,MESCommon.UserId ,MESCommon.UserName,"");
-	                  Toast.makeText(WIP_ANALYSISITEM.this, "´¢´æ³É¹¦!", Toast.LENGTH_SHORT).show();		                  
+	                  Toast.makeText(WIP_ANALYSISITEM.this, "å‚¨å­˜æˆåŠŸ!", Toast.LENGTH_SHORT).show();		                  
 	                  Clear();
 					}
 					}		 	   
@@ -543,13 +543,13 @@ try{
 
 
 	public static class wiptrackinpreAdapter extends BaseAdapter {
-		// ÎïÁÏ¼ÇŠá
+		// ç‰©æ–™è®°å¨½
 		private List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
-		// ÓÃÀ´¿ØÖÆCheckBoxµÄÑ¡ÖĞ×´¿ö
+		// ç”¨æ¥æ§åˆ¶CheckBoxçš„é€‰ä¸­çŠ¶å†µ
 		private static HashMap<Integer, Boolean> isSelected;
-		// ÉÏÏÂÎÄ
+		// ä¸Šä¸‹æ–‡
 		private Context context;
-		// ÓÃÀ´µ¼Èë²¼¾Ö
+		// ç”¨æ¥å¯¼å…¥å¸ƒå±€
 		private LayoutInflater inflater = null;
 
 
@@ -568,9 +568,9 @@ try{
 			
 //			if (convertView == null) {
 //				
-				// »ñµÃViewHolder¶ÔÏó
+				// è·å¾—ViewHolderå¯¹è±¡
 				holder = new ViewHolder();
-				// µ¼Èë²¼¾Ö²¢¸³Öµ¸øconvertview
+				// å¯¼å…¥å¸ƒå±€å¹¶èµ‹å€¼ç»™convertview
 				convertView = inflater.inflate(R.layout.activity_wip_painting_end_listview, null);
 				
 				holder.tvAnalySisItem = (TextView) convertView.findViewById(R.id.wippaintingendlv_tvAnalySisItem);
@@ -581,14 +581,14 @@ try{
 				holder.tvFinalValue=(TextView) convertView.findViewById(R.id.wippaintingendlv_tvFinalValue);
 				holder.tvISNeed=(TextView) convertView.findViewById(R.id.wippaintingendlv_tvISNeed);
 				holder.tvISJudge=(TextView) convertView.findViewById(R.id.wippaintingendlv_tvISJudge);
-				// ÎªviewÉèÖÃ±êÇ©
+				// ä¸ºviewè®¾ç½®æ ‡ç­¾
 				convertView.setTag(holder);
 //			} else {
-//				// È¡³öholder
+//				// å–å‡ºholder
 //				holder = (ViewHolder) convertView.getTag();
 //				
 //			}
-			// ÉèÖÃlistÖĞTextViewµÄÏÔÊ¾
+			// è®¾ç½®listä¸­TextViewçš„æ˜¾ç¤º
 			holder.tvAnalySisItem.setText(getItem(position).get("ITEMALIAS").toString());
 			holder.tvValue.setText(getItem(position).get("DISPLAYVALUE").toString());		
 			holder.tvType.setText(getItem(position).get("RESULTTYPE").toString());
@@ -658,7 +658,7 @@ try{
 				LinearLayout tab2_0 = (LinearLayout) findViewById(R.id.wipanalysisitem_tab2_0);
 				LinearLayout tab2_1 = (LinearLayout) findViewById(R.id.wipanalysisitem_tab2_1);
 
-				if (lsAnalysisTable.get(iRow).get("RESULTTYPE").toString().equals("ÊıÖµ")) {
+				if (lsAnalysisTable.get(iRow).get("RESULTTYPE").toString().equals("æ•°å€¼")) {
 					tab2_0.setVisibility(View.VISIBLE);
 					tab2_1.setVisibility(View.INVISIBLE);
 					if(!lsAnalysisTable.get(iRow).get("DATAVALUE").toString().equals(""))
@@ -667,10 +667,10 @@ try{
 					}else{
 					edit.setText((String) lsAnalysisData.get(iRow).get("DEFAULTSVALUE"));}
 					setFocus(edit);		
-				} else if (lsAnalysisTable.get(iRow).get("RESULTTYPE").toString().equals("²¼¶û")) {
+				} else if (lsAnalysisTable.get(iRow).get("RESULTTYPE").toString().equals("å¸ƒå°”")) {
 					tab2_0.setVisibility(View.INVISIBLE);
 					tab2_1.setVisibility(View.VISIBLE);
-					//ÉèÖÃradµÄÏÔÊ¾ĞÅÏ¢
+					//è®¾ç½®radçš„æ˜¾ç¤ºä¿¡æ¯
 
 					rdoOK.setText(lsAnalysisData.get(iRow).get("TRUEWORD").toString());
 					rdoNG.setText(lsAnalysisData.get(iRow).get("FALSEWORD").toString());
@@ -713,7 +713,7 @@ try{
 			 sSQL="";
              if (lsResule_M.size() > 0)
              {
-                 sSQL = "UPDATE ANALYSISRESULT_M SET CHIEFANALYSISUSERID='" +MESCommon.UserId + "', CHIEFANALYSISUSER='" +MESCommon.UserName + "', CHIEFANALYSISTIME=convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) ,ANALYSISJUDGEMENTRESULT='" + sResult + "',DATACOMPLETESTATUS='ÒÑÍê³É',MODIFYUSERID='" + MESCommon.UserId + "', MODIFYUSER='" + MESCommon.UserName + "', MODIFYTIME=convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108)  , TOREMENBER=''  WHERE   ANALYSISFORMSID='" + msAnalysisformsID + "' AND SAMPLETIMES='" + msSampletimes + "' ;";
+                 sSQL = "UPDATE ANALYSISRESULT_M SET CHIEFANALYSISUSERID='" +MESCommon.UserId + "', CHIEFANALYSISUSER='" +MESCommon.UserName + "', CHIEFANALYSISTIME=convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) ,ANALYSISJUDGEMENTRESULT='" + sResult + "',DATACOMPLETESTATUS='å·²å®Œæˆ',MODIFYUSERID='" + MESCommon.UserId + "', MODIFYUSER='" + MESCommon.UserName + "', MODIFYTIME=convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108)  , TOREMENBER=''  WHERE   ANALYSISFORMSID='" + msAnalysisformsID + "' AND SAMPLETIMES='" + msSampletimes + "' ;";
                 
              }
              sSQL = sSQL+ " delete from ANALYSISRESULT_MD where ANALYSISFORMSID='" + msAnalysisformsID + "' and SAMPLETIMES='" + msSampletimes + "' ;";
@@ -732,7 +732,7 @@ try{
          		{
          			sFailureNum="1";
          		}
-         		if(listTemp.get(i).get("RESULTTYPE").toString().equals("ÊıÖµ"))
+         		if(listTemp.get(i).get("RESULTTYPE").toString().equals("æ•°å€¼"))
          		{
          			  sAnalysisAvgvalue=listTemp.get(i).get("DATAVALUE").toString();
                       sAnalysisMaxvalue=listTemp.get(i).get("DATAVALUE").toString();
@@ -755,9 +755,9 @@ try{
          				"'1'," + "'" + listTemp.get(i).get("DATAVALUE").toString().trim() + "'," + "'" + MESCommon.UserId + "'," + "'" + MESCommon.UserName + "',convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) );";
          		 db.ExecuteSQL(sSQL);
 			}
-         	//Ö´ĞĞ×îÖÕÅĞ¶¨
+         	//æ‰§è¡Œæœ€ç»ˆåˆ¤å®š
          	 db.FinalSaveData(msAnalysisformsID,msSampletimes,sResult,MESCommon.UserId ,MESCommon.UserName,"");
-         	 Toast.makeText(WIP_ANALYSISITEM.this, "±¨¹¤Íê³É!", Toast.LENGTH_SHORT).show();
+         	 Toast.makeText(WIP_ANALYSISITEM.this, "æŠ¥å·¥å®Œæˆ!", Toast.LENGTH_SHORT).show();
              
             
 		} catch (Exception e) {
@@ -839,7 +839,7 @@ try{
 
 	}
 	
-	//´Ë·½·¨Ö»ÊÇ¹Ø±ÕÈí¼üÅÌ
+	//æ­¤æ–¹æ³•åªæ˜¯å…³é—­è½¯é”®ç›˜
 	private void hintKbTwo() {
 		 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);			 
 		 if(imm.isActive()&&getCurrentFocus()!=null){

@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -89,12 +89,12 @@ public class WIP_BarCode_Update extends Activity {
 			msOrderID = "", msPRODUCTID = "",msOrderType="",msCOMPIDSEQ="",msBomflag="";
 	static int miRowNum = 0;
 	int miQty = 0;
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	private List<HashMap<String, String>> lsuser = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsCompID = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsCompTable = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsProcess = new ArrayList<HashMap<String, String>>();
-	List<HashMap<String, String>> mlsDetail = new ArrayList<HashMap<String, String>>();	//ÎïÁÏÃ÷Ï¸
+	List<HashMap<String, String>> mlsDetail = new ArrayList<HashMap<String, String>>();	//ç‰©æ–™æ˜ç»†
 	List<HashMap<String, String>> mls = new ArrayList<HashMap<String, String>>();
 	List<HashMap<String, String>> lscheckSDDL = new ArrayList<HashMap<String, String>>();
 	SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -110,9 +110,9 @@ public class WIP_BarCode_Update extends Activity {
 		prefercesService = new PrefercesService(this);
 		params = prefercesService.getPreferences();
 		ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle("±¨¹¤ÈËÔ±£º" + MESCommon.UserName);
+		actionBar.setSubtitle("æŠ¥å·¥äººå‘˜ï¼š" + MESCommon.UserName);
 		actionBar.setTitle(params.get("StepName"));
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 
 		editInput = (EditText) findViewById(R.id.wipbarcode_tvInput);
 		editPlanTime = (EditText) findViewById(R.id.wipbarcode_tvPlanTime);
@@ -146,12 +146,12 @@ public class WIP_BarCode_Update extends Activity {
     	editSerialnumberIDTwo.setVisibility(8);
 
 		String date = sDateFormatShort.format(new java.util.Date());
-		// ¶ÁÈ¡±¨¹¤ÈËÔ±
+		// è¯»å–æŠ¥å·¥äººå‘˜
 		String sSql = "SELECT DISTINCT PROCESSUSERID, PROCESSUSER FROM EQP_RESULT_USER WHERE EQPID ='"
 				+ params.get("EQPID")
 				+ "' AND ISNULL(WORKDATE,'')='"
 				+ date
-				+ "' AND ISNULL(LOGINTIME,'')!='' AND  ISNULL (LOGOUTTIME,'')=''   AND ISNULL(STATUS,'')<>'ÒÑÉ¾³ı' AND (PROCESSUSERID='"+ MESCommon.UserId + "' OR PROCESSUSERID='"+ MESCommon.UserId.toUpperCase()+"') ";
+				+ "' AND ISNULL(LOGINTIME,'')!='' AND  ISNULL (LOGOUTTIME,'')=''   AND ISNULL(STATUS,'')<>'å·²åˆ é™¤' AND (PROCESSUSERID='"+ MESCommon.UserId + "' OR PROCESSUSERID='"+ MESCommon.UserId.toUpperCase()+"') ";
 		String sResult = db.GetData(sSql, lsuser);
 		if (sResult != "") {
 			MESCommon.showMessage(WIP_BarCode_Update.this, sResult);
@@ -159,22 +159,22 @@ public class WIP_BarCode_Update extends Activity {
 		}
 
 		if (lsuser.size() == 0) {
-			MESCommon.showMessage(WIP_BarCode_Update.this, "ÇëÏÈ½øĞĞÈËÔ±Éè±¸±¨¹¤£¡");
+			MESCommon.showMessage(WIP_BarCode_Update.this, "è¯·å…ˆè¿›è¡Œäººå‘˜è®¾å¤‡æŠ¥å·¥ï¼");
 
 		}
-		 if(!params.get("StepID").contains("·¢ÁÏ") &&!params.get("StepID").contains("ÁìÁÏ"))
+		 if(!params.get("StepID").contains("å‘æ–™") &&!params.get("StepID").contains("é¢†æ–™"))
 		 {
-			 MESCommon.show(WIP_BarCode_Update.this, "µ±Ç°¹¤Õ¾²»Îª·¢ÁÏÕ¾£¬Çëµ÷ÕûºóÔÙ½øĞĞ·¢ÁÏ×÷Òµ£¡£¡");
+			 MESCommon.show(WIP_BarCode_Update.this, "å½“å‰å·¥ç«™ä¸ä¸ºå‘æ–™ç«™ï¼Œè¯·è°ƒæ•´åå†è¿›è¡Œå‘æ–™ä½œä¸šï¼ï¼");
 		 }
-			//»¬¿éÕ¾ĞèÒª¿´»¬¿é
-			if (params.get("StepName").contains("»úÌå") && !params.get("StepName").contains("P»ú"))
-			{   //0,ÏÔÊ¾£»
+			//æ»‘å—ç«™éœ€è¦çœ‹æ»‘å—
+			if (params.get("StepName").contains("æœºä½“") && !params.get("StepName").contains("Pæœº"))
+			{   //0,æ˜¾ç¤ºï¼›
 				cksd.setVisibility(0);
 				ckdl.setVisibility(0);
 				ckfl.setVisibility(0);
 		    	lv.getLayoutParams().height=270;
 			}else {
-				//8,²»ÏÔÊ¾£¬²»Õ¼Î»ÖÃ
+				//8,ä¸æ˜¾ç¤ºï¼Œä¸å ä½ç½®
 				cksd.setVisibility(8);
 				ckdl.setVisibility(8);
 				ckfl.setVisibility(8);
@@ -183,20 +183,20 @@ public class WIP_BarCode_Update extends Activity {
 		 setFocus(editInput);
 
 		// ***********************************************Start
-		// ¿Ø¼şÊÂ¼ş
+		// æ§ä»¶äº‹ä»¶
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				// È¡µÃViewHolder¶ÔÏó£¬ÕâÑù¾ÍÊ¡È¥ÁËÍ¨¹ı²ã²ãµÄfindViewByIdÈ¥ÊµÀı»¯ÎÒÃÇĞèÒªµÄcbÊµÀıµÄ²½Öè
+				// å–å¾—ViewHolderå¯¹è±¡ï¼Œè¿™æ ·å°±çœå»äº†é€šè¿‡å±‚å±‚çš„findViewByIdå»å®ä¾‹åŒ–æˆ‘ä»¬éœ€è¦çš„cbå®ä¾‹çš„æ­¥éª¤
 				WIPBarcodeAdapter.ViewHolder holder = (WIPBarcodeAdapter.ViewHolder) arg1
 						.getTag();
-				// ¸Ä±äCheckBoxµÄ×´Ì¬
+				// æ”¹å˜CheckBoxçš„çŠ¶æ€
 				holder.cb.toggle();
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 				WIPBarcodeAdapter.getIsSelected().put(position,
 						holder.cb.isChecked());
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 				if (holder.cb.isChecked()) {
 					lsCompTable.get(position).put("CHECKFLAG", "Y");
 				} else {
@@ -213,16 +213,16 @@ public class WIP_BarCode_Update extends Activity {
                 if(isChecked){ 
                 	ckdl.setChecked(false);
                 	ckfl.setEnabled(true);
-                	tvOne.setText("Ò»¶Î»úÌå");
+                	tvOne.setText("ä¸€æ®µæœºä½“");
                 	tvTwo.setVisibility(0);
                 	editSerialnumberIDTwo.setVisibility(0);
                 	lv.getLayoutParams().height=210;
-                	//Ò»dipÏàµ±ÓÚ2µÄºó¶ËÉè¶¨
-                	Toast.makeText(WIP_BarCode_Update.this, "È·ÈÏÒ»¶Î/¶ş¶Î»úÒÑ¾­×é×°Íê³É!",Toast.LENGTH_SHORT).show();
+                	//ä¸€dipç›¸å½“äº2çš„åç«¯è®¾å®š
+                	Toast.makeText(WIP_BarCode_Update.this, "ç¡®è®¤ä¸€æ®µ/äºŒæ®µæœºå·²ç»ç»„è£…å®Œæˆ!",Toast.LENGTH_SHORT).show();
                 }else {
           		ckfl.setEnabled(false);
               	ckfl.setChecked(false);
-              	tvOne.setText("»ú¿ÇÌõÂë");
+              	tvOne.setText("æœºå£³æ¡ç ");
             	tvTwo.setVisibility(8);
             	    editProductCompid.setText("");
 					editSerialnumberID.setText("");
@@ -242,11 +242,11 @@ public class WIP_BarCode_Update extends Activity {
             	  if(isChecked){ 
                   	cksd.setChecked(false);
                   	ckfl.setEnabled(true);
-                 	tvOne.setText("Ò»¶Î»úÌå");
+                 	tvOne.setText("ä¸€æ®µæœºä½“");
                   }else {
             		ckfl.setEnabled(false);
                 	ckfl.setChecked(false);
-                   	tvOne.setText("»ú¿ÇÌõÂë");
+                   	tvOne.setText("æœºå£³æ¡ç ");
                     editProductCompid.setText("");
 					editSerialnumberID.setText("");
 					editSerialnumberIDTwo.setText("");	
@@ -276,42 +276,42 @@ public class WIP_BarCode_Update extends Activity {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER
 						&& event.getAction() == KeyEvent.ACTION_DOWN) {
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 					try {						
 					
 					EditText txtInput = (EditText) findViewById(R.id.wipbarcode_tvInput);
 					String strCompID = txtInput.getText().toString().trim().toUpperCase();
 					editInput.setText(strCompID);
 					if (lsuser.size() == 0) {
-						MESCommon.showMessage(WIP_BarCode_Update.this,"ÇëÏÈ½øĞĞÈËÔ±Éè±¸±¨¹¤£¡");
+						MESCommon.showMessage(WIP_BarCode_Update.this,"è¯·å…ˆè¿›è¡Œäººå‘˜è®¾å¤‡æŠ¥å·¥ï¼");
 						return false;
 					}
-					 if(!params.get("StepID").contains("·¢ÁÏ") &&!params.get("StepID").contains("ÁìÁÏ"))
+					 if(!params.get("StepID").contains("å‘æ–™") &&!params.get("StepID").contains("é¢†æ–™"))
 					 {
-						 MESCommon.show(WIP_BarCode_Update.this, "µ±Ç°¹¤Õ¾²»Îª·¢ÁÏÕ¾£¬Çëµ÷ÕûºóÔÙ½øĞĞ·¢ÁÏ×÷Òµ£¡£¡");
+						 MESCommon.show(WIP_BarCode_Update.this, "å½“å‰å·¥ç«™ä¸ä¸ºå‘æ–™ç«™ï¼Œè¯·è°ƒæ•´åå†è¿›è¡Œå‘æ–™ä½œä¸šï¼ï¼");
 							editInput.setText("");
 							setFocus(editInput);
 					     return false;
 					 }
 
 					if (strCompID.length() == 0) {
-						MESCommon.show(WIP_BarCode_Update.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(WIP_BarCode_Update.this, "è¯·æ‰«ææ¡ç !");
 						txtInput.setText("");
 						return false;
 					}					
-					// °ó¶¨ÖÆÔìºÅÂë£»
+					// ç»‘å®šåˆ¶é€ å·ç ï¼›
 					if (editProductCompid.getText().toString().equals("")) {
 
 						for (int i = 0; i < lsCompTable.size(); i++) {
 							if (lsCompTable.get(i).get("ProductCompID").toString().equals(txtInput.getText().toString().trim())) {
-								MESCommon.show(WIP_BarCode_Update.this, "ÖÆÔìºÅÂë["+ txtInput.getText().toString().trim()+ "] ÒÑÔÚÇåµ¥ÖĞ,ÇëÑ¡ÔñĞÂµÄÖÆÔìºÅÂë!");
+								MESCommon.show(WIP_BarCode_Update.this, "åˆ¶é€ å·ç ["+ txtInput.getText().toString().trim()+ "] å·²åœ¨æ¸…å•ä¸­,è¯·é€‰æ‹©æ–°çš„åˆ¶é€ å·ç !");
 								editInput.setText("");
 								setFocus(editInput);
 								return false;
 							}
 
 						}
-                        //²éºËÖÆÁîÊÇ·ñÏÂÏß
+                        //æŸ¥æ ¸åˆ¶ä»¤æ˜¯å¦ä¸‹çº¿
 						String sError = CheckProductOrder(editInput.getText().toString());
 						if (!sError.equals("")) {
 							MESCommon.show(WIP_BarCode_Update.this, sError);
@@ -322,7 +322,7 @@ public class WIP_BarCode_Update extends Activity {
 						
 						List<HashMap<String, String>> lsPlan = new ArrayList<HashMap<String, String>>();
 						lsPlan.clear();
-						String sSQL = "SELECT  A.PRODUCTORDERID,A.PRODUCTCOMPID, B.PRODUCTTIME,B.PRODUCTORDERTYPE   FROM PROCESS A  INNER JOIN PROCESS_PRE B ON A.PRODUCTORDERID=B.PRODUCTORDERID AND A.PROCESSSTATUS<>'ÒÑÍê³É'  WHERE A.PRODUCTCOMPID='"+editInput.getText().toString()+"'  ";
+						String sSQL = "SELECT  A.PRODUCTORDERID,A.PRODUCTCOMPID, B.PRODUCTTIME,B.PRODUCTORDERTYPE   FROM PROCESS A  INNER JOIN PROCESS_PRE B ON A.PRODUCTORDERID=B.PRODUCTORDERID AND A.PROCESSSTATUS<>'å·²å®Œæˆ'  WHERE A.PRODUCTCOMPID='"+editInput.getText().toString()+"'  ";
 						sError = db.GetData(sSQL, lsPlan);
 						if (!sError.equals("")) {
 							MESCommon.show(WIP_BarCode_Update.this, sError);
@@ -337,7 +337,7 @@ public class WIP_BarCode_Update extends Activity {
 							msOrderType=lsPlan.get(0).get("PRODUCTORDERTYPE").toString();
 							
 						}
-						//²éºËÉú¹ÜÊÇ·ñÉè¶¨»ú¿ÇÖ÷ÁÏ
+						//æŸ¥æ ¸ç”Ÿç®¡æ˜¯å¦è®¾å®šæœºå£³ä¸»æ–™
 						sError = CheckProductCOMP(editInput.getText().toString());
 						if (!sError.equals("")) {
 							MESCommon.show(WIP_BarCode_Update.this, sError);
@@ -354,7 +354,7 @@ public class WIP_BarCode_Update extends Activity {
 						editInput.setText("");
 
 					}
-					// °ó¶¨»ú¿Ç/ÖÆÔìºÅÂë£¬Ë«¶Î»òÕß¶¯Á¦¡£ĞèÒª°ó¶¨ÖÆÔìºÅÂë
+					// ç»‘å®šæœºå£³/åˆ¶é€ å·ç ï¼ŒåŒæ®µæˆ–è€…åŠ¨åŠ›ã€‚éœ€è¦ç»‘å®šåˆ¶é€ å·ç 
 					else {
 						if(!ckfl .isChecked())
 						{
@@ -364,10 +364,10 @@ public class WIP_BarCode_Update extends Activity {
 							lscheckSDDL.clear();
 							if(cksd.isChecked()||ckdl.isChecked())
 							{
-							   //²éºËË«¶ÎµÄ°ó¶¨ĞÅÏ¢¡£
+							   //æŸ¥æ ¸åŒæ®µçš„ç»‘å®šä¿¡æ¯ã€‚
 							
-								//20170823ÒòÎªË«¶Î»ú¸Ä±äÁËÉú²ú¹¤ÒÕ£¬»á°ÑÒ»¶Î¶ş¶Î»úÌåÁÏÍ¬Ê±·¢ÏÂÈ¥£¬×éÖ¯ºóÔÚºÏ³ÉË«¶Î»ú¡£Ò²ÓĞ¿â´æµÄ»úÍ·ĞèÒªË¢¡£
-								//Ö»È¥seqºÍPRODUCTCOMPID
+								//20170823å› ä¸ºåŒæ®µæœºæ”¹å˜äº†ç”Ÿäº§å·¥è‰ºï¼Œä¼šæŠŠä¸€æ®µäºŒæ®µæœºä½“æ–™åŒæ—¶å‘ä¸‹å»ï¼Œç»„ç»‡ååœ¨åˆæˆåŒæ®µæœºã€‚ä¹Ÿæœ‰åº“å­˜çš„æœºå¤´éœ€è¦åˆ·ã€‚
+								//åªå»seqå’ŒPRODUCTCOMPID
 								String sSQL = "SELECT * FROM STKCOMP  WHERE PRODUCTCOMPID='"+editInput.getText().toString().toUpperCase()+"'  OR COMPIDSEQ= '"+editInput.getText().toString().toUpperCase()+"'  ";
 								String sError = db.GetData(sSQL, lscheckSDDL);
 								if(!sError.equals(""))
@@ -381,20 +381,20 @@ public class WIP_BarCode_Update extends Activity {
 								{
 									if(!lscheckSDDL.get(0).get("COMPID3").toString().equals(""))
 									{
-									    MESCommon.show(WIP_BarCode_Update.this, "ÌõÂë:¡¾"+editInput.getText().toString().toUpperCase()+"¡¿,ÒÑ¾­±»Ë«¶Î/¶¯Á¦:¡¾"+lscheckSDDL.get(0).get("COMPID3").toString()+"¡¿°ó¶¨£¡");
+									    MESCommon.show(WIP_BarCode_Update.this, "æ¡ç :ã€"+editInput.getText().toString().toUpperCase()+"ã€‘,å·²ç»è¢«åŒæ®µ/åŠ¨åŠ›:ã€"+lscheckSDDL.get(0).get("COMPID3").toString()+"ã€‘ç»‘å®šï¼");
 										editInput.setText("");
 										setFocus(editInput);
 										return false;
 									}
-									//ÖÆÔìºÅÂëÀ¸Î»²»Îª¿Õ,²¢ÇÒµÈÓÚÖÆÔìºÅÂë£¬Ö¤Ã÷Ë¢ÈëµÄÊÇ»úÌåÖÆÔìºÅÂë
+									//åˆ¶é€ å·ç æ ä½ä¸ä¸ºç©º,å¹¶ä¸”ç­‰äºåˆ¶é€ å·ç ï¼Œè¯æ˜åˆ·å…¥çš„æ˜¯æœºä½“åˆ¶é€ å·ç 
 									if(!lscheckSDDL.get(0).get("PRODUCTCOMPID").toString().equals("")&&lscheckSDDL.get(0).get("PRODUCTCOMPID").toString().equals(editInput.getText().toString().toUpperCase()))
 									{
 										sNumString=lscheckSDDL.get(0).get("PRODUCTCOMPID").toString();
 										
 									}
 									else  if(!lscheckSDDL.get(0).get("PRODUCTCOMPID").toString().equals("")&&!lscheckSDDL.get(0).get("PRODUCTCOMPID").toString().equals(lscheckSDDL.get(0).get("COMPID2").toString()))
-									{//ÕâÖÖÇé¿ö¿Ï¶¨ÊÇË¢ÈëÁË»ú¿ÇÌõÂë¡£²¢ÇÒ°ó¶¨ÁËÒ»¸öÕû»úÁË¡£
-										MESCommon.show(WIP_BarCode_Update.this, "»ú¿ÇÌõÂë:¡¾"+editInput.getText().toString().toUpperCase()+"¡¿,ÒÑ¾­±»¡¾"+lscheckSDDL.get(0).get("PRODUCTCOMPID").toString()+"¡¿ °ó¶¨£¬ÇëÈ·ÈÏ£¡£¡");
+									{//è¿™ç§æƒ…å†µè‚¯å®šæ˜¯åˆ·å…¥äº†æœºå£³æ¡ç ã€‚å¹¶ä¸”ç»‘å®šäº†ä¸€ä¸ªæ•´æœºäº†ã€‚
+										MESCommon.show(WIP_BarCode_Update.this, "æœºå£³æ¡ç :ã€"+editInput.getText().toString().toUpperCase()+"ã€‘,å·²ç»è¢«ã€"+lscheckSDDL.get(0).get("PRODUCTCOMPID").toString()+"ã€‘ ç»‘å®šï¼Œè¯·ç¡®è®¤ï¼ï¼");
 										editInput.setText("");
 										setFocus(editInput);
 										return false;
@@ -405,15 +405,15 @@ public class WIP_BarCode_Update extends Activity {
 									}
 								}else
 								{
-								    MESCommon.show(WIP_BarCode_Update.this, "ÌõÂë:¡¾"+editInput.getText().toString().toUpperCase()+"¡¿,ÔÚÏµÍ³ÖĞÎŞ¼ÇÂ¼£¬ÌõÂëÖ»ÄÜÊÇÖÆÔìºÅÂë£¬»òÕßÌõÂë±àºÅ£¡");
+								    MESCommon.show(WIP_BarCode_Update.this, "æ¡ç :ã€"+editInput.getText().toString().toUpperCase()+"ã€‘,åœ¨ç³»ç»Ÿä¸­æ— è®°å½•ï¼Œæ¡ç åªèƒ½æ˜¯åˆ¶é€ å·ç ï¼Œæˆ–è€…æ¡ç ç¼–å·ï¼");
 									editInput.setText("");
 									setFocus(editInput);
 									return false;
 								} 
 							}
-							//Ò»°ã·¢ÁÏ
+							//ä¸€èˆ¬å‘æ–™
 							else {
-							   sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim().toUpperCase(), "", "", "QF","Áã²¿¼ş","×°Åä",  lsCompID);
+							   sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim().toUpperCase(), "", "", "QF","é›¶éƒ¨ä»¶","è£…é…",  lsCompID);
 							   if (!sResult.equals("")) {
 									MESCommon.show(WIP_BarCode_Update.this, sResult);
 									editInput.setText("");
@@ -428,7 +428,7 @@ public class WIP_BarCode_Update extends Activity {
 							}
 							 for (int i = 0; i < lsCompTable.size(); i++) {
 									if (lsCompTable.get(i).get("Serialnumber").toString().equals(sNumString)) {
-										MESCommon.show(WIP_BarCode_Update.this, "ÌõÂë["+ txtInput.getText().toString().trim()+ "] ÒÑÔÚÇåµ¥ÖĞ,ÇëÈ·ÈÏ!");
+										MESCommon.show(WIP_BarCode_Update.this, "æ¡ç ["+ txtInput.getText().toString().trim()+ "] å·²åœ¨æ¸…å•ä¸­,è¯·ç¡®è®¤!");
 										editInput.setText("");
 										setFocus(editInput);
 										return false;
@@ -438,10 +438,10 @@ public class WIP_BarCode_Update extends Activity {
 							String	sError="";
 							if(!cksd.isChecked()&&!ckdl.isChecked())
 							{
-								//Ò»°ã»ú²éºËÖ÷ÁÏÊÇ·ñÒ»ÖÂ
-								//²éºË»ú¿ÇÊÇ·ñÓëÉú¹ÜÉè¶¨µÄÖ÷ÁÏÒ»ÖÂ,ÊÇ·ñ°ó¶¨¹ıÖÆÔìºÅÂë£¡
+								//ä¸€èˆ¬æœºæŸ¥æ ¸ä¸»æ–™æ˜¯å¦ä¸€è‡´
+								//æŸ¥æ ¸æœºå£³æ˜¯å¦ä¸ç”Ÿç®¡è®¾å®šçš„ä¸»æ–™ä¸€è‡´,æ˜¯å¦ç»‘å®šè¿‡åˆ¶é€ å·ç ï¼
 								if (msPROCESS_PRODUCTID.equals("")) {
-									MESCommon.show(WIP_BarCode_Update.this,  "ÖÆÔìºÅÂë£¬Ã»ÓĞÉè¶¨»ú¿ÇÖ÷ÁÏ£¡");
+									MESCommon.show(WIP_BarCode_Update.this,  "åˆ¶é€ å·ç ï¼Œæ²¡æœ‰è®¾å®šæœºå£³ä¸»æ–™ï¼");
 									return false;
 								}
 								
@@ -450,8 +450,8 @@ public class WIP_BarCode_Update extends Activity {
 							if (!sError.equals("")) 
 							{
 
-								 AlertDialog alert=	new AlertDialog.Builder(WIP_BarCode_Update.this).setTitle("È·ÈÏ").setMessage(sError)
-											.setPositiveButton("¼ÓÈë",new DialogInterface.OnClickListener() {  
+								 AlertDialog alert=	new AlertDialog.Builder(WIP_BarCode_Update.this).setTitle("ç¡®è®¤").setMessage(sError)
+											.setPositiveButton("åŠ å…¥",new DialogInterface.OnClickListener() {  
 							            @Override  
 							            public void onClick(DialogInterface dialog,int which) {  
 							                // TODO Auto-generated method stub  
@@ -481,7 +481,7 @@ public class WIP_BarCode_Update extends Activity {
 											}
 							            }  
 							        })  
-									.setNeutralButton("È¡Ïû",new DialogInterface.OnClickListener() {  
+									.setNeutralButton("å–æ¶ˆ",new DialogInterface.OnClickListener() {  
 									            @Override  
 									            public void onClick(DialogInterface dialog,int which) {  
 									                // TODO Auto-generated method stub  
@@ -490,7 +490,7 @@ public class WIP_BarCode_Update extends Activity {
 									 }).show();  
 						
 							}	
-							//²éºËÒ»ÖÂ
+							//æŸ¥æ ¸ä¸€è‡´
 							else 
 							{
 								if(cksd.isChecked())
@@ -559,7 +559,7 @@ public class WIP_BarCode_Update extends Activity {
 					
 					String sLastProductCompid="";
 					if (lsCompTable.size() <= 0) {
-						MESCommon.show(WIP_BarCode_Update.this, "ÇëÏÈÉ¨ÃèÌõÂëÔÚ½øĞĞ±¨¹¤£¡");
+						MESCommon.show(WIP_BarCode_Update.this, "è¯·å…ˆæ‰«ææ¡ç åœ¨è¿›è¡ŒæŠ¥å·¥ï¼");
 						return;
 					}				
 					for (int i = 0; i < lsCompTable.size(); i++)
@@ -571,7 +571,7 @@ public class WIP_BarCode_Update extends Activity {
 							finish();
 						}
 						if (lsProcess.size() == 0) {
-							MESCommon.showMessage(WIP_BarCode_Update.this,	"ÖÆÔìºÅÂë£º¡¾"+ lsCompTable.get(i).get("ProductCompID").toString()+ "¡¿,Ã»ÓĞÉè¶¨Éú²ú¹¤ÒÕÁ÷³Ì");
+							MESCommon.showMessage(WIP_BarCode_Update.this,	"åˆ¶é€ å·ç ï¼šã€"+ lsCompTable.get(i).get("ProductCompID").toString()+ "ã€‘,æ²¡æœ‰è®¾å®šç”Ÿäº§å·¥è‰ºæµç¨‹");
 							return;
 						}
 						String sProductOrderid=lsProcess.get(0).get("PRODUCTORDERID").toString();
@@ -580,11 +580,11 @@ public class WIP_BarCode_Update extends Activity {
 						String sStepId = lsProcess.get(0).get("STEPID").toString();
 						String sEqpId =params.get("EQPID").toString();
 						String sStepSEQ = lsProcess.get(0).get("STEPSEQ").toString();						
-						//²»ĞèÒªÅĞ¶¨ÊÇ²»ÊÇÖØ¹¤ÖÆÁî£¬¶¼Òª·¢ÁÏ£¬¹ıÕ¾
-                        if(sStepId.equals("»úÌåÁìÁÏÕ¾") || sStepId.equals("ÀäÃ½ÁìÁÏÕ¾") || sStepId.equals("P»úÌåÁìÁÏÕ¾") || sStepId.equals("P»ú×éÁìÁÏÕ¾"))
+						//ä¸éœ€è¦åˆ¤å®šæ˜¯ä¸æ˜¯é‡å·¥åˆ¶ä»¤ï¼Œéƒ½è¦å‘æ–™ï¼Œè¿‡ç«™
+                        if(sStepId.equals("æœºä½“é¢†æ–™ç«™") || sStepId.equals("å†·åª’é¢†æ–™ç«™") || sStepId.equals("Pæœºä½“é¢†æ–™ç«™") || sStepId.equals("Pæœºç»„é¢†æ–™ç«™"))
                         {			
                         	String sSerialnumberID="";
-                        	//¿â´æÖ±½Ó·¢ÁÏY,
+                        	//åº“å­˜ç›´æ¥å‘æ–™Y,
                         	if(lsCompTable.get(i).get("ZJFL").toString().equals("Y"))
                         	{	
                         		List<HashMap<String, String>> lsSysid = new ArrayList<HashMap<String, String>>();
@@ -638,7 +638,7 @@ public class WIP_BarCode_Update extends Activity {
 								return;
 							}
 							else {
-								//Ö»ÓĞ²»ÊÇË«¶Î»òÕß¶¯Á¦µÄ²Å½øĞĞ»ú¿ÇµÄ³ö¿â¼ÇÂ¼
+								//åªæœ‰ä¸æ˜¯åŒæ®µæˆ–è€…åŠ¨åŠ›çš„æ‰è¿›è¡Œæœºå£³çš„å‡ºåº“è®°å½•
 								if(	!lsCompTable.get(i).get("SDDL").toString().equals("Y"))
 								{
 									sResult = GetScanInfo(lsCompTable.get(i).get("SerialnumberID").toString());									
@@ -647,10 +647,10 @@ public class WIP_BarCode_Update extends Activity {
 							sLastProductCompid=sProductCompId;
 						}
                         else 
-                        {	//Ë«¶Î»òÕß½â°óºóÖØĞÂ°ó¶¨£¬¶¼»á´æÔÚ¹¤Ğò²»ÔÚÁìÁÏÕ¾¡£	
+                        {	//åŒæ®µæˆ–è€…è§£ç»‘åé‡æ–°ç»‘å®šï¼Œéƒ½ä¼šå­˜åœ¨å·¥åºä¸åœ¨é¢†æ–™ç«™ã€‚	
                         	String sSql="";
 
-    							//ÖÆÔìºÅÂëÒÑ¹ıÕ¾£¬ÖØĞÂ°ó¶¨ĞÂµÄ»ú¿ÇÊ±ºòÖ»ĞèÒª°ó¶¨¼´¿É£¡
+    							//åˆ¶é€ å·ç å·²è¿‡ç«™ï¼Œé‡æ–°ç»‘å®šæ–°çš„æœºå£³æ—¶å€™åªéœ€è¦ç»‘å®šå³å¯ï¼
                         	   if(lsCompTable.get(i).get("SDDL").toString().equals("Y"))
                             	{
     								sSql = "UPDATE STKCOMP SET COMPID3='"+ sProductCompId+ "' WHERE PRODUCTCOMPID='"+ lsCompTable.get(i).get("SerialnumberID").toString() + "'  ; UPDATE STKCOMP SET COMPID3='"+ sProductCompId+ "' WHERE COMPIDSEQ='"+ lsCompTable.get(i).get("SerialnumberID").toString() + "'  ;";
@@ -662,7 +662,7 @@ public class WIP_BarCode_Update extends Activity {
                             	}
 							
                         	
-				            //¸üĞÂCOMPID3Ã»³É¹¦£¡
+				            //æ›´æ–°COMPID3æ²¡æˆåŠŸï¼
 							if (!sResult.equals("")) 
 							{
 								  if(lsCompTable.get(i).get("SDDL").toString().equals("Y"))
@@ -676,10 +676,10 @@ public class WIP_BarCode_Update extends Activity {
 								MESCommon.show(WIP_BarCode_Update.this, sResult);
 								return;
 							}
-							//°ó¶¨·¢ÁÏ³É¹¦ºó¼ÓÈë³ö¿â×÷Òµ¿ÛÕÊÂß¼­
+							//ç»‘å®šå‘æ–™æˆåŠŸååŠ å…¥å‡ºåº“ä½œä¸šæ‰£å¸é€»è¾‘
 							else 
 							{
-								//Ö»ÓĞ²»ÊÇË«¶Î»òÕß¶¯Á¦µÄ²Å½øĞĞ»ú¿ÇµÄ³ö¿â¼ÇÂ¼
+								//åªæœ‰ä¸æ˜¯åŒæ®µæˆ–è€…åŠ¨åŠ›çš„æ‰è¿›è¡Œæœºå£³çš„å‡ºåº“è®°å½•
 								if(	!lsCompTable.get(i).get("SDDL").toString().equals("Y"))
 								{
 									sResult = GetScanInfo(lsCompTable.get(i).get("SerialnumberID").toString());									
@@ -687,7 +687,7 @@ public class WIP_BarCode_Update extends Activity {
 							}
 						}
 					
-                    	if(lsCompTable.get(i).get("OrderType").toString() .equals("Ò»°ãÖÆÁî")){
+                    	if(lsCompTable.get(i).get("OrderType").toString() .equals("ä¸€èˆ¬åˆ¶ä»¤")){
                            	sResult=InsertSTEP_P(lsCompTable, i, sProductOrderid,sProductCompId,sProductId,sStepId,sStepSEQ,sEqpId);
 						}
 						if (!sResult.equals("")) 
@@ -697,7 +697,7 @@ public class WIP_BarCode_Update extends Activity {
 						}
 				    }
 						
-					Toast.makeText(WIP_BarCode_Update.this, "·¢ÁÏ³É¹¦!",Toast.LENGTH_SHORT).show();
+					Toast.makeText(WIP_BarCode_Update.this, "å‘æ–™æˆåŠŸ!",Toast.LENGTH_SHORT).show();
 					Clear();
 
 				} catch (Exception e) {
@@ -723,7 +723,7 @@ public class WIP_BarCode_Update extends Activity {
 							lsCompTableCopy.add(lsCompTable.get(i));
 						}
 						if (!isSelect) {
-							MESCommon.show(WIP_BarCode_Update.this,	"ÇëÑ¡ÔñÒªÉ¾³ıµÄÁã²¿¼ş");
+							MESCommon.show(WIP_BarCode_Update.this,	"è¯·é€‰æ‹©è¦åˆ é™¤çš„é›¶éƒ¨ä»¶");
 							return;
 						}
 						for (int i = lsCompTableCopy.size() - 1; i >= 0; i--) {
@@ -827,13 +827,13 @@ public class WIP_BarCode_Update extends Activity {
 	}
 
 	public static class WIPBarcodeAdapter extends BaseAdapter {
-		// ÎïÁÏ¼ÇŠá
+		// ç‰©æ–™è®°å¨½
 		private List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
-		// ÓÃÀ´¿ØÖÆCheckBoxµÄÑ¡ÖĞ×´¿ö
+		// ç”¨æ¥æ§åˆ¶CheckBoxçš„é€‰ä¸­çŠ¶å†µ
 		private static HashMap<Integer, Boolean> isSelected;
-		// ÉÏÏÂÎÄ
+		// ä¸Šä¸‹æ–‡
 		private Context context;
-		// ÓÃÀ´µ¼Èë²¼¾Ö
+		// ç”¨æ¥å¯¼å…¥å¸ƒå±€
 		private LayoutInflater inflater = null;
 		int iPosition = -1;
 
@@ -843,11 +843,11 @@ public class WIP_BarCode_Update extends Activity {
 			this.context = context;
 			inflater = LayoutInflater.from(context);
 			isSelected = new HashMap<Integer, Boolean>();
-			// ³õÊ¼»¯Êı¾İ
+			// åˆå§‹åŒ–æ•°æ®
 			initData();
 		}
 
-		// ³õÊ¼»¯isSelectedµÄÊı¾İ
+		// åˆå§‹åŒ–isSelectedçš„æ•°æ®
 		private void initData() {
 			for (int i = 0; i < items.size(); i++) {
 				getIsSelected().put(i, false);
@@ -861,9 +861,9 @@ public class WIP_BarCode_Update extends Activity {
 			ViewHolder holder = null;
 			miRowNum = position;
 			if (convertView == null) {
-				// »ñµÃViewHolder¶ÔÏó
+				// è·å¾—ViewHolderå¯¹è±¡
 				holder = new ViewHolder();
-				// µ¼Èë²¼¾Ö²¢¸³Öµ¸øconvertview
+				// å¯¼å…¥å¸ƒå±€å¹¶èµ‹å€¼ç»™convertview
 				convertView = inflater.inflate(
 						R.layout.activity_wip_barcode_listview, null);
 				holder.cb = (CheckBox) convertView
@@ -873,25 +873,25 @@ public class WIP_BarCode_Update extends Activity {
 				holder.tvSerialnumber = (TextView) convertView
 						.findViewById(R.id.wipbarcodelv_tvSerialnumber);
 
-				// ÎªviewÉèÖÃ±êÇ©
+				// ä¸ºviewè®¾ç½®æ ‡ç­¾
 				convertView.setTag(holder);
 			} else {
-				// È¡³öholder
+				// å–å‡ºholder
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			// ÉèÖÃlistÖĞTextViewµÄÏÔÊ¾
+			// è®¾ç½®listä¸­TextViewçš„æ˜¾ç¤º
 			holder.tvProductCompID.setText(getItem(position).get("ProductCompID").toString());
 			holder.tvSerialnumber.setText(getItem(position).get("Serialnumber").toString());
 
 			if (getItem(position).get("CHECKFLAG").toString().equals("Y")) {
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 				getIsSelected().put(position, true);
 			} else {
-				// ½«CheckBoxµÄÑ¡ÖĞ×´¿ö¼ÇÂ¼ÏÂÀ´
+				// å°†CheckBoxçš„é€‰ä¸­çŠ¶å†µè®°å½•ä¸‹æ¥
 				getIsSelected().put(position, false);
 			}
-			// ¸ù¾İisSelectedÀ´ÉèÖÃcheckboxµÄÑ¡ÖĞ×´¿ö
+			// æ ¹æ®isSelectedæ¥è®¾ç½®checkboxçš„é€‰ä¸­çŠ¶å†µ
 			holder.cb.setChecked(getIsSelected().get(position));
 			return convertView;
 		}
@@ -1004,7 +1004,7 @@ public class WIP_BarCode_Update extends Activity {
                             + MESCommon.UserId + "','"
                             +MESCommon.UserName + "',"
                             + MESCommon.ModifyTime + "); ";
-				    //Ë«¶Î/¶¯Á¦È¥´Î×éÁ¦±í¿´ÊÇ·ñÓĞ´Î×éÁ¦×°Åä¹¤¼ş
+				    //åŒæ®µ/åŠ¨åŠ›å»æ¬¡ç»„åŠ›è¡¨çœ‹æ˜¯å¦æœ‰æ¬¡ç»„åŠ›è£…é…å·¥ä»¶
 			     	  if(lstable.get(icount).get("SDDL").toString().equals("Y"))
 					{
 			     		sSql = sSql +  " UPDATE  PROCESS_STEP_PF SET  PRODUCTORDERID='"+sProductOrderId+"',PRODUCTCOMPID='"+sProductCompId+"' ,PRODUCTSERIALNUMBER_OLD='"+lstable.get(icount).get("Serialnumber").toString()+"', PRODUCTSERIALNUMBER='"+lstable.get(icount).get("SerialnumberID").toString()+"'  WHERE SYSID=(SELECT SYSID   FROM PROCESS_STEP_PF WHERE SERIALNUMBER_P='"+lstable.get(icount).get("SerialnumberID").toString()+"') ;";           
@@ -1029,7 +1029,7 @@ public class WIP_BarCode_Update extends Activity {
 		try {
 			List<HashMap<String, String>> lscheckOrder = new ArrayList<HashMap<String, String>>();			
 			lscheckOrder.clear();
-           //²éºËËùÓĞ¶ÔÓ¦µÄÖÆÁî
+           //æŸ¥æ ¸æ‰€æœ‰å¯¹åº”çš„åˆ¶ä»¤
 			String sSQL = "SELECT B.PROCESSSTATE,B.PRODUCTORDERID  FROM PROCESS_PRE_P A INNER JOIN PROCESS_PRE B ON A.PRODUCTORDERID=B.PRODUCTORDERID WHERE A.PRODUCTCOMPID='"+ snumber + "' ";
 			String sError = db.GetData(sSQL, lscheckOrder);
 			if (sError != "") {
@@ -1037,13 +1037,13 @@ public class WIP_BarCode_Update extends Activity {
 				return sResult = sError;
 			}
 			if (lscheckOrder.size() == 0) {
-				return sResult = "ÖÆÔìºÅÂë£º¡¾"+snumber+"¡¿²»´æÔÚ£¬ÇëÁªÏµÉú¹Ü£¡";
+				return sResult = "åˆ¶é€ å·ç ï¼šã€"+snumber+"ã€‘ä¸å­˜åœ¨ï¼Œè¯·è”ç³»ç”Ÿç®¡ï¼";
 			}else {
 				Boolean bFlag=true;
-				//ÒòÎªÓĞÖØ¹¤ÖÆÁî£¬ËùÒÔ¼ÓÈë×´Ì¬²éºËÎ´ÏÂÏßµÄ¡£Ä¬ÈÏÒÔÇ°ÖÆÔìºÅÂë¶ÔÓ¦µÄÖÆÁîÒÑ¾­Íê³É£¬ÖÆÔìºÅÂë¿Ï¶¨ÊÇÉú²úÖĞ»òÕßÒÑÍê³É¡£ËùÒÔÈç¹ûÓĞÎ´ÏÂÏßµÄÈÏÎª¾ÍÊÇÎÒÒª°ó¶¨µÄÖÆÁî
+				//å› ä¸ºæœ‰é‡å·¥åˆ¶ä»¤ï¼Œæ‰€ä»¥åŠ å…¥çŠ¶æ€æŸ¥æ ¸æœªä¸‹çº¿çš„ã€‚é»˜è®¤ä»¥å‰åˆ¶é€ å·ç å¯¹åº”çš„åˆ¶ä»¤å·²ç»å®Œæˆï¼Œåˆ¶é€ å·ç è‚¯å®šæ˜¯ç”Ÿäº§ä¸­æˆ–è€…å·²å®Œæˆã€‚æ‰€ä»¥å¦‚æœæœ‰æœªä¸‹çº¿çš„è®¤ä¸ºå°±æ˜¯æˆ‘è¦ç»‘å®šçš„åˆ¶ä»¤
 				for(int i=0;i<lscheckOrder.size();i++)
 				{
-					if(lscheckOrder.get(i).get("PROCESSSTATE").toString().equals("Î´ÏÂÏß"))
+					if(lscheckOrder.get(i).get("PROCESSSTATE").toString().equals("æœªä¸‹çº¿"))
 					{
 						bFlag=false;
 						break;
@@ -1052,7 +1052,7 @@ public class WIP_BarCode_Update extends Activity {
 				}
 				if(!bFlag)
 				{
-					return sResult = "ÖÆÔìºÅÂë£º¡¾"+snumber+"¡¿,Ëù¶ÔÓ¦µÄÖÆÁî¡¾"+lscheckOrder.get(0).get("PRODUCTORDERID").toString()+"¡¿»¹Î´ÏÂÏß,ÇëÁªÏµÉú¹ÜÏÂÏßºóÔÚ½øĞĞ·¢ÁÏ×÷Òµ£¡";
+					return sResult = "åˆ¶é€ å·ç ï¼šã€"+snumber+"ã€‘,æ‰€å¯¹åº”çš„åˆ¶ä»¤ã€"+lscheckOrder.get(0).get("PRODUCTORDERID").toString()+"ã€‘è¿˜æœªä¸‹çº¿,è¯·è”ç³»ç”Ÿç®¡ä¸‹çº¿ååœ¨è¿›è¡Œå‘æ–™ä½œä¸šï¼";
 				}
 			}
 			
@@ -1071,7 +1071,7 @@ public class WIP_BarCode_Update extends Activity {
 			List<HashMap<String, String>> lscheckExist = new ArrayList<HashMap<String, String>>();
 			List<HashMap<String, String>> lscheckExistSTKCOMP = new ArrayList<HashMap<String, String>>();
 			lscheckExist.clear();
-			String sSQL = "SELECT A.* FROM PROCESS_PRODUCTORDER_PRINTBARCODE A INNER JOIN PROCESS B ON A.PRODUCTORDERID =B.PRODUCTORDERID AND A.PRODUCTCOMPID =B.PRODUCTCOMPID AND B.PROCESSSTATUS <>'ÒÑÍê³É' AND A.PRODUCTCOMPID ='"
+			String sSQL = "SELECT A.* FROM PROCESS_PRODUCTORDER_PRINTBARCODE A INNER JOIN PROCESS B ON A.PRODUCTORDERID =B.PRODUCTORDERID AND A.PRODUCTCOMPID =B.PRODUCTCOMPID AND B.PROCESSSTATUS <>'å·²å®Œæˆ' AND A.PRODUCTCOMPID ='"
 					+ snumber + "' ";
 			String sError = db.GetData(sSQL, lscheckExist);
 			if (sError != "") {
@@ -1079,10 +1079,10 @@ public class WIP_BarCode_Update extends Activity {
 				return sResult = sError;
 			}
 			if (lscheckExist.size() == 0) {
-				return sResult = "Éú¹ÜÎ´Õë¶ÔÖÆÔìºÅÂë["+snumber+"],Éè¶¨»ú¿ÇÖ÷ÁÏ£¬Çë¼ì²é£¡";
+				return sResult = "ç”Ÿç®¡æœªé’ˆå¯¹åˆ¶é€ å·ç ["+snumber+"],è®¾å®šæœºå£³ä¸»æ–™ï¼Œè¯·æ£€æŸ¥ï¼";
 			}
 			lscheckExistSTKCOMP.clear();
-			if(!msOrderType.equals("ÖØ¹¤ÖÆÁî"))
+			if(!msOrderType.equals("é‡å·¥åˆ¶ä»¤"))
 			{
 				if(cksd.isChecked()||ckdl.isChecked())
 				{
@@ -1097,7 +1097,7 @@ public class WIP_BarCode_Update extends Activity {
 					return sResult = sError;
 				}
 				if (lscheckExistSTKCOMP.size() > 0) {
-					return sResult = "ÖÆÔìºÅÂë£º¡¾" + snumber + "¡¿ÒÑ¾­ÓĞ°ó¶¨¼ÇÂ¼£¬ÇëÈ·ÈÏ£¡";
+					return sResult = "åˆ¶é€ å·ç ï¼šã€" + snumber + "ã€‘å·²ç»æœ‰ç»‘å®šè®°å½•ï¼Œè¯·ç¡®è®¤ï¼";
 				}
 			}
 			msPROCESS_PRODUCTID = lscheckExist.get(0).get("PROCESS_PRODUCTID").toString().trim();
@@ -1123,13 +1123,13 @@ public class WIP_BarCode_Update extends Activity {
 //			{
 //				if(!lscheckExistSTKCOMP.get(0).get("COMPID3").toString().trim().equals(""))
 //				{
-//					return sResult = "¸ÃÌõÂë["+snumber+"],ÔÚÏµÍ³ÖĞÒÑ¾­´æÔÚ°ó¶¨ÖÆÔìºÅÂë¡¾"+lscheckExistSTKCOMP.get(0).get("COMPID3").toString()+"¡¿µÄ¼ÇÂ¼,ÇëÈ·ÈÏ£¡";
+//					return sResult = "è¯¥æ¡ç ["+snumber+"],åœ¨ç³»ç»Ÿä¸­å·²ç»å­˜åœ¨ç»‘å®šåˆ¶é€ å·ç ã€"+lscheckExistSTKCOMP.get(0).get("COMPID3").toString()+"ã€‘çš„è®°å½•,è¯·ç¡®è®¤ï¼";
 //				}
 //			}
 //			else {
 //				if(!lscheckExistSTKCOMP.get(0).get("PRODUCTCOMPID").toString().trim().equals("")&&(!lscheckExistSTKCOMP.get(0).get("PRODUCTCOMPID").toString().trim().equals(lscheckExistSTKCOMP.get(0).get("COMPID2").toString().trim())))
 //				{   
-//					return sResult = "¸Ã»ú¿ÇÌõÂë["+snumber+"],ÔÚÏµÍ³ÖĞÒÑ¾­´æÔÚ°ó¶¨ÖÆÔìºÅÂë¡¾"+lscheckExistSTKCOMP.get(0).get("PRODUCTCOMPID").toString()+"¡¿µÄ¼ÇÂ¼,ÇëÈ·ÈÏ£¡";
+//					return sResult = "è¯¥æœºå£³æ¡ç ["+snumber+"],åœ¨ç³»ç»Ÿä¸­å·²ç»å­˜åœ¨ç»‘å®šåˆ¶é€ å·ç ã€"+lscheckExistSTKCOMP.get(0).get("PRODUCTCOMPID").toString()+"ã€‘çš„è®°å½•,è¯·ç¡®è®¤ï¼";
 //				}
 //			}
 			
@@ -1140,12 +1140,12 @@ public class WIP_BarCode_Update extends Activity {
 			{
 				if(cksd.isChecked()||ckdl.isChecked())
 			    {
-					//Ë«¶Î²»²éºË»ú¿ÇÉè¶¨Ö÷ÁÏ¡£
+					//åŒæ®µä¸æŸ¥æ ¸æœºå£³è®¾å®šä¸»æ–™ã€‚
 //					List<HashMap<String, String>> lsDoubleProduct = new ArrayList<HashMap<String, String>>();
 //					sSQL = "SELECT B.PRODUCTID FROM PROCESS A INNER JOIN PROCESS_PRE B ON A.PRODUCTORDERID=B.PRODUCTORDERID  WHERE A.PRODUCTCOMPID='"+ snumber + "' ";
 //					sError = db.GetData(sSQL, lsDoubleProduct);	
 //					  if (!lsDoubleProduct.get(0).get("PRODUCTID").toString().trim().equals(msPROCESS_PRODUCTID) ) {
-//					    return  "¸Ã»ú¿ÇÎïÁÏÁÏºÅ£º"+ lsDoubleProduct.get(0).get("PRODUCTID").toString().trim() + " ÓëÉú¹ÜÉè¶¨°ó¶¨ÎïÁÏÁÏºÅ£º" + msPROCESS_PRODUCTID+ "²»ÏàÍ¬,ÊÇ·ñÈ·ÈÏ¼ÌĞø°ó¶¨£¡";		
+//					    return  "è¯¥æœºå£³ç‰©æ–™æ–™å·ï¼š"+ lsDoubleProduct.get(0).get("PRODUCTID").toString().trim() + " ä¸ç”Ÿç®¡è®¾å®šç»‘å®šç‰©æ–™æ–™å·ï¼š" + msPROCESS_PRODUCTID+ "ä¸ç›¸åŒ,æ˜¯å¦ç¡®è®¤ç»§ç»­ç»‘å®šï¼";		
 //						
 //					  }
 			    }
@@ -1155,7 +1155,7 @@ public class WIP_BarCode_Update extends Activity {
 				  {
 					  if(!lscheckExistSTKCOMP.get(0).get("MATERIALID").toString().trim().equals(""))
 						{
-						  return  "¸Ã»ú¿ÇÎïÁÏÁÏºÅ£º"+ lscheckExistSTKCOMP.get(0).get("MATERIALID").toString().trim() + " ÓëÉú¹ÜÉè¶¨°ó¶¨ÎïÁÏÁÏºÅ£º" + msPROCESS_PRODUCTID+ "²»ÏàÍ¬,ÊÇ·ñÈ·ÈÏ¼ÌĞø°ó¶¨£¡";
+						  return  "è¯¥æœºå£³ç‰©æ–™æ–™å·ï¼š"+ lscheckExistSTKCOMP.get(0).get("MATERIALID").toString().trim() + " ä¸ç”Ÿç®¡è®¾å®šç»‘å®šç‰©æ–™æ–™å·ï¼š" + msPROCESS_PRODUCTID+ "ä¸ç›¸åŒ,æ˜¯å¦ç¡®è®¤ç»§ç»­ç»‘å®šï¼";
 						
 						}		  
 				   }
@@ -1178,13 +1178,13 @@ public class WIP_BarCode_Update extends Activity {
 		String sSQL="";
 		try {
 			HashMap<String, String> hs = new HashMap<String, String>();
-			if(msOrderType.equals("ÖØ¹¤ÖÆÁî"))
+			if(msOrderType.equals("é‡å·¥åˆ¶ä»¤"))
 			{	
-				//»áÒé¾ö¶¨ÖØ¹¤²»·¢ÁÏ
+				//ä¼šè®®å†³å®šé‡å·¥ä¸å‘æ–™
 					
 			}
 			if ((!editProductCompid.getText().toString().equals("")&& !editSerialnumberID.getText().toString().equals(""))||(!editProductCompid.getText().toString().equals("")&& !editSerialnumberIDTwo.getText().toString().equals(""))) {
-				//Ë«¶Î»ú/¶¯Á¦¶¼ÏÈ·ÅÈëÒ»¶ÎÀ¸Î»Öµ¡£ËùÒÔ
+				//åŒæ®µæœº/åŠ¨åŠ›éƒ½å…ˆæ”¾å…¥ä¸€æ®µæ ä½å€¼ã€‚æ‰€ä»¥
 				editProductCompid.setText(editProductCompid.getText().toString().trim().toUpperCase());
 				editSerialnumberID.setText(editSerialnumberID.getText().toString().trim().toUpperCase());
 				editSerialnumberIDTwo.setText(editSerialnumberIDTwo.getText().toString().trim().toUpperCase());
@@ -1192,7 +1192,7 @@ public class WIP_BarCode_Update extends Activity {
 				hs.put("ProductCompID", editProductCompid.getText().toString());
 				if((cksd.isChecked()||ckdl.isChecked())&&!ckfl .isChecked())
 			    {
-					//Îª¿Õ»òÕßÎªnull±íÊ¾»¹Ã»ÓĞ±ä³ÉÕû»ú
+					//ä¸ºç©ºæˆ–è€…ä¸ºnullè¡¨ç¤ºè¿˜æ²¡æœ‰å˜æˆæ•´æœº
 					if(lscheckSDDL.get(0).get("PRODUCTCOMPID").toString().equals("")||lscheckSDDL.get(0).get("PRODUCTCOMPID").toString()==null)
 				    {   hs.put("Serialnumber",lscheckSDDL.get(0).get("COMPIDSEQ").toString());
 					    hs.put("SerialnumberID", lscheckSDDL.get(0).get("COMPIDSEQ").toString());
@@ -1213,7 +1213,7 @@ public class WIP_BarCode_Update extends Activity {
 						hs.put("LOTID", lscheckSDDL.get(0).get("LOTID").toString());
 						
 					}else {
-					//Ë«¶Î/¶¯Á¦¹´Ñ¡£¬²¢ÇÒÃ»ÓĞ¹´Ñ¡¿â´æ·¢ÁÏ£¬lsCompIDÎª¿ÕËùÒÔĞèÒª´ÓĞÂÈ¡Öµ¡£´ÓlscheckSDDLÈ¡Öµ;
+					//åŒæ®µ/åŠ¨åŠ›å‹¾é€‰ï¼Œå¹¶ä¸”æ²¡æœ‰å‹¾é€‰åº“å­˜å‘æ–™ï¼ŒlsCompIDä¸ºç©ºæ‰€ä»¥éœ€è¦ä»æ–°å–å€¼ã€‚ä»lscheckSDDLå–å€¼;
 					List<HashMap<String, String>> lsDoubleMsg = new ArrayList<HashMap<String, String>>();
 					if(!editSerialnumberID.getText().toString().equals("")&&editSerialnumberIDTwo.getText().toString().equals(""))
 					{
@@ -1228,7 +1228,7 @@ public class WIP_BarCode_Update extends Activity {
 						MESCommon.showMessage(WIP_BarCode_Update.this, sError);
 						return sError;
 					}
-					//ÖÆÔìºÅÂë£¬
+					//åˆ¶é€ å·ç ï¼Œ
 					if(lsDoubleMsg.size()>0)
 					{
 						hs.put("Serialnumber",lscheckSDDL.get(0).get("PRODUCTCOMPID").toString());
@@ -1241,7 +1241,7 @@ public class WIP_BarCode_Update extends Activity {
 						hs.put("SUPPLYID", "HZ");
 						hs.put("FURNACENO", "");
 						hs.put("LOTID", "");
-					}//»ú¿Ç
+					}//æœºå£³
 					else {
 						hs.put("Serialnumber",lscheckSDDL.get(0).get("COMPIDSEQ").toString());
 					    hs.put("SerialnumberID", lscheckSDDL.get(0).get("COMPIDSEQ").toString());
@@ -1288,7 +1288,7 @@ public class WIP_BarCode_Update extends Activity {
 					{
 						hs.put("MATERIALID", lsDoubleMsg.get(0).get("PROCESS_PRODUCTID").toString());
 						hs.put("MATERIALNAME", lsDoubleMsg.get(0).get("PROCESS_PRODUCTNAME").toString());
-						hs.put("MATERIALMAINTYPE", "¿ÕÑ¹»úÌå");
+						hs.put("MATERIALMAINTYPE", "ç©ºå‹æœºä½“");
 					}
 					hs.put("OrderType",  msOrderType);
 					hs.put("TRACETYPE", "C");
@@ -1380,7 +1380,7 @@ public class WIP_BarCode_Update extends Activity {
 		String sSql = "";
 		
 		try {
-				//ÏÈ²éSTKCOMP
+				//å…ˆæŸ¥STKCOMP
 				mls.clear();
 				sSql = "SELECT DISTINCT A.STOCKID, A.SUPPLYID, A.ITNBR, A.LOTID, A.LOTIDSEQ, A.COMPID, A.COMPIDSEQ, " +
 						"A.LOTQTY, A.STOCKTIME, A.SHIPTYPE, B.ITDSC " +
@@ -1389,7 +1389,7 @@ public class WIP_BarCode_Update extends Activity {
 				if (!sResult.equals("")) return sResult;
 				if (mls.size() == 0)
 				{
-					return "ÌõÂë¡¸" + sScanId + "¡¹²éÎŞÈë¿â×ÊÁÏ!";
+					return "æ¡ç ã€Œ" + sScanId + "ã€æŸ¥æ— å…¥åº“èµ„æ–™!";
 				}
 				String sStockid = mls.get(0).get("STOCKID").toString();
 				String sSupplyId = mls.get(0).get("SUPPLYID").toString();

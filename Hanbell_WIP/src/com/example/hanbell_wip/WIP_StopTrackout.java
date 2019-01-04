@@ -1,4 +1,4 @@
-package com.example.hanbell_wip;
+ï»¿package com.example.hanbell_wip;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class WIP_StopTrackout extends Activity {
 	Button  btnExit, btnConfirm;
 	EditText editInput,editProductCompID;
 	Spinner spDesction;
-	// ¸ÃÎïÁÏµÄHashMap¼ÇÂ¼
+	// è¯¥ç‰©æ–™çš„HashMapè®°å½•
 	static int milv0RowNum = 0;
 
 	private	List<HashMap<String, String>> lsCompID = new ArrayList<HashMap<String, String>>();	
@@ -50,7 +50,7 @@ public class WIP_StopTrackout extends Activity {
 		setContentView(R.layout.activity_main);
 		setContentView(R.layout.activity_wip_stoptrackout);
 try{
-		// È¡µÃ¿Ø¼ş
+		// å–å¾—æ§ä»¶
 		editInput = (EditText) findViewById(R.id.wipStopTrackIn_tvInput);	
 		editProductCompID = (EditText) findViewById(R.id.wipStopTrackIn_tvProductCompid);	
 		spDesction=(Spinner)findViewById(R.id.wipStopTrackIn_spDescription);	
@@ -60,13 +60,13 @@ try{
 		// ***********************************************Start
 		
 		ActionBar actionBar=getActionBar();
-	    actionBar.setSubtitle("±¨¹¤ÈËÔ±£º"+MESCommon.UserName); 
-	    actionBar.setTitle("ÖÆÔìºÅÂëÍ£Ö¹±¨¹¤");
+	    actionBar.setSubtitle("æŠ¥å·¥äººå‘˜ï¼š"+MESCommon.UserName); 
+	    actionBar.setTitle("åˆ¶é€ å·ç åœæ­¢æŠ¥å·¥");
 	
-		// È¡µÃ¿Ø¼ş	 
+		// å–å¾—æ§ä»¶	 
 		String date = sDateFormatShort.format(new java.util.Date());	
 	
-		// ¶ÁÈ¡È±Ïİ±¸×¢
+		// è¯»å–ç¼ºé™·å¤‡æ³¨
 		lsDefect.clear();
 		String sSql = "SELECT PARAMETERVALUE FROM MSYSTEMPARAMETER WHERE PARAMETERID='DEFECTTRACKIN' ";
 		String	sResult = MESDB.GetData(sSql, lsDefect);
@@ -91,19 +91,19 @@ try{
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {
-					// ²éÑ¯½»»õµ¥
+					// æŸ¥è¯¢äº¤è´§å•
 					try {
 					EditText txtInput = (EditText) findViewById(R.id.wipStopTrackIn_tvInput);
 					
 					if (txtInput.getText().toString().trim().length() == 0) {
-						MESCommon.show(WIP_StopTrackout.this, "ÇëÉ¨ÃèÌõÂë!");
+						MESCommon.show(WIP_StopTrackout.this, "è¯·æ‰«ææ¡ç !");
 						txtInput.setText("");
 						setFocus(editProductCompID);
 						return false;
 					}					
 					
 						lsCompID.clear();						
-						String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","ÖÆÔìºÅÂë","×°Åä", lsCompID);
+						String sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","åˆ¶é€ å·ç ","è£…é…", lsCompID);
 					    if (!sResult.equals(""))
 	                    {   MESCommon.show(WIP_StopTrackout.this,sResult);
 	                        setFocus(editProductCompID);
@@ -111,7 +111,7 @@ try{
 	                    }
 		            	if (lsCompID.get(0).get("ISPRODUCTCOMPID").toString().equals("N") )
 		                {
-	            		   MESCommon.show(WIP_StopTrackout.this,"ÇëË¢ÈëÖÆÔìºÅÂë!");
+	            		   MESCommon.show(WIP_StopTrackout.this,"è¯·åˆ·å…¥åˆ¶é€ å·ç !");
 	            		   txtInput.setText("");
 	            		   setFocus(editProductCompID);
 	                       return false;
@@ -125,7 +125,7 @@ try{
 						}			
 						if(lsProcess.size()==0)
 						{
-							MESCommon.show(WIP_StopTrackout.this, " ÖÆÔìºÅÂë¡¾"+txtInput.getText().toString().trim() +"¡¿£¬Ã»ÓĞÉè¶¨Éú²ú¹¤ÒÕÁ÷³Ì£¡");
+							MESCommon.show(WIP_StopTrackout.this, " åˆ¶é€ å·ç ã€"+txtInput.getText().toString().trim() +"ã€‘ï¼Œæ²¡æœ‰è®¾å®šç”Ÿäº§å·¥è‰ºæµç¨‹ï¼");
 							Clear();
 							return false;
 						}
@@ -136,7 +136,7 @@ try{
 								MESCommon.showMessage(WIP_StopTrackout.this, sError);
 								return false;
 							 }
-						//³õÊ¼»¯¹¤¼şĞÅÏ¢
+						//åˆå§‹åŒ–å·¥ä»¶ä¿¡æ¯
 						editProductCompID.setText(lsCompID.get(0).get("PRODUCTCOMPID").toString());
 
 						setFocus(editProductCompID);
@@ -169,12 +169,12 @@ try{
 							SpinnerData spDes = (SpinnerData) spDesction.getSelectedItem();
 							
 							if (editProductCompID.getText().toString().trim().length() == 0) {
-								MESCommon.show(WIP_StopTrackout.this, "ÇëÉ¨ÃèÌõÂë!");
+								MESCommon.show(WIP_StopTrackout.this, "è¯·æ‰«ææ¡ç !");
 								setFocus(editProductCompID);
 								return ;
 							}					
 							if (spDes.text == "") {
-								MESCommon.show(WIP_StopTrackout.this, "ÇëÑ¡Ôñ±¸×¢ËµÃ÷!");
+								MESCommon.show(WIP_StopTrackout.this, "è¯·é€‰æ‹©å¤‡æ³¨è¯´æ˜!");
 								return;
 							}   	   
 		            	String   sSQL =  "UPDATE PROCESS SET DESCRIPTION ='"+spDes.value+"' WHERE  PRODUCTCOMPID='"+editProductCompID.getText().toString()+"' "; 
@@ -183,7 +183,7 @@ try{
 							MESCommon.showMessage(WIP_StopTrackout.this, sError);
 							return;
 						 } 
-						 Toast.makeText(WIP_StopTrackout.this, "È·ÈÏ³É¹¦!", Toast.LENGTH_SHORT).show();  
+						 Toast.makeText(WIP_StopTrackout.this, "ç¡®è®¤æˆåŠŸ!", Toast.LENGTH_SHORT).show();  
 						 finish();
 						} catch (Exception e) {
 							MESCommon.showMessage(WIP_StopTrackout.this, e.toString());

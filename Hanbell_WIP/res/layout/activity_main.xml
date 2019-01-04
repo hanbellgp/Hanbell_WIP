@@ -211,7 +211,7 @@
                 android:text="不良录入" />
         </LinearLayout>
         
-           <LinearLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -227,7 +227,7 @@
                 android:text="机体出厂检验" />
         </LinearLayout>
         
-                <LinearLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -242,7 +242,7 @@
                 android:layout_span="3"
                 android:text="自动仓出库作业" />
         </LinearLayout>
-            <LinearLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -257,6 +257,22 @@
                 android:layout_span="3"
                 android:text="半成品盘点作业" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnFinishTemp"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="10dp"
+                android:layout_span="3"
+                android:text="装配在制盘点作业" />
+        </LinearLayout>
+        
         
     </TableLayout>
 

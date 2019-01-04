@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hanbell_wip"
-    android:versionCode="67"
+    android:versionCode="68"
     android:versionName="2.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -186,6 +186,10 @@
         <activity
             android:name=".WIP_TrackIn_SP"
             android:label="@string/title_activity_wip__track_in__sp" >
+        </activity>
+        <activity
+            android:name=".FINISH_TEMP"
+            android:label="@string/title_activity_finish__temp" >
         </activity>
     </application>
 

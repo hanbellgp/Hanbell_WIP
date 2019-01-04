@@ -9,6 +9,7 @@ import java.util.Map;
 import com.example.hanbell_wip.R;
 import com.example.hanbell_wip.Class.*;
 import com.example.hanbell_wip.EQP_Setting.SpinnerData;
+import com.example.hanbell_wip.WIP_TrackIn_CRM.wiptrackincrmAdapterTab2_2;
 
 import android.R.string;
 import android.annotation.SuppressLint;
@@ -106,6 +107,9 @@ public class WIP_PaintingEnd extends Activity {
 	private List<HashMap<String, String>> lsSysColer = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsDefect = new ArrayList<HashMap<String, String>>();
 	SimpleDateFormat sDateFormatShort = new SimpleDateFormat("yyyy/MM/dd");
+	
+	private Boolean mbIsFW = false; //是否为服务报工MES单号
+	private String msCrmno = "";	//服务报工MES单号
 
 	@SuppressLint("NewApi") @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +199,7 @@ try {
 		//冷媒滑块显示，奇他不显示
 		try {
 			//入库检验站需要合格和不合格按钮！
-			if (params.get("StepName").contains("入库前检验")||params.get("StepName").contains("出货前检验") )
+			if ((params.get("StepName").contains("入库前检验")||params.get("StepName").contains("出货前检验")) && (!params.get("StepName").contains("P机")) )
 			{
 				List<SpinnerData> lst = new ArrayList<SpinnerData>();
 				btnConfirm.setVisibility(0);
@@ -237,7 +241,7 @@ try {
 			  }else {
 					spDefect.setVisibility(8);
 					tvDefect.setVisibility(8);
-			}	
+			  }	
 			}else {
 				btnDefect.setVisibility(8);	
 				spDefect.setVisibility(8);
@@ -545,7 +549,7 @@ try {
 				if (keyCode == KeyEvent.KEYCODE_ENTER&& event.getAction() == KeyEvent.ACTION_DOWN) {
 					// 查询交货单
 					EditText txtInput = (EditText) findViewById(R.id.wippaintingend_tvInput);
-					String strCompID = txtInput.getText().toString().trim();
+					String strCompID = txtInput.getText().toString().trim().toUpperCase();
 					if ( lsuser.size()==0) {
 						MESCommon.showMessage(WIP_PaintingEnd.this, "请先进行人员设备报工！");
 						return false;
@@ -556,133 +560,216 @@ try {
 						return false;
 					}
 					try {
-						lsCompID.clear();		
-						String sResult = db.GetProductSerialNumber(strCompID,"",msProductOrderId, "QF","制造号码","装配", lsCompID);
+						//<-----判断是否为服务报工MES单号
+						String sSQL = "", sResult = "";
+						List<HashMap<String, String>> ls = new ArrayList<HashMap<String, String>>();
+						sSQL = "SELECT * FROM CRM_HK_FW006 WHERE CRMNO='"+strCompID+"'";
+						sResult = db.GetData(sSQL, ls);
 						if (!sResult.equals( "")) {
 							MESCommon.showMessage(WIP_PaintingEnd.this, sResult);
 							setFocus(editCompID);
 							return false;
 						}
-						lsProcess.clear();
-						String sOrderID=lsCompID.get(0).get("PRODUCTORDERID").toString();
+						mbIsFW = ls.size() == 0 ? false : true;	//是否为服务报工MES单号
+						//-------------------------->
 						
-						sResult = db.GetProductProcess(sOrderID,lsCompID.get(0).get("PRODUCTCOMPID").toString(),	lsProcess);
-						if (sResult != "") {
-							MESCommon.showMessage(WIP_PaintingEnd.this, sResult);
-							setFocus(editCompID);
-							return false;
-						}
-						if(lsProcess.size()==0)
+						
+						if (!mbIsFW)
 						{
-							MESCommon.show(WIP_PaintingEnd.this, " 制造号码【"+txtInput.getText().toString().trim() +"】，没有设定生产工艺流程！");
-							Clear();
-							setFocus(editCompID);
-							return false;
-						}
-						else {
-							if(lsProcess.get(0).get("PROCESSSTATUS").toString().equals("已完成"))
-							{
-								//主体流程已完成，并且PDA工站不等于冷媒出库前装配站
-								if(!params.get("StepID").equals("冷媒出货前检验站"))
-								{									
-								  MESCommon.show(WIP_PaintingEnd.this,"制造号码【"+txtInput.getText().toString().trim()+"】,已整体工艺加工完成！");
-			              		  Clear();
-								  setFocus(editCompID);
-			                      return false;
-								}else {
-									List<HashMap<String, String>> lsJudResult = new ArrayList<HashMap<String, String>>();
-									String  sSql="SELECT A.*,B.ANALYSISJUDGEMENTRESULT FROM ANALYSISWAITLIST A INNER JOIN ANALYSISRESULT_M B ON A.ANALYSISFORMSID=B.ANALYSISFORMSID WHERE A.PRODUCTORDERID='"+sOrderID+"' AND  A.PRODUCTCOMPID='"+txtInput.getText().toString().toUpperCase().trim()+"' AND A.SOURCESTEP= '冷媒出货前检验站' ORDER BY A.MODIFYTIME DESC ;";
-									String sError= db.GetData(sSql,  lsJudResult);
-									 if (sError != "") {
-											MESCommon.showMessage(WIP_PaintingEnd.this, sError);
-											return false;
-										 }
-									 if(lsJudResult.size()>0)
-									 {
-										 if(lsJudResult.get(0).get("ANALYSISJUDGEMENTRESULT").equals("合格"))
-										 {
-											 MESCommon.show(WIP_PaintingEnd.this,"制造号码【"+txtInput.getText().toString().trim()+"】,已完成冷媒出货前检验作业！");
-						              		  Clear();
-											  setFocus(editCompID);
-						                      return false;
-										 } 
-									 }	
-								}							
-							}else
-							{
-								if (!lsProcess.get(0).get("STEPID").toString().equals(params.get("StepID"))) {
-									MESCommon.show(WIP_PaintingEnd.this, "工件目前工序为【"+lsProcess.get(0).get("STEPID").toString()+"】，不能在【"+params.get("StepID")+"】报工！");
-									Clear();
-									setFocus(editCompID);
-									return false;
-								}	
+							//非服务报工代码
+							lsCompID.clear();
+							sResult = db.GetProductSerialNumber(strCompID,"",msProductOrderId, "QF","制造号码","装配", lsCompID);
+							if (!sResult.equals( "")) {
+								MESCommon.showMessage(WIP_PaintingEnd.this, sResult);
+								setFocus(editCompID);
+								return false;
 							}
-						}				
-						if (lsCompID.get(0).get("ISPRODUCTCOMPID").toString().equals("N") )
-	                    {
-	              		  MESCommon.show(WIP_PaintingEnd.this,"所刷条码不是制造号码!");
-	              		  Clear();
-						  setFocus(editCompID);
-	                      return false;
-	                    }
-						lsProduct.clear();
-						String  sSql=" SELECT * FROM MPRODUCT WHERE PRODUCTID ='"+lsProcess.get(0).get("PRODUCTID").toString()+"'  ;";
-						String sError= db.GetData(sSql,  lsProduct);
-						 if (sError != "") {
+							lsProcess.clear();
+							String sOrderID=lsCompID.get(0).get("PRODUCTORDERID").toString();
+							
+							sResult = db.GetProductProcess(sOrderID,lsCompID.get(0).get("PRODUCTCOMPID").toString(),	lsProcess);
+							if (sResult != "") {
+								MESCommon.showMessage(WIP_PaintingEnd.this, sResult);
+								setFocus(editCompID);
+								return false;
+							}
+							if(lsProcess.size()==0)
+							{
+								MESCommon.show(WIP_PaintingEnd.this, " 制造号码【"+txtInput.getText().toString().trim() +"】，没有设定生产工艺流程！");
+								Clear();
+								setFocus(editCompID);
+								return false;
+							}
+							else {
+								if(lsProcess.get(0).get("PROCESSSTATUS").toString().equals("已完成"))
+								{
+									//主体流程已完成，并且PDA工站不等于冷媒出库前装配站
+									if(!params.get("StepID").equals("冷媒出货前检验站"))
+									{									
+									  MESCommon.show(WIP_PaintingEnd.this,"制造号码【"+txtInput.getText().toString().trim()+"】,已整体工艺加工完成！");
+				              		  Clear();
+									  setFocus(editCompID);
+				                      return false;
+									}else {
+										List<HashMap<String, String>> lsJudResult = new ArrayList<HashMap<String, String>>();
+										String  sSql="SELECT A.*,B.ANALYSISJUDGEMENTRESULT FROM ANALYSISWAITLIST A INNER JOIN ANALYSISRESULT_M B ON A.ANALYSISFORMSID=B.ANALYSISFORMSID WHERE A.PRODUCTORDERID='"+sOrderID+"' AND  A.PRODUCTCOMPID='"+txtInput.getText().toString().toUpperCase().trim()+"' AND A.SOURCESTEP= '冷媒出货前检验站' ORDER BY A.MODIFYTIME DESC ;";
+										String sError= db.GetData(sSql,  lsJudResult);
+										 if (sError != "") {
+												MESCommon.showMessage(WIP_PaintingEnd.this, sError);
+												return false;
+											 }
+										 if(lsJudResult.size()>0)
+										 {
+											 if(lsJudResult.get(0).get("ANALYSISJUDGEMENTRESULT").equals("合格"))
+											 {
+												 MESCommon.show(WIP_PaintingEnd.this,"制造号码【"+txtInput.getText().toString().trim()+"】,已完成冷媒出货前检验作业！");
+							              		  Clear();
+												  setFocus(editCompID);
+							                      return false;
+											 } 
+										 }	
+									}							
+								}else
+								{
+									if (!lsProcess.get(0).get("STEPID").toString().equals(params.get("StepID"))) {
+										MESCommon.show(WIP_PaintingEnd.this, "工件目前工序为【"+lsProcess.get(0).get("STEPID").toString()+"】，不能在【"+params.get("StepID")+"】报工！");
+										Clear();
+										setFocus(editCompID);
+										return false;
+									}	
+								}
+							}
+							if (lsCompID.get(0).get("ISPRODUCTCOMPID").toString().equals("N") )
+		                    {
+		              		  MESCommon.show(WIP_PaintingEnd.this,"所刷条码不是制造号码!");
+		              		  Clear();
+							  setFocus(editCompID);
+		                      return false;
+		                    }
+							lsProduct.clear();
+							String  sSql=" SELECT * FROM MPRODUCT WHERE PRODUCTID ='"+lsProcess.get(0).get("PRODUCTID").toString()+"'  ;";
+							String sError= db.GetData(sSql,  lsProduct);
+							 if (sError != "") {
+									MESCommon.showMessage(WIP_PaintingEnd.this, sError);
+									return false;
+								 }
+							if(!lsProcess.get(0).get("CUSTOMERNAME").toString().equals(""))
+							{ 
+								tvCM.setVisibility(0);
+								editCustomerName.setVisibility(0);			
+								editCustomerName.setText(lsProcess.get(0).get("CUSTOMERNAME").toString());
+							}else {
+								tvCM.setVisibility(8);
+								editCustomerName.setVisibility(8);		
+							}
+							//初始化工件信息
+							List<HashMap<String, String>> lsPlan = new ArrayList<HashMap<String, String>>();
+							lsPlan.clear();						
+							sSQL = "SELECT PRODUCTORDERTYPE FROM PROCESS_PRE   WHERE PRODUCTORDERID='"+lsCompID.get(0).get("PRODUCTORDERID").toString()+"'  ";
+							sError = db.GetData(sSQL, lsPlan);
+							if (!sError.equals("")) {
+								MESCommon.show(WIP_PaintingEnd.this, sError);
+								editInput.setText("");
+								setFocus(editInput);
+								return false;
+							}
+							if(lsPlan.size()>0)
+							{				
+								msOrderType=lsPlan.get(0).get("PRODUCTORDERTYPE").toString();							
+							}
+							
+							if(!msOrderType.equals("一般制令"))
+							{
+								btnDefect.setEnabled(false);
+							}else {
+								btnDefect.setEnabled(true);
+							}
+							editCompID.setText(lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString());
+							editMaterialID.setText(lsProcess.get(0).get("PRODUCTID").toString());
+							editProductName.setText(lsProduct.get(0).get("PRODUCTNAME").toString());					
+							msProductType=lsProduct.get(0).get("PRODUCTTYPE").toString();
+							//改变默认的单行模式  
+							editProductName.setSingleLine(false);  
+							//水平滚动设置为False  
+							editProductName.setHorizontallyScrolling(false);	
+							editColer.setText(lsProcess.get(0).get("COLER").toString());
+							editMessage.setText(lsProcess.get(0).get("PMMESSAGE").toString());
+							editMessage.setSingleLine(false);
+							editMessage.setHorizontallyScrolling(false);
+							msProductOrderId=lsProcess.get(0).get("PRODUCTORDERID").toString();
+							msProductId=lsProcess.get(0).get("PRODUCTID").toString();
+							msProductCompId=lsProcess.get(0).get("PRODUCTCOMPID").toString();
+							msProductSerialNumber=lsProcess.get(0).get("PRODUCTSERIALNUMBER").toString();
+							msStepId=lsProcess.get(0).get("STEPID").toString();		
+							msStepSEQ=lsProcess.get(0).get("STEPSEQ").toString();	
+							msEqpId=params.get("EQPID").toString();;
+							miQty=Integer.parseInt(lsProcess.get(0).get("STARTQTY").toString().trim());
+						}
+						else
+						{
+							//服务报工代码
+							List<HashMap<String, String>> lsCRM_HK_FW006 = new ArrayList<HashMap<String, String>>();
+							lsCompID.clear();
+							sResult = db.GetProductSerialNumber_CRM(txtInput.getText().toString().trim(),"",msProductOrderId, "QF","MES单号","装配", lsCompID);
+							if (!sResult.equals(""))
+							{
+								txtInput.setText("");
+								MESCommon.show(WIP_PaintingEnd.this,sResult);
+		                        return false;
+							}
+							if (lsCompID.size() == 0)
+							{
+								txtInput.setText("");
+								MESCommon.show(WIP_PaintingEnd.this,"MES单号查无资料!");
+		                        return false;
+							}
+							
+							String sSql="",sError="";
+							//读取
+							lsCRM_HK_FW006.clear();
+							sSql = "SELECT A.CUSTOMREQUEST, A.DISASSEMBLEMEMO, A.RESPONSIBILITY,A.hdcptype FROM CRM_HK_FW006 A WHERE A.CRMNO='"+txtInput.getText().toString().trim().toUpperCase()+"'";
+							sError= db.GetData(sSql,  lsCRM_HK_FW006);
+							if (sError != "") 
+							{
 								MESCommon.showMessage(WIP_PaintingEnd.this, sError);
 								return false;
-							 }
-						if(!lsProcess.get(0).get("CUSTOMERNAME").toString().equals(""))
-						{ 
-							tvCM.setVisibility(0);
-							editCustomerName.setVisibility(0);			
-							editCustomerName.setText(lsProcess.get(0).get("CUSTOMERNAME").toString());
-						}else {
-							tvCM.setVisibility(8);
-							editCustomerName.setVisibility(8);		
+							}
+							if (lsCRM_HK_FW006.size() == 0)
+							{
+								MESCommon.showMessage(WIP_PaintingEnd.this, "MES单号查无资料!");
+								return false;
+							}
+							lsProduct.clear();
+							sSql=" SELECT * FROM MPRODUCT WHERE PRODUCTID ='"+lsCompID.get(0).get("MATERIALID").toString()+"'  ;";
+							sError= db.GetData(sSql,  lsProduct);
+							if (sError != "") 
+							{
+								MESCommon.showMessage(WIP_PaintingEnd.this, sError);
+								return false;
+							}
+							
+							//初始化工件信息
+							//editCrmno.setText(lsCompID.get(0).get("CRMNO").toString());
+							//editMaterialID.setText(lsProduct.get(0).get("PRODUCTID").toString());
+							//editMaterialID.setText(lsProduct.get(0).get("PRODUCTNAME").toString());
+							//editProductModel.setText(lsProduct.get(0).get("PRODUCTMODEL").toString());	
+							msCrmno = lsCompID.get(0).get("CRMNO").toString();
+							msProductOrderId=lsCompID.get(0).get("PRODUCTORDERID").toString();
+							msProductOrderId = msCrmno;
+							msProductId=lsProduct.get(0).get("PRODUCTID").toString();
+							msProductCompId=lsCompID.get(0).get("PRODUCTCOMPID").toString();
+							msProductSerialNumber=lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString();
+							msStepId = params.get("StepID");
+							msStepSEQ = "1";
+							msEqpId = params.get("EQPID");
+							miQty=1;
+							String sFWType = lsCRM_HK_FW006.get(0).get("hdcptype").toString();	//服务产线类别
+							
+							editCompID.setText(lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString());
+							editMaterialID.setText(lsProduct.get(0).get("PRODUCTID").toString());
+							editProductName.setText(lsProduct.get(0).get("PRODUCTNAME").toString());					
+							msProductType="服务维修";
 						}
-						//初始化工件信息
-						List<HashMap<String, String>> lsPlan = new ArrayList<HashMap<String, String>>();
-						lsPlan.clear();						
-						String sSQL = "SELECT PRODUCTORDERTYPE FROM PROCESS_PRE   WHERE PRODUCTORDERID='"+lsCompID.get(0).get("PRODUCTORDERID").toString()+"'  ";
-						sError = db.GetData(sSQL, lsPlan);
-						if (!sError.equals("")) {
-							MESCommon.show(WIP_PaintingEnd.this, sError);
-							editInput.setText("");
-							setFocus(editInput);
-							return false;
-						}
-						if(lsPlan.size()>0)
-						{				
-							msOrderType=lsPlan.get(0).get("PRODUCTORDERTYPE").toString();							
-						}
-						
-						if(!msOrderType.equals("一般制令"))
-						{
-							btnDefect.setEnabled(false);
-						}else {
-							btnDefect.setEnabled(true);
-						}
-						editCompID.setText(lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString());
-						editMaterialID.setText(lsProcess.get(0).get("PRODUCTID").toString());
-						editProductName.setText(lsProduct.get(0).get("PRODUCTNAME").toString());					
-						msProductType=lsProduct.get(0).get("PRODUCTTYPE").toString();
-						//改变默认的单行模式  
-						editProductName.setSingleLine(false);  
-						//水平滚动设置为False  
-						editProductName.setHorizontallyScrolling(false);	
-						editColer.setText(lsProcess.get(0).get("COLER").toString());
-						editMessage.setText(lsProcess.get(0).get("PMMESSAGE").toString());
-						editMessage.setSingleLine(false);
-						editMessage.setHorizontallyScrolling(false);
-						msProductOrderId=lsProcess.get(0).get("PRODUCTORDERID").toString();
-						msProductId=lsProcess.get(0).get("PRODUCTID").toString();
-						msProductCompId=lsProcess.get(0).get("PRODUCTCOMPID").toString();
-						msProductSerialNumber=lsProcess.get(0).get("PRODUCTSERIALNUMBER").toString();
-						msStepId=lsProcess.get(0).get("STEPID").toString();		
-						msStepSEQ=lsProcess.get(0).get("STEPSEQ").toString();	
-						msEqpId=params.get("EQPID").toString();;
-						miQty=Integer.parseInt(lsProcess.get(0).get("STARTQTY").toString().trim());
 						
 //						lsAnalysisData.clear();
 //						//判断有没有待最终判定的记录，如果有不能继续进行
@@ -886,7 +973,7 @@ try {
 						adapter.notifyDataSetChanged();
 						//根据产品等信息 读取装配规范
 						lsBid.clear();
-	 				   sSql = "SELECT DISTINCT AS_BID, AS_INDEX ||'  '|| AS_BNAME AS AS_BNAME FROM ERP_ASSEMBLESPECIFICATION  WHERE PRODUCTID='" +msProductId + "' " +
+	 				    String sSql = "SELECT DISTINCT AS_BID, AS_INDEX ||'  '|| AS_BNAME AS AS_BNAME FROM ERP_ASSEMBLESPECIFICATION  WHERE PRODUCTID='" +msProductId + "' " +
 									" AND   PRODUCTCOMPID='" +msProductCompId + "' AND PRODUCTORDERID='" + msProductOrderId + "' ORDER BY AS_INDEX ";
 						sResult = db.GetData(sSql, lsBid);
 						if (sResult != "") {
@@ -916,7 +1003,7 @@ try {
 						{
 							lsSysColer.clear();
 						    sSql=" SELECT  AS_SNAME AS COLER  FROM ERP_ASSEMBLESPECIFICATION WHERE PRODUCTCOMPID='"+msProductCompId+"' AND AS_MNAME LIKE'%颜色%'  ;";
-							sError= db.GetData(sSql,  lsSysColer);
+							String sError= db.GetData(sSql,  lsSysColer);
 							 if (sError != "") {
 									MESCommon.showMessage(WIP_PaintingEnd.this, sError);
 									return false;
@@ -928,13 +1015,29 @@ try {
 						}
 						if(!params.get("StepID").equals("冷媒出货前检验站"))
 						{
-							String sSetStepInResule = db.SetStepInbyJWJ(msProductOrderId ,msProductCompId,"",
-									msStepId, msStepSEQ, msEqpId, "", "", "", "",
-									MESCommon.UserId, MESCommon.UserName, miQty, "");
-							if (!sSetStepInResule.equals("")) {
-								MESCommon.showMessage(WIP_PaintingEnd.this, sSetStepInResule);							
-							    return false;
+							if (!mbIsFW)
+							{
+								//非服务报工TrackIn
+								String sSetStepInResule = db.SetStepInbyJWJ(msProductOrderId ,msProductCompId,"",
+										msStepId, msStepSEQ, msEqpId, "", "", "", "",
+										MESCommon.UserId, MESCommon.UserName, miQty, "");
+								if (!sSetStepInResule.equals("")) {
+									MESCommon.showMessage(WIP_PaintingEnd.this, sSetStepInResule);							
+								    return false;
+								}
 							}
+							else
+							{
+								//服务报工TrackIn
+								//报工开始
+								String sSetStepInResule = db.SetStepInbyCRM(msProductOrderId ,msProductCompId,
+										msStepId, msEqpId, MESCommon.UserId, MESCommon.UserName);
+								if (!sSetStepInResule.equals("")) {
+									MESCommon.showMessage(WIP_PaintingEnd.this, "MES单号【"+txtInput.getText().toString().trim()+"】报工开始失败！" + sSetStepInResule);							
+								    return false;
+								}
+							}
+								
 						}
 						
 					} catch (Exception e) {
@@ -1007,15 +1110,27 @@ try {
 					            db.FinalSaveData(msAnalysisformsID,msSampletimes,"合格",MESCommon.UserId ,MESCommon.UserName,"");
 					        	if(!params.get("StepID").equals("冷媒出货前检验站"))
 								{
-						            String sSetStepOutResule=db.SetStepOutbyJWJ(msProductOrderId, msProductCompId, msStepId, msStepSEQ, msEqpId, "", "", "", "",MESCommon.UserId, MESCommon.UserName, miQty, 0, 0, 0,"",false);
-									
-									if (!sSetStepOutResule.equals("")) 
-									{
-										MESCommon.show(WIP_PaintingEnd.this, sSetStepOutResule);
-										return;
-									}
+					        		if (!mbIsFW)
+					        		{
+							            String sSetStepOutResule=db.SetStepOutbyJWJ(msProductOrderId, msProductCompId, msStepId, msStepSEQ, msEqpId, "", "", "", "",MESCommon.UserId, MESCommon.UserName, miQty, 0, 0, 0,"",false);
+										
+										if (!sSetStepOutResule.equals("")) 
+										{
+											MESCommon.show(WIP_PaintingEnd.this, sSetStepOutResule);
+											return;
+										}
+					        		}
+					        		else
+					        		{
+					        			String sSetStepOutResule=db.SetStepOutbyCRM(msProductOrderId, msProductCompId, msStepId, msEqpId,MESCommon.UserId, MESCommon.UserName,"");	
+						 	   			if (!sSetStepOutResule.equals("")) 
+						 	   			{
+						 	   				MESCommon.show(WIP_PaintingEnd.this, "报工完成失败！" + sSetStepOutResule);
+						 	   				return;
+						 	   			}
+					        		}
 								}
-								InsertINSTOCKANALYSIS("合格");
+								if (!mbIsFW) InsertINSTOCKANALYSIS("合格");
 					            Toast.makeText(WIP_PaintingEnd.this, "报工完成!", Toast.LENGTH_SHORT).show();
 				                  
 					            Clear();
@@ -1037,14 +1152,27 @@ try {
 	
 			         	if(!params.get("StepID").equals("冷媒出货前检验站"))
 						{
-			         	   String sSetStepOutResule=db.SetStepOutbyJWJ(msProductOrderId, msProductCompId, msStepId, msStepSEQ, msEqpId, "", "", "", "",MESCommon.UserId, MESCommon.UserName, miQty, 0, 0, 0,"",false);
-							if (!sSetStepOutResule.equals("")) 
-							{
-								MESCommon.show(WIP_PaintingEnd.this, sSetStepOutResule);
-								return;
-							}
+			         		if (!mbIsFW)
+			        		{
+			         			String sSetStepOutResule=db.SetStepOutbyJWJ(msProductOrderId, msProductCompId, msStepId, msStepSEQ, msEqpId, "", "", "", "",MESCommon.UserId, MESCommon.UserName, miQty, 0, 0, 0,"",false);
+								if (!sSetStepOutResule.equals("")) 
+								{
+									MESCommon.show(WIP_PaintingEnd.this, sSetStepOutResule);
+									return;
+								}
+			        		}
+			         		else
+			         		{
+			         			String sSetStepOutResule=db.SetStepOutbyCRM(msProductOrderId, msProductCompId, msStepId, msEqpId,MESCommon.UserId, MESCommon.UserName,"");	
+				 	   			if (!sSetStepOutResule.equals("")) 
+				 	   			{
+				 	   				MESCommon.show(WIP_PaintingEnd.this, "报工完成失败！" + sSetStepOutResule);
+				 	   				return;
+				 	   			}
+			         		}
+			         			
 						}
-						  InsertINSTOCKANALYSIS(sResult);
+			         	if (!mbIsFW) InsertINSTOCKANALYSIS(sResult);
 					   Toast.makeText(WIP_PaintingEnd.this, "报工完成!", Toast.LENGTH_SHORT).show();                  
 	                   Clear();
 					}
@@ -1092,50 +1220,58 @@ try {
 									}
 								}
 				            	//不合格插入拆修站
-				                    String sNewStep = "";
-				                    if (msProductType.equals("机体装配") )
-				                    {
-				                        sNewStep = "机体拆修站";
-				                    }
-				                    else if (msProductType .equals( "冷媒装配"))
-				                    {
-				                        sNewStep = "冷媒拆修站";
-				                    }
-				                    else if (msProductType .equals("机组装配"))
-				                    {
-				                    }
-				                    List<HashMap<String, String>> lsProcessPlan = new ArrayList<HashMap<String, String>>();
-				                    String  sSql = "SELECT * FROM PROCESS_PROCESSPLAN WHERE PRODUCTORDERID='"+msProductOrderId+"' AND  PRODUCTCOMPID='" +msProductCompId  + "' AND PRODUCTID= '" +msProductId  + "' AND CAST( STEPSEQ AS INT )>" + msStepSEQ + " ORDER BY CAST( STEPSEQ AS INT ) DESC";
-				                    db.GetData(sSql,lsProcessPlan);
-				                  
-				                    sSql = "";
-				                    for(int i=0;i<lsProcessPlan.size();i++)
+			                    String sNewStep = "";
+			                    if (msProductType.equals("机体装配") )
+			                    {
+			                        sNewStep = "机体拆修站";
+			                    }
+			                    else if (msProductType .equals( "冷媒装配"))
+			                    {
+			                        sNewStep = "冷媒拆修站";
+			                    }
+			                    else if (msProductType .equals("机组装配"))
+			                    {
+			                    }
+			                    else if (msProductType .equals("P机体装配"))
+			                    {
+			                    	sNewStep = "P机体拆修站";
+			                    }
+			                    else if (msProductType .equals("P机组装配"))
+			                    {
+			                    	sNewStep = "P机组拆修站";
+			                    }
+			                    List<HashMap<String, String>> lsProcessPlan = new ArrayList<HashMap<String, String>>();
+			                    String  sSql = "SELECT * FROM PROCESS_PROCESSPLAN WHERE PRODUCTORDERID='"+msProductOrderId+"' AND  PRODUCTCOMPID='" +msProductCompId  + "' AND PRODUCTID= '" +msProductId  + "' AND CAST( STEPSEQ AS INT )>" + msStepSEQ + " ORDER BY CAST( STEPSEQ AS INT ) DESC";
+			                    db.GetData(sSql,lsProcessPlan);
+			                  
+			                    sSql = "";
+			                    for(int i=0;i<lsProcessPlan.size();i++)
+								{
+			                    	 sSql = sSql + " UPDATE  PROCESS_PROCESSPLAN SET  CHILDPLANSEQ='" + Integer.toString( Integer.parseInt((lsProcessPlan.get(i).get("STEPSEQ").toString()) + 1)) + "',  STEPSEQ='" + Integer.toString(Integer.parseInt(lsProcessPlan.get(i).get("STEPSEQ").toString()) + 1) + "'  WHERE  PRODUCTORDERID='"+msProductOrderId+"' AND  PRODUCTCOMPID='" +lsProcessPlan.get(i).get("PRODUCTCOMPID").toString() + "' AND PRODUCTID= '" +lsProcessPlan.get(i).get("PRODUCTID").toString()  + "' AND  STEPSEQ ='" + lsProcessPlan.get(i).get("STEPSEQ").toString() + "' ; ";
+								}
+			                    sSql = sSql + " INSERT INTO PROCESS_PROCESSPLAN (SYSID, PRODUCTORDERID, PRODUCTCOMPID, PRODUCTID, PLANID, CHILDPLANID, CHILDPLANSEQ, STEPID, STEPSEQ, ISPASS, EQPID, ISGROUP, ISNEEDFIRSTLOT, ISUPLOAD, ERPSTEPID, MODIFYUSERID, MODIFYUSER, MODIFYTIME) SELECT SYSID, PRODUCTORDERID, PRODUCTCOMPID, PRODUCTID, PLANID, '" + sNewStep + "', '" +Integer.toString(Integer.parseInt(msStepSEQ) + 1) + "', '" + sNewStep + "', '" + Integer.toString(Integer.parseInt(msStepSEQ) + 1) + "', ISPASS, EQPID, ISGROUP, ISNEEDFIRSTLOT,'N' ISUPLOAD,'' ERPSTEPID,  '" +MESCommon.UserId + "', '" + MESCommon.UserName + "', " + MESCommon.ModifyTime + " FROM PROCESS_PROCESSPLAN  WHERE  PRODUCTORDERID='"+msProductOrderId+"' AND  PRODUCTCOMPID='" +msProductCompId  + "' AND PRODUCTID= '" + msProductId + "' AND  STEPSEQ ='" + msStepSEQ + "' ;";
+			                    String sResult= db.ExecuteSQL(sSql);
+			                    if(!sResult.equals(""))
+			                    {
+			                    	MESCommon.show(WIP_PaintingEnd.this, sResult);
+									return;
+			                    }
+			                    Save("不合格", lsCompTable, lsAnalysisData);
+								//执行最终判定
+				         	    db.FinalSaveData(msAnalysisformsID,msSampletimes,"不合格",MESCommon.UserId ,MESCommon.UserName,"");
+				         	   if(!params.get("StepID").equals("冷媒出货前检验站"))
+								{
+							       String sSetStepOutResule=db.SetStepOutbyJWJ(msProductOrderId,msProductCompId, msStepId, msStepSEQ, msEqpId, "", "", "", "",MESCommon.UserId, MESCommon.UserName, miQty, 0, 0, 0,"不合格",false);
+									
+								    if (!sSetStepOutResule.equals("")) 
 									{
-				                    	 sSql = sSql + " UPDATE  PROCESS_PROCESSPLAN SET  CHILDPLANSEQ='" + Integer.toString( Integer.parseInt((lsProcessPlan.get(i).get("STEPSEQ").toString()) + 1)) + "',  STEPSEQ='" + Integer.toString(Integer.parseInt(lsProcessPlan.get(i).get("STEPSEQ").toString()) + 1) + "'  WHERE  PRODUCTORDERID='"+msProductOrderId+"' AND  PRODUCTCOMPID='" +lsProcessPlan.get(i).get("PRODUCTCOMPID").toString() + "' AND PRODUCTID= '" +lsProcessPlan.get(i).get("PRODUCTID").toString()  + "' AND  STEPSEQ ='" + lsProcessPlan.get(i).get("STEPSEQ").toString() + "' ; ";
-									}
-				                    sSql = sSql + " INSERT INTO PROCESS_PROCESSPLAN (SYSID, PRODUCTORDERID, PRODUCTCOMPID, PRODUCTID, PLANID, CHILDPLANID, CHILDPLANSEQ, STEPID, STEPSEQ, ISPASS, EQPID, ISGROUP, ISNEEDFIRSTLOT, ISUPLOAD, ERPSTEPID, MODIFYUSERID, MODIFYUSER, MODIFYTIME) SELECT SYSID, PRODUCTORDERID, PRODUCTCOMPID, PRODUCTID, PLANID, '" + sNewStep + "', '" +Integer.toString(Integer.parseInt(msStepSEQ) + 1) + "', '" + sNewStep + "', '" + Integer.toString(Integer.parseInt(msStepSEQ) + 1) + "', ISPASS, EQPID, ISGROUP, ISNEEDFIRSTLOT,'N' ISUPLOAD,'' ERPSTEPID,  '" +MESCommon.UserId + "', '" + MESCommon.UserName + "', " + MESCommon.ModifyTime + " FROM PROCESS_PROCESSPLAN  WHERE  PRODUCTORDERID='"+msProductOrderId+"' AND  PRODUCTCOMPID='" +msProductCompId  + "' AND PRODUCTID= '" + msProductId + "' AND  STEPSEQ ='" + msStepSEQ + "' ;";
-				                    String sResult= db.ExecuteSQL(sSql);
-				                    if(!sResult.equals(""))
-				                    {
-				                    	MESCommon.show(WIP_PaintingEnd.this, sResult);
+										MESCommon.show(WIP_PaintingEnd.this, sSetStepOutResule);
 										return;
-				                    }
-				                    Save("不合格", lsCompTable, lsAnalysisData);
-									//执行最终判定
-					         	    db.FinalSaveData(msAnalysisformsID,msSampletimes,"不合格",MESCommon.UserId ,MESCommon.UserName,"");
-					         	   if(!params.get("StepID").equals("冷媒出货前检验站"))
-									{
-								       String sSetStepOutResule=db.SetStepOutbyJWJ(msProductOrderId,msProductCompId, msStepId, msStepSEQ, msEqpId, "", "", "", "",MESCommon.UserId, MESCommon.UserName, miQty, 0, 0, 0,"不合格",false);
-										
-									    if (!sSetStepOutResule.equals("")) 
-										{
-											MESCommon.show(WIP_PaintingEnd.this, sSetStepOutResule);
-											return;
-										}
 									}
-								    Toast.makeText(WIP_PaintingEnd.this, "报工完成!", Toast.LENGTH_SHORT).show();
-								    InsertINSTOCKANALYSIS("不合格");
-					                Clear();
+								}
+							    Toast.makeText(WIP_PaintingEnd.this, "报工完成!", Toast.LENGTH_SHORT).show();
+							    InsertINSTOCKANALYSIS("不合格");
+				                Clear();
 				            }  
 				        })  
 				.setNeutralButton("取消",new DialogInterface.OnClickListener() {  
@@ -1524,7 +1660,7 @@ try {
          	      return;
          	     }
              }
-         	InsertSTEP_P();
+         	if (!mbIsFW) InsertSTEP_P();
 		} catch (Exception e) {
 			// TODO: handle exception
 			MESCommon.showMessage(WIP_PaintingEnd.this, e.toString());
@@ -1697,13 +1833,362 @@ try {
 	}
 	
 	//此方法只是关闭软键盘
-		private void hintKbTwo() {
-		 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);			 
-		 if(imm.isActive()&&getCurrentFocus()!=null){
-			if (getCurrentFocus().getWindowToken()!=null) {
-			imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-			}			  
-		 }
-		}
+	private void hintKbTwo() {
+	 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);			 
+	 if(imm.isActive()&&getCurrentFocus()!=null){
+		if (getCurrentFocus().getWindowToken()!=null) {
+		imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+		}			  
+	 }
+	}
+	
+	//服务报工扫描代码
+//	private void FW_TrackIn(String sCompidseq)
+//	{
+//		String sResult = "", sSQL = "";
+//		List<HashMap<String, String>> ls = new ArrayList<HashMap<String, String>>();
+//		try {
+//			EditText txtInput = (EditText) findViewById(R.id.wippaintingend_tvInput);
+//			lsCompID.clear();
+//			sResult = db.GetProductSerialNumber_CRM(sCompidseq,"",msProductOrderId, "QF","MES单号","装配", lsCompID);
+//			if (!sResult.equals(""))
+//			{
+//				txtInput.setText("");
+//				MESCommon.show(WIP_PaintingEnd.this,sResult);
+//                return;
+//			}
+//			if (lsCompID.size() == 0)
+//			{
+//				txtInput.setText("");
+//				MESCommon.show(WIP_PaintingEnd.this,"MES单号查无资料!");
+//                return;
+//			}
+//			
+//			String sSql="",sError="";
+//			//读取
+//			lsCRM_HK_FW006.clear();
+//			sSql = "SELECT A.CUSTOMREQUEST, A.DISASSEMBLEMEMO, A.RESPONSIBILITY,A.hdcptype FROM CRM_HK_FW006 A WHERE A.CRMNO='"+txtInput.getText().toString().trim().toUpperCase()+"'";
+//			sError= db.GetData(sSql,  lsCRM_HK_FW006);
+//			if (sError != "") 
+//			{
+//				MESCommon.showMessage(WIP_PaintingEnd.this, sError);
+//				return;
+//			}
+//			if (lsCRM_HK_FW006.size() == 0)
+//			{
+//				MESCommon.showMessage(WIP_PaintingEnd.this, "MES单号查无资料!");
+//				return;
+//			}
+//			lsProduct.clear();
+//			sSql=" SELECT * FROM MPRODUCT WHERE PRODUCTID ='"+lsCompID.get(0).get("MATERIALID").toString()+"'  ;";
+//			sError= db.GetData(sSql,  lsProduct);
+//			if (sError != "") 
+//			{
+//				MESCommon.showMessage(WIP_PaintingEnd.this, sError);
+//				return;
+//			}
+//			
+//			//初始化工件信息
+//			//editCrmno.setText(lsCompID.get(0).get("CRMNO").toString());
+//			//editMaterialID.setText(lsProduct.get(0).get("PRODUCTID").toString());
+//			//editMaterialID.setText(lsProduct.get(0).get("PRODUCTNAME").toString());
+//			//editProductModel.setText(lsProduct.get(0).get("PRODUCTMODEL").toString());	
+//			msCrmno = lsCompID.get(0).get("CRMNO").toString();
+//			msProductOrderId=lsCompID.get(0).get("PRODUCTORDERID").toString();
+//			msProductOrderId = msCrmno;
+//			msProductId=lsProduct.get(0).get("PRODUCTID").toString();
+//			msProductCompId=lsCompID.get(0).get("PRODUCTCOMPID").toString();
+//			msProductSerialNumber=lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString();
+//			msStepId = params.get("StepID");
+//			msStepSEQ = "1";
+//			msEqpId = params.get("EQPID");
+//			miQty=1;
+//			String sFWType = lsCRM_HK_FW006.get(0).get("hdcptype").toString();	//服务产线类别
+//			//判断是否为报工暂停
+//			String sStepPause = db.IsStepPause(msCrmno, msProductCompId, msStepId, msEqpId);
+////			mbIsStepPause = sStepPause.equals("false") ? false: true;
+////			if (mbIsStepPause)
+////				mMenuItem.setTitle("解除暂停");
+////			else
+////				mMenuItem.setTitle("报工暂停");
+//			
+////						lsAnalysisFinalData.clear();
+////						//判断有没有待最终判定的记录，如果有不能继续进行
+////						sSql=" SELECT * FROM ANALYSISWAITLIST WHERE   SOURCESTEP='"+msStepId+"' and  PRODUCTID ='"+msProductId+"' AND PRODUCTCOMPID = '"+msProductCompId+"' AND QCTYPE = '制程检验' AND QC_ITEM = '自主检验' AND ANALYSISSTATUS = '待最终判定'  ;";
+////						sError= db.GetData(sSql,  lsAnalysisFinalData);
+////						if (sError != "") {
+////							MESCommon.showMessage(WIP_TrackIn_CRM.this, sError);
+////							return false;
+////						}
+////						if(lsAnalysisFinalData.size()>0)
+////						{
+////							MESCommon.showMessage(WIP_TrackIn_CRM.this, "制造号码：【"+msProductCompId+"】,正在等待最终判定，不能进行报工作业！");
+////							return false;
+////						}
+//			
+//			//初始化检验项目
+//			lsAnalysisData.clear();
+//			sResult = db.GetAnalysisData(msProductOrderId,msProductId,msProductCompId,"",msStepId,MESCommon.UserId ,msEqpId,"自主检验",lsAnalysisData);
+//			if (sResult != "") {
+//				MESCommon.showMessage(WIP_PaintingEnd.this, sResult);
+//				finish();
+//			}
+//			
+//			if(lsAnalysisData.size()==0)
+//			{
+//				List<HashMap<String, String>> lsdtAnalysisformsID = new ArrayList<HashMap<String, String>>();
+//				String sSQL = "SELECT * FROM ANALYSISWAITLIST WHERE PRODUCTORDERID='"+msProductOrderId+"' AND SOURCESTEP='"+msStepId+"' and  PRODUCTID ='"+msProductId+"' AND PRODUCTCOMPID ='"+msProductCompId+"'  AND QCTYPE = '制程检验' AND QC_ITEM ='自主检验'  AND ANALYSISSTATUS = '待检验' AND FORMSSTATUS = '待处理' ";
+//		        sResult = db.GetData(sSQL, lsdtAnalysisformsID);
+//		    	if (sResult != "") {
+//					MESCommon.showMessage(WIP_PaintingEnd.this, sResult);
+//					finish();
+//				}else {
+//					msAnalysisformsID=lsdtAnalysisformsID.get(0).get("ANALYSISFORMSID").toString();
+//					msSampletimes=lsdtAnalysisformsID.get(0).get("SAMPLETIMES").toString();
+//				}
+//			}
+//			lsAnalysisTable.clear();						
+//			for(int i=0;i<lsAnalysisData.size();i++)
+//			{
+//				msAnalysisformsID=lsAnalysisData.get(i).get("ANALYSISFORMSID").toString();
+//				msSampletimes=lsAnalysisData.get(i).get("SAMPLETIMES").toString();
+////				msSUPPLYLOTID=lsAnalysisData.get(i).get("SUPPLYLOTID").toString();
+////				msSUPPLYID=lsAnalysisData.get(i).get("SUPPLYID").toString();
+////				msQC_ITEM=lsAnalysisData.get(i).get("QC_ITEM").toString();
+////				msQCTYPE=lsAnalysisData.get(i).get("QCTYPE").toString();
+//				HashMap<String, String> hs = new HashMap<String, String>();				
+//				hs.put("ANALYSISITEM", lsAnalysisData.get(i).get("ANALYSISITEM").toString());
+//				hs.put("ITEMALIAS", lsAnalysisData.get(i).get("ITEMALIAS").toString());
+//				hs.put("RESULTTYPE", lsAnalysisData.get(i).get("RESULTTYPE").toString());
+//				hs.put("SPECMINVALUE", lsAnalysisData.get(i).get("SPECMINVALUE").toString());
+//				hs.put("SPECMAXVALUE", lsAnalysisData.get(i).get("SPECMAXVALUE").toString());
+//				hs.put("ISNEED", lsAnalysisData.get(i).get("ISNEED").toString());
+//				hs.put("ISJUDGE", lsAnalysisData.get(i).get("ISJUDGE").toString());
+//				
+//				//先判断类型
+//				if (lsAnalysisData.get(i).get("RESULTTYPE").toString().equals("数值")) {
+//					//检查是否有输入检测结果值。
+//					if(!lsAnalysisData.get(i).get("DATAVALUE").toString().trim().equals(""))
+//					{ //是否必须判断
+//						if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
+//						{
+//							String sminValueString="";
+//						    String smaxValueString="";
+//							if(lsAnalysisData.get(i).get("SPECMINVALUE").toString().equals(""))
+//							{
+//								sminValueString="-9999999999";
+//							}else
+//							{
+//								sminValueString=lsAnalysisData.get(i).get("SPECMINVALUE").toString();
+//							}
+//							if(lsAnalysisData.get(i).get("SPECMAXVALUE").toString().equals(""))
+//							{
+//								smaxValueString="9999999999";
+//							}else {									
+//								smaxValueString=lsAnalysisData.get(i).get("SPECMAXVALUE").toString()	;
+//							}
+//							
+//							if (Double.parseDouble(lsAnalysisData.get(i).get("DATAVALUE").toString())>=Double.parseDouble(sminValueString)&&
+//									Double.parseDouble(lsAnalysisData.get(i).get("DATAVALUE").toString())<=Double.parseDouble(smaxValueString)	)
+//							{
+//								hs.put("FINALVALUE", "OK");
+//							}else
+//							{
+//								hs.put("FINALVALUE", "NG");
+//							}
+//						}else
+//						{
+//							hs.put("FINALVALUE", "OK");
+//						}
+//						hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DATAVALUE").toString().trim());
+//						hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
+//				     }
+//					 else
+//					 {   //检查是否有默认值，如果没有输入值已默认值为默认结果
+//						if(!lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim().equals(""))
+//						{//是否必须判断
+//							if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
+//							{
+//								String sminValueString="";
+//							    String smaxValueString="";
+//								if(lsAnalysisData.get(i).get("SPECMINVALUE").toString().equals(""))
+//								{
+//									sminValueString="-9999999999";
+//								}else
+//								{
+//									sminValueString=lsAnalysisData.get(i).get("SPECMINVALUE").toString();
+//								}
+//								if(lsAnalysisData.get(i).get("SPECMAXVALUE").toString().equals(""))
+//								{
+//									smaxValueString="9999999999";
+//								}else {									
+//									smaxValueString=lsAnalysisData.get(i).get("SPECMAXVALUE").toString()	;
+//								}
+//								
+//								if (Double.parseDouble(lsAnalysisData.get(i).get("DATAVALUE").toString())>=Double.parseDouble(sminValueString)&&
+//										Double.parseDouble(lsAnalysisData.get(i).get("DATAVALUE").toString())<=Double.parseDouble(smaxValueString)	)
+//								{
+//									hs.put("FINALVALUE", "OK");
+//								}else
+//								{
+//									hs.put("FINALVALUE", "NG");
+//								}
+////								if (Double.parseDouble(lsAnalysisData.get(i).get("DEFAULTSVALUE").toString())>=Double.parseDouble(lsAnalysisData.get(i).get("SPECMINVALUE").toString())&&
+////										Double.parseDouble(lsAnalysisData.get(i).get("DEFAULTSVALUE").toString())<=Double.parseDouble(lsAnalysisData.get(i).get("SPECMAXVALUE").toString())	)
+////								{
+////									hs.put("FINALVALUE", "OK");
+////								}else
+////								{
+////									hs.put("FINALVALUE", "NG");
+////								}
+//							}else
+//							{
+//								hs.put("FINALVALUE", "OK");
+//							}
+//							hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
+//							hs.put("DATAVALUE", lsAnalysisData.get(i).get("DEFAULTSVALUE").toString());
+//						}else
+//						{  //是否必须判断
+//							if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
+//							{
+//							hs.put("FINALVALUE", "");
+//							}else
+//							{
+//								hs.put("FINALVALUE", "OK");
+//							}
+//							hs.put("DISPLAYVALUE","");
+//							hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
+//						}
+//					  }						
+//					} else if (lsAnalysisData.get(i).get("RESULTTYPE").toString().equals("布尔")) {
+//						if(!lsAnalysisData.get(i).get("DATAVALUE").toString().trim().equals(""))
+//						{   //检查到资料库有该检验项目的存储值
+//							//是否必须判断
+//							if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
+//							{   
+//								//必须判，如果是true则最终判断为OK,elseNG，显示名字为trueword or falseword
+//								if (lsAnalysisData.get(i).get("DATAVALUE").toString().toUpperCase().equals("TRUE"))
+//								{
+//									hs.put("FINALVALUE", "OK");	
+//									hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
+//								}else{
+//									hs.put("FINALVALUE", "NG");
+//								    hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());	
+//								}
+//							}else
+//							{   //不判断，则最终判断为肯定为OK,显示名字为trueword or falseword
+//								hs.put("FINALVALUE", "OK");
+//								if (lsAnalysisData.get(i).get("DATAVALUE").toString().toUpperCase().equals("TRUE"))
+//								{											
+//								hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
+//								}else {
+//								hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());
+//								}
+//							}
+//							//判断不判断，如果在我们资料库有值，一定带的值是资料库中的。
+//							hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
+//						}else
+//						{    //检查到资料库没有该检验项目的存储值
+//							//检查是否有默认值，如果没有输入值已默认值为默认结果
+//							if(!lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim().equals(""))
+//							{
+//								  //是否必须判断
+//								if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
+//								{//必须判，如果是true则最终判断为OK,elseNG，显示名字为trueword or falseword
+//									if (lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().toUpperCase().equals("TRUE"))
+//									{
+//										hs.put("FINALVALUE", "OK");	
+//										hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
+//										hs.put("DATAVALUE", "True");
+//									}else{
+//										hs.put("FINALVALUE", "NG");
+//									    hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());	
+//									    hs.put("DATAVALUE", "False");
+//									}
+//								}
+//								else
+//								{ 
+//									//不判断，有则最终判断为肯定为OK,显示名字为trueword or falseword
+//									hs.put("FINALVALUE", "OK");
+//									if (lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().toUpperCase().equals("TRUE"))
+//									{											
+//									hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
+//									}else {
+//									hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());
+//									}
+//									hs.put("DATAVALUE", lsAnalysisData.get(i).get("DEFAULTSVALUE").toString());
+//								}
+//								
+//							}//没有预设值，默认是OK，最终是合格，显示名字带trueword
+//							else{
+//								hs.put("FINALVALUE", "OK");
+//								hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
+//								hs.put("DATAVALUE", "True");
+//							}
+//						}
+//			}else//除开数值，和布尔
+//			{
+//				if(lsAnalysisData.get(i).get("ANALYSISITEM").toString().toUpperCase().equals("VI")){
+//					//查询滑块值
+//						List<HashMap<String, String>> lsdtStep_P = new ArrayList<HashMap<String, String>>();
+//						String sSQL = "SELECT * FROM PROCESS_STEP_P WHERE  PRODUCTCOMPID ='"+msProductCompId+"' and MATERIALMAINTYPE='滑块' ";
+//				        sResult = db.GetData(sSQL, lsdtStep_P);
+//				        if(lsdtStep_P.size()>0)
+//				        {
+//							hs.put("FINALVALUE", "OK");
+//							hs.put("DISPLAYVALUE",lsdtStep_P.get(0).get("FINEPROCESSID").toString().trim());
+//							hs.put("DATAVALUE", lsdtStep_P.get(0).get("FINEPROCESSID").toString());
+//				        }
+//				        else{
+//							hs.put("FINALVALUE", "OK");
+//							hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
+//							hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
+//						}
+//					}else{
+//						hs.put("FINALVALUE", "OK");
+//						hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
+//						hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
+//					}
+//				}					
+//
+//				lsAnalysisTable.add(hs);
+//			}
+//			adapter.notifyDataSetChanged();
+//			
+//			//报工开始
+//			String sSetStepInResule = db.SetStepInbyCRM(msProductOrderId ,msProductCompId,
+//					msStepId, msEqpId, MESCommon.UserId, MESCommon.UserName);
+//			if (!sSetStepInResule.equals("")) {
+//				MESCommon.showMessage(WIP_PaintingEnd.this, "MES单号【"+txtInput.getText().toString().trim()+"】报工开始失败！" + sSetStepInResule);							
+//			    return;
+//			}
+//			
+//			//初始化工件信息
+//			editCrmno.setText(lsCompID.get(0).get("CRMNO").toString());
+//			editMaterialID.setText(lsProduct.get(0).get("PRODUCTID").toString());
+//			//editMaterialID.setText(lsProduct.get(0).get("PRODUCTNAME").toString());
+//			editProductModel.setText(lsProduct.get(0).get("PRODUCTMODEL").toString());
+//			//服务特殊资讯
+//			editCustomRequest.setText(lsCRM_HK_FW006.get(0).get("CUSTOMREQUEST").toString());
+//			editDisassembleMemo.setText(lsCRM_HK_FW006.get(0).get("DISASSEMBLEMEMO").toString());
+//			for (int i=0; i<lsResponsibility.size(); i++)
+//			{
+//				String sTemp = lsResponsibility.get(i).get("ITEM").toString();
+//				if (sTemp.equals(lsCRM_HK_FW006.get(0).get("RESPONSIBILITY").toString()))
+//				{
+//					spResponsibility.setSelection(i+1);
+//					break;
+//				}
+//			}
+//			
+//			editInput.setText("");
+//			setFocus(editCrmno);
+//		
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			MESCommon.showMessage(WIP_PaintingEnd.this, e.toString());
+//			return;
+//		}
+//	}
 }
 

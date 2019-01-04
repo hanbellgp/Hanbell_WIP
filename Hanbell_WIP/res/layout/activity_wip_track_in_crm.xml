@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/wiptrackincrm_btnTab1"
+            android:layout_width="80dp"
+            android:layout_height="40dip"
+            android:text="报工" />
+
+        <Button
+            android:id="@+id/wiptrackincrm_btnTab2"
+            android:layout_width="100dp"
+            android:layout_height="40dip"
+            android:text="自主检" />
+
+        <Button
+            android:id="@+id/wiptrackincrm_btnTab3"
+            android:layout_width="120dp"
+            android:layout_height="40dip"
+            android:text="维修记录" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/wiptrackincrm_tab1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:stretchColumns="1" >
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="扫描条码"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:inputType="text"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="MES单号"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvCrmno"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="成品品号"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvMaterialid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="机型"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvProductModel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_tvCM"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="订单厂家"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvCustomerName"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:gravity="left|top"
+                        android:inputType="textMultiLine"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_tvM"
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="主齿轮"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvMCheel"
+                        android:layout_width="60dip"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_tvD"
+                        android:layout_width="30dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="副"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvDCheel"
+                        android:layout_width="60dip"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvMDCheel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_tvPM"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="生管备注"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvPMMessage"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:gravity="left|top"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h8"
+                        android:layout_width="30dip"
+                        android:layout_height="30dip"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                    
+					<TextView
+                        android:id="@+id/wiptrackincrm_h12"
+                        android:layout_width="15dip"
+                        android:layout_height="30dip"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+					
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h6"
+                        android:layout_width="120dip"
+                        android:layout_height="30dip"
+                        android:text="零部件编号"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h7"
+                        android:layout_width="100dip"
+                        android:layout_height="30dip"
+                        android:text="零部件品名"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h10"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dip"
+                        android:text="料号"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="horizontal" >
+
+                    <ListView
+                        android:id="@+id/wiptrackincrm_lv0"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="28sp" />
+                </HorizontalScrollView>
+            </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wiptrackincrm_tab2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible" >
+
+            <TableLayout
+                android:layout_width="330dip"
+                android:layout_height="300dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h9"
+                        android:layout_width="40dip"
+                        android:layout_height="30dip"
+                        android:text="必填"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h11"
+                        android:layout_width="40dip"
+                        android:layout_height="30dip"
+                        android:text="必判"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h1"
+                        android:layout_width="180dip"
+                        android:layout_height="30dip"
+                        android:text="检验项目"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h2"
+                        android:layout_width="100dip"
+                        android:layout_height="30dip"
+                        android:text="值"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/wiptrackincrm_h3"
+                        android:layout_width="0dip"
+                        android:layout_height="30dip"
+                        android:text="预设值"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:visibility="invisible" />
+                </TableRow>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="horizontal" >
+
+                    <ListView
+                        android:id="@+id/wiptrackincrm_lv1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </HorizontalScrollView>
+            </TableLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:id="@+id/wiptrackincrm_tab2_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="40dip"
+                        android:layout_height="35dp"
+                        android:text="值"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/wiptrackincrm_editTab2_0"
+                        android:layout_width="150dp"
+                        android:layout_height="35dp"
+                        android:inputType="numberDecimal"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/wiptrackincrm_btnTab2_0_OK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="确认" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/wiptrackincrm_tab2_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="invisible" >
+
+                    <TextView
+                        android:layout_width="40dip"
+                        android:layout_height="35dp"
+                        android:text="值"
+                        android:textSize="15sp" />
+
+                    <RadioGroup
+                        android:id="@+id/wiptrackincrm_radioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <RadioButton
+                            android:id="@+id/wiptrackincrm_radioButtonOK"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OK"
+                            android:textSize="15sp" />
+
+                        <RadioButton
+                            android:id="@+id/wiptrackincrm_radioButtonNG"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NG"
+                            android:textSize="15sp" />
+                    </RadioGroup>
+
+                    <Button
+                        android:id="@+id/wiptrackincrm_btnTab2_1_OK"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="确认" />
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/wiptrackincrm_tab3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" >
+            
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp" >
+				
+                <TableRow>
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="客户要求"
+                        android:textSize="15sp" />
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvCustomRequest"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|top"
+                        android:inputType="text"
+                        android:textSize="15sp" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="拆解备注"
+                        android:textSize="15sp" />
+                    <EditText
+                        android:id="@+id/wiptrackincrm_tvDisassembleMemo"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|top"
+                        android:inputType="text"
+                        android:textSize="15sp" />
+                </TableRow>
+                <TableRow>
+                    <TextView
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="责任判定"
+                        android:textSize="15sp" />
+                    <Spinner
+                        android:id="@+id/wiptrackincrm_spResponsibility"
+                        android:layout_width="220dip"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp" />
+                </TableRow>
+                <TableRow>
+                    <TableLayout
+		                android:layout_width="320dip"
+		                android:layout_height="250dip"
+		                android:layout_span="2"
+		                android:layout_marginLeft="10dp"
+		                android:layout_marginRight="10dp" >
+						<TableRow>
+				            <TextView
+				                android:id="@+id/wiptrackincrm_lv2_1_2"
+				                android:layout_width="150dip"
+				                android:layout_height="25dip"
+				                android:text="故障类别"
+				                android:textColor="#000000"
+				                android:textSize="15sp" />
+				            <TextView
+				                android:id="@+id/wiptrackincrm_lv2_2_2"
+				                android:layout_width="150dip"
+				                android:layout_height="25dip"
+				                android:text="泄漏位置"
+				                android:textColor="#000000"
+				                android:textSize="15sp" />
+			            </TableRow>
+		                <TableRow>
+		                    <HorizontalScrollView
+			                    android:layout_width="150dip"
+			                    android:layout_height="match_parent"
+			                    android:scrollbars="horizontal" >
+			
+			                    <ListView
+			                        android:id="@+id/wiptrackincrm_lv2_1"
+			                        android:layout_width="match_parent"
+			                        android:layout_height="match_parent"
+			                        android:textSize="15sp" />
+			                </HorizontalScrollView>
+			                <HorizontalScrollView
+			                    android:layout_width="150dip"
+			                    android:layout_height="match_parent"
+			                    android:scrollbars="horizontal" >
+			
+			                    <ListView
+			                        android:id="@+id/wiptrackincrm_lv2_2"
+			                        android:layout_width="match_parent"
+			                        android:layout_height="match_parent"
+			                        android:textSize="15sp" />
+			                </HorizontalScrollView>
+			            </TableRow>
+		      		</TableLayout>
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/wiptrackincrm_btnTemporary"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="暂存" />
+
+        <Button
+            android:id="@+id/wiptrackincrm_btnConfirm"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="报工" />
+
+        <Button
+            android:id="@+id/wiptrackincrm_btnTab0_Delete"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="删除" />
+
+        <Button
+            android:id="@+id/wiptrackincrm_btnAdd"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="手动" />
+       	
+        <Button
+            android:id="@+id/wiptrackincrm_btnSP"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="特采" />
+    </LinearLayout>
+
+</TableLayout>

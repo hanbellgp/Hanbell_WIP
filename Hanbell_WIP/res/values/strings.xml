@@ -60,5 +60,6 @@
     <string name="title_activity_wip__track_in__crm">服务维修装配报工</string>
     <string name="title_activity_wip__track_in__fw">WIP_TrackIn_FW</string>
     <string name="title_activity_wip__track_in__sp">不合格单查看</string>
+    <string name="title_activity_finish__temp">装配在制盘点作业</string>
 
 </resources>
