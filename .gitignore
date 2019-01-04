@@ -6,6 +6,7 @@
 .project
 .metadata
 bin/
+gen/
 tmp/
 *.tmp
 *.bak
@@ -15,6 +16,13 @@ local.properties
 .classpath
 .settings/
 .loadpath
+
+# built application files
+*.apk
+*.ap_
+
+# Java class files
+*.class
 
 # External tool builders
 .externalToolBuilders/
