@@ -581,7 +581,7 @@ public class WIP_BarCode_Update extends Activity {
 						String sEqpId =params.get("EQPID").toString();
 						String sStepSEQ = lsProcess.get(0).get("STEPSEQ").toString();						
 						//不需要判定是不是重工制令，都要发料，过站
-                        if(sStepId.equals("机体领料站") || sStepId.equals("冷媒领料站") || sStepId.equals("P机体领料站") || sStepId.equals("P机组领料站"))
+						if(sStepId.equals("机体领料站") || sStepId.equals("冷媒领料站") || sStepId.equals("P机体领料站") || sStepId.equals("P机组领料站") || sStepId.equals("涡旋领料站"))
                         {			
                         	String sSerialnumberID="";
                         	//库存直接发料Y,
