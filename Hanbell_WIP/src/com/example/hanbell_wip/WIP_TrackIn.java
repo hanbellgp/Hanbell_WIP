@@ -1,3 +1,9 @@
+//#####更新记录#####
+//20190107 C1793:修改PDA不符合文字类型的输入问题
+//
+//
+//#####更新记录#####
+
 package com.example.hanbell_wip;
 
 import java.io.ByteArrayOutputStream;
@@ -24,6 +30,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -303,9 +310,11 @@ public class WIP_TrackIn extends Activity {
 					EditText edit = (EditText) findViewById(R.id.wiptrackin_editTab2_0);
 					if(lsAnalysisTable.size()>0)
 					{
-						 lsAnalysisTable.get(milv1RowNum).put("DATAVALUE",edit.getText().toString());
-						 lsAnalysisTable.get(milv1RowNum).put("DISPLAYVALUE",edit.getText().toString());
-						if(lsAnalysisTable.get(milv1RowNum).get("ISJUDGE").toString().trim().equals("Y"))
+						lsAnalysisTable.get(milv1RowNum).put("DATAVALUE",edit.getText().toString());
+						lsAnalysisTable.get(milv1RowNum).put("DISPLAYVALUE",edit.getText().toString());
+						//只有数值类型需做Judge判定，文字类型不做判定 20190107 C1793
+						if(lsAnalysisTable.get(milv1RowNum).get("ISJUDGE").toString().trim().equals("Y") &&
+							lsAnalysisTable.get(milv1RowNum).get("RESULTTYPE").toString().equals("数值"))
 						{
 							if(!edit.getText().toString().trim().equals(""))
 							{   String sminValueString="";
@@ -322,7 +331,7 @@ public class WIP_TrackIn extends Activity {
 									smaxValueString="9999999999";
 								}else {									
 									smaxValueString=lsAnalysisTable.get(milv1RowNum).get("SPECMAXVALUE").toString()	;
-									}
+								}
 							
 								if (Double.parseDouble(edit.getText().toString().trim())>=Double.parseDouble(sminValueString)&&
 										Double.parseDouble(edit.getText().toString().trim())<=Double.parseDouble(smaxValueString)	)
@@ -333,8 +342,6 @@ public class WIP_TrackIn extends Activity {
 									 lsAnalysisTable.get(milv1RowNum).put("FINALVALUE", "NG");
 								}					
 								
-								
-								showRow(milv1RowNum + 1);
 							}else
 							{
 								 lsAnalysisTable.get(milv1RowNum).put("FINALVALUE", "");
@@ -343,6 +350,7 @@ public class WIP_TrackIn extends Activity {
 						{
 						   lsAnalysisTable.get(milv1RowNum).put("FINALVALUE", "OK" );
 						}
+						showRow(milv1RowNum + 1);
 						hintKbTwo();
 						adapter.notifyDataSetChanged();		
 					}
@@ -722,10 +730,10 @@ public class WIP_TrackIn extends Activity {
 								return false;
 							 }
 						//冷媒的机型从装配规范里面取的。
-							if(lsProductCUS.size()>0)
-							{
-								editProductModel.setText(lsProductCUS.get(0).get("PRODUCTCUS").toString());	
-							}
+						if(lsProductCUS.size()>0)
+						{
+							editProductModel.setText(lsProductCUS.get(0).get("PRODUCTCUS").toString());	
+						}
 						lsAnalysisFinalData.clear();
 						//判断有没有待最终判定的记录，如果有不能继续进行
 						 sSql=" SELECT * FROM ANALYSISWAITLIST WHERE   SOURCESTEP='"+msStepId+"' and  PRODUCTID ='"+msProductId+"' AND PRODUCTCOMPID = '"+msProductCompId+"' AND QCTYPE = '制程检验' AND QC_ITEM = '自主检验' AND ANALYSISSTATUS = '待最终判定'  ";
@@ -908,25 +916,30 @@ public class WIP_TrackIn extends Activity {
 						{
 							if(lsAnalysisData.get(i).get("ANALYSISITEM").toString().toUpperCase().equals("VI")){
 								//查询滑块值
-									List<HashMap<String, String>> lsdtStep_P = new ArrayList<HashMap<String, String>>();
-									String sSQL = "SELECT * FROM PROCESS_STEP_P WHERE  PRODUCTCOMPID ='"+msProductCompId+"' and MATERIALMAINTYPE='滑块' ";
-							        sResult = db.GetData(sSQL, lsdtStep_P);
-							        if(lsdtStep_P.size()>0)
-							        {
-										hs.put("FINALVALUE", "OK");
-										hs.put("DISPLAYVALUE",lsdtStep_P.get(0).get("FINEPROCESSID").toString().trim());
-										hs.put("DATAVALUE", lsdtStep_P.get(0).get("FINEPROCESSID").toString());
-							        }
-							        else{
-										hs.put("FINALVALUE", "OK");
-										hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
-										hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
-									}
-								}else{
+								List<HashMap<String, String>> lsdtStep_P = new ArrayList<HashMap<String, String>>();
+								String sSQL = "SELECT * FROM PROCESS_STEP_P WHERE  PRODUCTCOMPID ='"+msProductCompId+"' and MATERIALMAINTYPE='滑块' ";
+						        sResult = db.GetData(sSQL, lsdtStep_P);
+						        if(lsdtStep_P.size()>0)
+						        {
+									hs.put("FINALVALUE", "OK");
+									hs.put("DISPLAYVALUE",lsdtStep_P.get(0).get("FINEPROCESSID").toString().trim());
+									hs.put("DATAVALUE", lsdtStep_P.get(0).get("FINEPROCESSID").toString());
+						        }
+						        else{
 									hs.put("FINALVALUE", "OK");
 									hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
 									hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
 								}
+							}else{
+								hs.put("FINALVALUE", "OK");
+								//20190107 C1793
+								if (lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim().equals(""))
+									hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DATAVALUE").toString().trim());
+								else
+									hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
+								
+								hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
+							}
 						}					
 
 						lsAnalysisTable.add(hs);
@@ -1994,6 +2007,7 @@ public class WIP_TrackIn extends Activity {
 			return e.toString();
 		}
 	}
+	
 	private void showRow(int iRow) {
 		try {
 			if (iRow < lsAnalysisTable.size()) {
@@ -2008,12 +2022,23 @@ public class WIP_TrackIn extends Activity {
 				if (lsAnalysisTable.get(iRow).get("RESULTTYPE").toString().equals("数值")) {
 					tab2_0.setVisibility(View.VISIBLE);
 					tab2_1.setVisibility(View.INVISIBLE);
+					edit.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);	//只允许输入数值 20190107 C1793
 					if(!lsAnalysisTable.get(iRow).get("DATAVALUE").toString().equals(""))
 					{
 						edit.setText((String) lsAnalysisTable.get(iRow).get("DATAVALUE"));
 					}else{
-					edit.setText((String) lsAnalysisData.get(iRow).get("DEFAULTSVALUE"));}
-					setFocus(edit);		
+						edit.setText((String) lsAnalysisData.get(iRow).get("DEFAULTSVALUE"));}
+						setFocus(edit);
+				} else if (lsAnalysisTable.get(iRow).get("RESULTTYPE").toString().equals("文字")) {
+					tab2_0.setVisibility(View.VISIBLE);
+					tab2_1.setVisibility(View.INVISIBLE);
+					edit.setInputType(InputType.TYPE_CLASS_TEXT);			//无限制输入格式 20190107 C1793
+					if(!lsAnalysisTable.get(iRow).get("DATAVALUE").toString().equals(""))
+					{
+						edit.setText((String) lsAnalysisTable.get(iRow).get("DATAVALUE"));
+					}else{
+						edit.setText((String) lsAnalysisData.get(iRow).get("DEFAULTSVALUE"));}
+						setFocus(edit);
 				} else if (lsAnalysisTable.get(iRow).get("RESULTTYPE").toString().equals("布尔")) {
 					tab2_0.setVisibility(View.INVISIBLE);
 					tab2_1.setVisibility(View.VISIBLE);
