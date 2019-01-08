@@ -199,7 +199,7 @@ try {
 		//冷媒滑块显示，奇他不显示
 		try {
 			//入库检验站需要合格和不合格按钮！
-			if ((params.get("StepName").contains("入库前检验")||params.get("StepName").contains("出货前检验")) && (!params.get("StepName").contains("P机")) )
+			if ((params.get("StepName").contains("入库前检验")||params.get("StepName").contains("出货前检验")) && (!params.get("StepName").contains("P机")) && (!params.get("StepName").contains("涡旋")) )
 			{
 				List<SpinnerData> lst = new ArrayList<SpinnerData>();
 				btnConfirm.setVisibility(0);
