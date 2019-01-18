@@ -31,7 +31,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="430dp" >
 
         <LinearLayout
             android:id="@+id/wiptrackin_tab1"
@@ -351,7 +351,7 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="102dp" >
 
                 <LinearLayout
                     android:id="@+id/wiptrackin_tab2_0"
@@ -515,12 +515,13 @@
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="手动" />
-        
+
         <Button
             android:id="@+id/wiptrackin_btnSP"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:text="特采" />
+
     </LinearLayout>
 
 </TableLayout>
