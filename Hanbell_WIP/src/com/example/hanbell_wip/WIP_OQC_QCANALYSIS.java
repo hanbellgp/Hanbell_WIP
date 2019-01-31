@@ -10,7 +10,8 @@ import com.example.hanbell_wip.R;
 import com.example.hanbell_wip.Class.*;
 import com.example.hanbell_wip.EQP_Setting.SpinnerData;
 import com.example.hanbell_wip.WIP_Defect.WIPDefectAdapter;
-
+import com.example.hanbell_wip.WIP_TrackIn.wiptrackinAdapterTab0;
+import com.example.hanbell_wip.WIP_TrackIn.wiptrackinAdapterTab0.ViewHolder;
 
 import android.R.string;
 import android.annotation.SuppressLint;
@@ -81,20 +82,23 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 
 	private MESDB db = new MESDB();
 
-	ListView lv1,lv2;
-	Button btnConfirm, btnExit,btnTab1, btnTab2, btnTab3,btnTab2_0, btnTab2_1;
-	Spinner spBid;
-	EditText editInput,editProductCompID,editMaterialID,editProductModel,editMsheel,editDsheel,editMDsheel,editPMMessage ,editColer;
+	ListView lv0,lv1,lv2;
+	Button btnConfirm, btnDelete,btnExit,btnTab1, btnTab2, btnTab3,btnTab2_0, btnTab2_1;
+	Spinner spBid,spLcSeq;
+	EditText editInput,editLCID,editProductModel,editCustomer ;
 
 	//	CheckBox cb ;
-	TextView  h1, h2, h3,h4, h5, h9,h11,tvM,tvD,tvPM;
+	TextView  h1, h2, h3,h4, h5, h9,h11,ht0,ht1,ht2,ht3,ht4;
 	LinearLayout tab1, tab2, tab3;
 	wipoqcAdapter adapter;
 	wipoqcAdapterTab2 adapterTab2;
+	wipoqcAdapterTab0 adapterTab0;
 	PrefercesService prefercesService;
 	Map<String,String> params;
-	String msProductOrderId="",  msProductId,  msProductCompId,  msProductSerialNumber,  msStepId,  
+	String msProductOrderId="",  msProductId,msProductName, msProductModel,  msProductCompId,  msProductSerialNumber,  msStepId,  msBomflag="" ,msRepeter="",
 	  msEqpId,msAnalysisformsID="",msSampletimes="",msStepSEQ,msSUPPLYLOTID,msSUPPLYID,msQC_ITEM,msQCTYPE;
+	String msSpecialAdoption = "";	//是否特采
+	String msLcSeq="";//选中的序号
 	int miQty;
 	// 该物料的HashMap记录
 	static int milv0RowNum = 0;int milv1RowNum = 0;
@@ -116,8 +120,10 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 	private List<HashMap<String, String>> lsProcessStep_pf = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsProduct = new ArrayList<HashMap<String, String>>();
 	private List<HashMap<String, String>> lsDefect = new ArrayList<HashMap<String, String>>();
-	
-	
+	private List<HashMap<String, String>> lsLcSeq = new ArrayList<HashMap<String, String>>();//LC序号
+	private List<HashMap<String, String>> lsLcComp = new ArrayList<HashMap<String, String>>();//LC制造号码
+	HashMap<String, String> mapSeqQty=new HashMap<String, String> ();//seq与数量的对应关系
+	HashMap<String, String> mapItnbrSeq=new HashMap<String, String> ();//件号与序号的对应关系
 	SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	SimpleDateFormat sDateFormatShort = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -135,18 +141,25 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 
 			spBid = (Spinner) findViewById(R.id.wipoqc_spBid);	
 			editInput = (EditText) findViewById(R.id.wipoqc_tvInput);	
-			editProductCompID = (EditText) findViewById(R.id.wipoqc_tvProductCompid);	
-			editMaterialID = (EditText) findViewById(R.id.wipoqc_tvMaterialid);	
+//			editProductCompID = (EditText) findViewById(R.id.wipoqc_tvProductCompid);	
+			editLCID = (EditText) findViewById(R.id.wipoqc_tvLCID);	//LC序号
+//			editMaterialID = (EditText) findViewById(R.id.wipoqc_tvMaterialid);	
 			editProductModel = (EditText) findViewById(R.id.wipoqc_tvProductModel);	
-			editMsheel= (EditText) findViewById(R.id.wipoqc_tvMCheel);	
-			editDsheel= (EditText) findViewById(R.id.wipoqc_tvDCheel);	
-			editMDsheel= (EditText) findViewById(R.id.wipoqc_tvMDCheel);	
-			editPMMessage= (EditText) findViewById(R.id.wipoqc_tvPMMessage);	
-			editColer= (EditText) findViewById(R.id.wipoqc_tvProductColer);	
+			editCustomer = (EditText) findViewById(R.id.wipoqc_tvCustomer);	
+//			editMsheel= (EditText) findViewById(R.id.wipoqc_tvMCheel);	
+//			editDsheel= (EditText) findViewById(R.id.wipoqc_tvDCheel);	
+//			editMDsheel= (EditText) findViewById(R.id.wipoqc_tvMDCheel);	
+//			editPMMessage= (EditText) findViewById(R.id.wipoqc_tvPMMessage);	
+//			editColer= (EditText) findViewById(R.id.wipoqc_tvProductColer);	
 //			cb= (CheckBox)findViewById(R.id.cb);
 			tab1 = (LinearLayout) findViewById(R.id.wipoqc_tab1);
 			tab2 = (LinearLayout) findViewById(R.id.wipoqc_tab2);
 			tab3 = (LinearLayout) findViewById(R.id.wipoqc_tab3);
+//			ht0 = (TextView) findViewById(R.id.wipoqc_ht0);
+			ht1 = (TextView) findViewById(R.id.wipoqc_ht1);
+			ht2 = (TextView) findViewById(R.id.wipoqc_ht2);
+			ht3 = (TextView) findViewById(R.id.wipoqc_ht3);
+			ht4 = (TextView) findViewById(R.id.wipoqc_ht4);
 			h1 = (TextView) findViewById(R.id.wipoqc_h1);
 			h2 = (TextView) findViewById(R.id.wipoqc_h2);
 			h3 = (TextView) findViewById(R.id.wipoqc_h3);
@@ -154,10 +167,11 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 			h5 = (TextView) findViewById(R.id.wipoqc_h5);
 			h9= (TextView) findViewById(R.id.wipoqc_h9);
 			h11= (TextView) findViewById(R.id.wipoqc_h11);
-			tvM= (TextView) findViewById(R.id.wipoqc_tvM);
-			tvD= (TextView) findViewById(R.id.wipoqc_tvD);
-			tvPM= (TextView) findViewById(R.id.wipoqc_tvPM);
-		
+//			tvM= (TextView) findViewById(R.id.wipoqc_tvM);
+//			tvD= (TextView) findViewById(R.id.wipoqc_tvD);
+//			tvPM= (TextView) findViewById(R.id.wipoqc_tvPM);
+			spLcSeq = (Spinner) findViewById(R.id.wipoqc_spLcSeq);
+			
 			h1.setTextColor(Color.WHITE);
 			h1.setBackgroundColor(Color.DKGRAY);
 			h2.setTextColor(Color.WHITE);
@@ -174,25 +188,29 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 			h11.setTextColor(Color.WHITE);
 			h11.setBackgroundColor(Color.DKGRAY);
 			h11.setBackgroundColor(Color.DKGRAY);
+			lv0 = (ListView) findViewById(R.id.wipoqc_lv0);
 			lv1 = (ListView) findViewById(R.id.wipoqc_lv1);
 			lv2 = (ListView) findViewById(R.id.wipoqc_lv2);
 			btnConfirm = (Button) findViewById(R.id.wipoqc_btnConfirm);	
+			btnDelete=(Button) findViewById(R.id.wwipoqc_btnTab0_Delete);
 			btnExit=(Button) findViewById(R.id.wipoqc_btnExit);
 			btnTab1 = (Button) findViewById(R.id.wipoqc_btnTab1);
 			btnTab2 = (Button) findViewById(R.id.wipoqc_btnTab2);
 			btnTab3 = (Button) findViewById(R.id.wipoqc_btnTab3);		
 			btnTab2_0 = (Button) findViewById(R.id.wipoqc_btnTab2_0_OK);
 			btnTab2_1 = (Button) findViewById(R.id.wipoqc_btnTab2_1_OK);
-	
+			
+			adapterTab0 = new wipoqcAdapterTab0(lsCompTable, this);
+			lv0.setAdapter(adapterTab0);		
 			adapter = new wipoqcAdapter(lsAnalysisTable, this);
 			lv1.setAdapter(adapter);		
 			adapterTab2 = new wipoqcAdapterTab2(lsSidTable, this);
 			lv2.setAdapter(adapterTab2);
-			editMsheel.setVisibility(8);
-			editDsheel.setVisibility(8);
-			editMDsheel.setVisibility(8);
-			tvD.setVisibility(8);
-			tvM.setVisibility(8);
+//			editMsheel.setVisibility(8);
+//			editDsheel.setVisibility(8);
+//			editMDsheel.setVisibility(8);
+//			tvD.setVisibility(8);
+//			tvM.setVisibility(8);
 
 			
 			// ***********************************************Start
@@ -205,7 +223,7 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 			btnTab2.setBackgroundColor(0x00000000);
 			btnTab3.setBackgroundColor(0x00000000);
 			
-			
+
 			String date = sDateFormatShort.format(new java.util.Date());	
 			// 读取报工人员
 			String sSql = "SELECT DISTINCT PROCESSUSERID, PROCESSUSER FROM EQP_RESULT_USER WHERE EQPID ='"+params.get("EQPID")+"' AND ISNULL(WORKDATE,'')='"+date+"' AND ISNULL(LOGINTIME,'')!='' AND  ISNULL (LOGOUTTIME,'')=''   AND ISNULL(STATUS,'')<>'已删除' AND (PROCESSUSERID='"+ MESCommon.UserId + "' OR PROCESSUSERID='"+ MESCommon.UserId.toUpperCase()+"') ";
@@ -403,7 +421,38 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 				// TODO Auto-generated method stub
 			}
 		});
-		
+		// 控件事件
+				lv0.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1,
+							int position, long arg3) {
+						try{
+						// 取得ViewHolder对象，这样就省去了通过层层的findViewById去实例化我们需要的cb实例的步骤
+						wipoqcAdapterTab0.ViewHolder holder = (wipoqcAdapterTab0.ViewHolder) arg1.getTag();
+						// 改变CheckBox的状态
+						holder.cb.toggle();
+						// 将CheckBox的选中状况记录下来
+						wipoqcAdapterTab0.getIsSelected().put(position,
+								holder.cb.isChecked());
+						milv0RowNum=position;
+						if(!lsCompTable.get(milv0RowNum).get("IS_INSERT").equals("N"))
+						{
+							if(holder.cb.isChecked())
+							{
+							lsCompTable	.get(position).put("CHECKFLAG","Y"); 
+							}else
+							{
+							lsCompTable.get(position).put("CHECKFLAG","N"); 
+							}
+						}else {					
+							holder.cb.setChecked(false);
+						}
+					} catch (Exception e) {
+						MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, e.toString());
+					}
+					}
+					
+				});
 		// 控件事件
 		lv1.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -432,335 +481,185 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 					// 查询交货单
 					try {
 					EditText txtInput = (EditText) findViewById(R.id.wipoqc_tvInput);
-					if ( lsuser.size()==0) {
-						MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, "请先进行人员设备报工！");
-						return false;
-					}
+//					if ( lsuser.size()==0) {
+//						MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, "请先进行人员设备报工！");
+//						return false;
+//					}
 					if (txtInput.getText().toString().trim().length() == 0) {
 						txtInput.setText("");
 						MESCommon.show(WIP_OQC_QCANALYSIS.this, "请扫描条码!");
 						return false;
 					}
-				
-					lsCompID.clear();
-					String sTempXID = txtInput.getText().toString();
+					//覆盖添加
+					if(editLCID.getText().toString().length()>0) {
+						AlertDialog alert=	new AlertDialog.Builder(WIP_OQC_QCANALYSIS.this).setTitle("确认").setMessage("已有LC单号是否继续加入,确认将清除现有数据!")
+								.setPositiveButton("确定",new DialogInterface.OnClickListener() {  
+				            @Override  
+				            public void onClick(DialogInterface dialog,int which) {  
+				            Clear();
+				            }  
+				        })  
+						.setNeutralButton("取消",new DialogInterface.OnClickListener() {  
+						            @Override  
+						            public void onClick(DialogInterface dialog,int which) {  
+						                // TODO Auto-generated method stub  
+						            	editInput.setText("");
+						            	return  ;
+						            }  
+						 }).show();
+						return false  ;
+					}
 					String sResult="";
-					if(editProductCompID.getText().toString().equals("")){
-					 sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"",msProductOrderId, "QF","制造号码","装配", lsCompID);
-					}
-					if (!sResult.equals(""))
-                    {
-						  MESCommon.show(WIP_OQC_QCANALYSIS.this,sResult);
-                		  txtInput.setText("");
-                          return false;
-				
-                    }
-					if(lsCompID.size()>0)
-					{
-						txtInput.setText(lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString());
-					}
-					//刷主件
-					if(editProductCompID.getText().toString().equals(""))
-					{
 
+					//查询ERP的LC单
+					if (editLCID.getText().toString().equals("")) {
+						lsLcSeq.clear();
+						String sLCID=txtInput.getText().toString().trim();
+						String sSql="SELECT trseq,itnbr,itdsc,shpqy1,cusna FROM  cdrdta "
+								+ "LEFT JOIN cdrhad ON cdrdta.shpno=cdrhad.shpno " + 
+								"    LEFT JOIN   cdrcus ON cdrhad.cusno=cdrcus.cusno "
+								+ "WHERE cdrdta.shpno='"+sLCID+"' ORDER BY  cdrdta.trseq";//查询
+						sResult = db.ErpGetData(sSql, lsLcSeq);
+						if (sResult != "") {
+							MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sResult);
+							finish();						
+						}
+						if(lsLcSeq.size()>0)
+						{							
+						editLCID.setText(sLCID);
+						editCustomer.setText(lsLcSeq.get(0).get("cusna"));//客户
+						}
+						else {
+							txtInput.setText("");
+							MESCommon.show(WIP_OQC_QCANALYSIS.this, "请确认LC单是否正确!");
+							return false;
+						}
+						ArrayList<SpinnerData> lst = new ArrayList<SpinnerData>();
+		
+						for (int i = 0; i < lsLcSeq.size(); i++) {
+							SpinnerData c = new SpinnerData(lsLcSeq.get(i)
+									.get("trseq").toString(), lsLcSeq.get(i)
+									.get("trseq").toString());
+							lst.add(c);
+							mapSeqQty.put( lsLcSeq.get(i).get("trseq").toString(),  lsLcSeq.get(i).get("shpqy1").toString());
+							mapItnbrSeq.put( lsLcSeq.get(i).get("trseq").toString(),  lsLcSeq.get(i).get("itnbr").toString());
+						}
+						
+
+						ArrayAdapter<SpinnerData> Adapter1 = new ArrayAdapter<SpinnerData>(
+								WIP_OQC_QCANALYSIS.this,
+								android.R.layout.simple_spinner_item, lst);
+						Adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+						spLcSeq.setAdapter(Adapter1);
+						// 设置显示当前选择的项
+						MESCommon.setSpinnerItemSelectedByValue(spLcSeq,"trseq");						
+						
+						editInput.setText("");
+					}
+					else {//刷制造号码
 						lsProcess.clear();
+						SpinnerData LcSeq = (SpinnerData) spLcSeq.getSelectedItem();
+						msLcSeq=LcSeq.text;
+						lsCompID.clear();				 
+						 sResult = db.GetProductSerialNumber(txtInput.getText().toString().trim(),"","", "QF","制造号码","装配", lsCompID);
+						
+						if(lsCompID.size()<=0)
+						{   
+								MESCommon.show(WIP_OQC_QCANALYSIS.this, "物料条码【" + txtInput.getText().toString().trim() + "】， 不存在!");
+							    return false;
+						}else
+						{  						
+							lsProcess.clear();
 						String sOrderID=lsCompID.get(0).get("PRODUCTORDERID").toString();
 						sResult = db.GetProductProcess(sOrderID,txtInput.getText().toString().trim(), lsProcess);
 						if (sResult != "") {
 							MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sResult);
 							finish();
 							
-						}			
+						}							
 						if(lsProcess.size()==0)
 						{
 							MESCommon.show(WIP_OQC_QCANALYSIS.this, " 制造号码【"+txtInput.getText().toString().trim() +"】，没有设定生产工艺流程！");
 							Clear();
 							return false;
 						}
-						if(lsProcess.get(0).get("STEPID").toString().contains("入库前检验")&&lsProcess.get(0).get("PROCESSSTATUS").toString().equals("已完成"))
-						{
-							
-						}else {
-							MESCommon.show(WIP_OQC_QCANALYSIS.this, "工件目前工序为【"+lsProcess.get(0).get("STEPID").toString()+"】，不能在【"+params.get("StepID")+"】报工！");
-							Clear();
-							return false;
-						}	
-						if (params.get("StepName").contains("机体"))
-						{
-							//判断一些控件是否显示；
-							if(!lsProcess.get(0).get("MWHEEL").toString().equals("")|| !lsProcess.get(0).get("DWHEEL").toString().equals(""))
-							{   
-								tvD.setVisibility(0);
-							    tvM.setVisibility(0);
-								editMsheel.setVisibility(0);
-								editDsheel.setVisibility(0);
-								editMDsheel.setVisibility(0);
-								editMsheel.setText(lsProcess.get(0).get("MWHEEL").toString());
-								editDsheel.setText(lsProcess.get(0).get("DWHEEL").toString());
-								editMDsheel.setText(lsProcess.get(0).get("WHEELMESSAGE").toString());
 						
-							}else {
-								tvD.setVisibility(8);
-							    tvM.setVisibility(8);
-								editMsheel.setVisibility(8);
-								editDsheel.setVisibility(8);
-								editMDsheel.setVisibility(8);
-								editMsheel.setText("");
-								editDsheel.setText("");
-								editMDsheel.setText("");
-							
-							}
+						msProductOrderId=lsProcess.get(0).get("PRODUCTORDERID").toString();
+						msProductCompId=lsProcess.get(0).get("PRODUCTCOMPID").toString();
+						msProductSerialNumber=lsProcess.get(0).get("PRODUCTSERIALNUMBER").toString();
 						
-						}
-						editColer.setText(lsProcess.get(0).get("COLER").toString());
-						
-						lsProduct.clear();
-						String  sSql=" SELECT * FROM MPRODUCT WHERE PRODUCTID ='"+lsProcess.get(0).get("PRODUCTID").toString()+"'  ;";
-						String sError= db.GetData(sSql,  lsProduct);
+						//查询制造号码是否被出货过						
+						lsLcComp.clear();
+						String  sSql=" SELECT * FROM HZ_OQC_QCANALYSIS WHERE PRODUCTCOMPID ='"+msProductCompId+"'  ";
+						String sError= db.GetData(sSql,  lsLcComp);
 						 if (sError != "") {
 								MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sError);
 								return false;
 							 }
-						//初始化工件信息
-						editProductCompID.setText(lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString());
-						editMaterialID.setText(lsProcess.get(0).get("PRODUCTID").toString());
-						//editMaterialID.setText(lsProduct.get(0).get("PRODUCTNAME").toString());
-						editProductModel.setText(lsProduct.get(0).get("PRODUCTMODEL").toString());					
-						msProductOrderId=lsProcess.get(0).get("PRODUCTORDERID").toString();
-						msProductId=lsProcess.get(0).get("PRODUCTID").toString();
-						msProductCompId=lsProcess.get(0).get("PRODUCTCOMPID").toString();
-						msProductSerialNumber=lsProcess.get(0).get("PRODUCTSERIALNUMBER").toString();
-						msStepId="机体出货检验站";		
-						msStepSEQ=Integer.toString( Integer.parseInt(lsProcess.get(0).get("STEPSEQ").toString().trim()) +1);
-						
-						msEqpId=params.get("EQPID").toString();;
-						miQty=Integer.parseInt(lsProcess.get(0).get("STARTQTY").toString().trim());
-						
-						if(lsProcess.get(0).get("STEPID").toString().contains("入库前检验")&&lsProcess.get(0).get("PROCESSSTATUS").toString().equals("已完成"))
-						{
-							lsAnalysisFinalData.clear();
-							//判断有没有待最终判定的记录，如果有不能继续进行
-							 sSql=" SELECT * FROM ANALYSISRESULT_M WHERE   SOURCESTEP='"+msStepId+"' and  PRODUCTID ='"+msProductId+"' AND PRODUCTCOMPID = '"+msProductCompId+"' AND QCTYPE = '制程检验' AND QC_ITEM = '成品检验' AND ANALYSISJUDGEMENTRESULT = '合格'  ;";
-							 sError= db.GetData(sSql,  lsAnalysisFinalData);
-							 if (sError != "") {
-									MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sError);
-									  Clear();
-									return false;
-							 }
-							 if(lsAnalysisFinalData.size()>0)
-							 {
-									MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, "制造号码：【"+msProductCompId+"】,已经完成出库检验作业，不需要再进行出库检验！");
-									  Clear();
-									return false;
-							 }
-							
+						if (lsLcComp.size()>0) {
+							AlertDialog alert=	new AlertDialog.Builder(WIP_OQC_QCANALYSIS.this).setTitle("确认").setMessage("条码[" + msProductCompId + "] 已绑定,LC单号["+lsLcComp.get(0).get("LCNO").toString()+"]!"+",是否继续加入!")
+							.setPositiveButton("确定",new DialogInterface.OnClickListener() {  
+			            @Override  
+			            public void onClick(DialogInterface dialog,int which) {  
+
+			            }  
+			        })  
+					.setNeutralButton("取消",new DialogInterface.OnClickListener() {  
+					            @Override  
+					            public void onClick(DialogInterface dialog,int which) {  
+					                // TODO Auto-generated method stub  
+					            	editInput.setText("");
+					            	return  ;
+					            }  
+					 }).show();
 						}
-						
-						//初始化检验项目
-						lsAnalysisData.clear();
-						sResult = db.GetAnalysisData_Out(msProductOrderId,msProductId,msProductCompId,msProductSerialNumber,msStepId,MESCommon.UserId ,msEqpId,"机体",lsAnalysisData);
-						if (sResult != "") {
-							MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sResult);
-							finish();
-						}
-						lsAnalysisTable.clear();
-						for(int i=0;i<lsAnalysisData.size();i++)
-						{
-							msAnalysisformsID=lsAnalysisData.get(i).get("ANALYSISFORMSID").toString();
-							msSampletimes=lsAnalysisData.get(i).get("SAMPLETIMES").toString();
-							msSUPPLYLOTID=lsAnalysisData.get(i).get("SUPPLYLOTID").toString();
-							msSUPPLYID=lsAnalysisData.get(i).get("SUPPLYID").toString();
-							msQC_ITEM=lsAnalysisData.get(i).get("QC_ITEM").toString();
-							msQCTYPE=lsAnalysisData.get(i).get("QCTYPE").toString();
-							HashMap<String, String> hs = new HashMap<String, String>();				
-							hs.put("ANALYSISITEM", lsAnalysisData.get(i).get("ANALYSISITEM").toString());
-							hs.put("ITEMALIAS", lsAnalysisData.get(i).get("ITEMALIAS").toString());
-							hs.put("RESULTTYPE", lsAnalysisData.get(i).get("RESULTTYPE").toString());
-							hs.put("SPECMINVALUE", lsAnalysisData.get(i).get("SPECMINVALUE").toString());
-							hs.put("SPECMAXVALUE", lsAnalysisData.get(i).get("SPECMAXVALUE").toString());
-							hs.put("ISNEED", lsAnalysisData.get(i).get("ISNEED").toString());
-							hs.put("ISJUDGE", lsAnalysisData.get(i).get("ISJUDGE").toString());
-							
-		
-							//先判断类型
-							if (lsAnalysisData.get(i).get("RESULTTYPE").toString().equals("数值")) {
-								//检查是否有输入检测结果值。
-								if(!lsAnalysisData.get(i).get("DATAVALUE").toString().trim().equals(""))
-								{ //是否必须判断
-									if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
-									{
-										if (Double.parseDouble(lsAnalysisData.get(i).get("DATAVALUE").toString())>=Double.parseDouble(lsAnalysisData.get(i).get("SPECMINVALUE").toString())&&
-												Double.parseDouble(lsAnalysisData.get(i).get("DATAVALUE").toString())<=Double.parseDouble(lsAnalysisData.get(i).get("SPECMAXVALUE").toString())	)
-										{
-											hs.put("FINALVALUE", "OK");
-										}else
-										{
-											hs.put("FINALVALUE", "NG");
-										}
-									}else
-									{
-										hs.put("FINALVALUE", "OK");
-									}
-									hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DATAVALUE").toString().trim());
-									hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
-							     }
-								 else
-								 {   //检查是否有默认值，如果没有输入值已默认值为默认结果
-									if(!lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim().equals(""))
-									{//是否必须判断
-										if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
-										{
-											if (Double.parseDouble(lsAnalysisData.get(i).get("DEFAULTSVALUE").toString())>=Double.parseDouble(lsAnalysisData.get(i).get("SPECMINVALUE").toString())&&
-													Double.parseDouble(lsAnalysisData.get(i).get("DEFAULTSVALUE").toString())<=Double.parseDouble(lsAnalysisData.get(i).get("SPECMAXVALUE").toString())	)
-											{
-												hs.put("FINALVALUE", "OK");
-											}else
-											{
-												hs.put("FINALVALUE", "NG");
-											}
-										}else
-										{
-											hs.put("FINALVALUE", "OK");
-										}
-										hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
-										hs.put("DATAVALUE", lsAnalysisData.get(i).get("DEFAULTSVALUE").toString());
-									}else
-									{  //是否必须判断
-										if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
-										{
-										hs.put("FINALVALUE", "");
-										}else
-										{
-											hs.put("FINALVALUE", "OK");
-										}
-										hs.put("DISPLAYVALUE","");
-										hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
-									}
-								  }						
-								} else if (lsAnalysisData.get(i).get("RESULTTYPE").toString().equals("布尔")) {
-									if(!lsAnalysisData.get(i).get("DATAVALUE").toString().trim().equals(""))
-									{   //检查到资料库有该检验项目的存储值
-										//是否必须判断
-										if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
-										{   
-											//必须判，如果是true则最终判断为OK,elseNG，显示名字为trueword or falseword
-											if (lsAnalysisData.get(i).get("DATAVALUE").toString().toUpperCase().equals("TRUE"))
-											{
-												hs.put("FINALVALUE", "OK");	
-												hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
-											}else{
-												hs.put("FINALVALUE", "NG");
-											    hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());	
-											}
-										}else
-										{   //不判断，则最终判断为肯定为OK,显示名字为trueword or falseword
-											hs.put("FINALVALUE", "OK");
-											if (lsAnalysisData.get(i).get("DATAVALUE").toString().toUpperCase().equals("TRUE"))
-											{											
-											hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
-											}else {
-											hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());
-											}
-										}
-										//判断不判断，如果在我们资料库有值，一定带的值是资料库中的。
-										hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
-									}else
-									{    //检查到资料库没有该检验项目的存储值
-										//检查是否有默认值，如果没有输入值已默认值为默认结果
-										if(!lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim().equals(""))
-										{
-											  //是否必须判断
-											if(lsAnalysisData.get(i).get("ISJUDGE").toString().trim().equals("Y"))
-											{//必须判，如果是true则最终判断为OK,elseNG，显示名字为trueword or falseword
-												if (lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().toUpperCase().equals("TRUE"))
-												{
-													hs.put("FINALVALUE", "OK");	
-													hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
-													hs.put("DATAVALUE", "True");
-												}else{
-													hs.put("FINALVALUE", "NG");
-												    hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());	
-												    hs.put("DATAVALUE", "False");
-												}
-											}
-											else
-											{ 
-												//不判断，有则最终判断为肯定为OK,显示名字为trueword or falseword
-												hs.put("FINALVALUE", "OK");
-												if (lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().toUpperCase().equals("TRUE"))
-												{											
-												hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
-												}else {
-												hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("FALSEWORD").toString().trim());
-												}
-												hs.put("DATAVALUE", lsAnalysisData.get(i).get("DEFAULTSVALUE").toString());
-											}
-											
-										}//没有预设值，默认是OK，最终是合格，显示名字带trueword
-										else{
-											hs.put("FINALVALUE", "OK");
-											hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("TRUEWORD").toString().trim());
-											hs.put("DATAVALUE", "True");
-										}
-									}
-						}else//除开数值，和布尔
-						{
-							if(lsAnalysisData.get(i).get("ANALYSISITEM").toString().toUpperCase().equals("VI")){
-								//查询滑块值
-									List<HashMap<String, String>> lsdtStep_P = new ArrayList<HashMap<String, String>>();
-									String sSQL = "SELECT * FROM PROCESS_STEP_P WHERE  PRODUCTCOMPID ='"+msProductCompId+"' and MATERIALMAINTYPE='滑块' ";
-							        sResult = db.GetData(sSQL, lsdtStep_P);
-							        if(lsdtStep_P.size()>0)
-							        {
-										hs.put("FINALVALUE", "OK");
-										hs.put("DISPLAYVALUE",lsdtStep_P.get(0).get("FINEPROCESSID").toString().trim());
-										hs.put("DATAVALUE", lsdtStep_P.get(0).get("FINEPROCESSID").toString());
-							        }
-								}else{
-									hs.put("FINALVALUE", "OK");
-									hs.put("DISPLAYVALUE",lsAnalysisData.get(i).get("DEFAULTSVALUE").toString().trim());
-									hs.put("DATAVALUE", lsAnalysisData.get(i).get("DATAVALUE").toString());
+						 
+						 
+						lsProduct.clear();
+						  sSql=" SELECT * FROM MPRODUCT WHERE PRODUCTID ='"+lsProcess.get(0).get("PRODUCTID").toString()+"'  ";
+						 sError= db.GetData(sSql,  lsProduct);
+				
+						 if (sError != "") {
+								MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sError);
+								return false;
+							 }
+
+							if(!lsProduct.get(0).get("PRODUCTID").toString().equals(mapItnbrSeq.get(msLcSeq)))
+							{
+								MESCommon.show(WIP_OQC_QCANALYSIS.this,"制造号码【"+txtInput.getText().toString().trim()+"】的件号和LC序号对应的件号不一致！");
+								return false;
+							}
+							msProductModel=lsProduct.get(0).get("PRODUCTMODEL").toString();
+							editProductModel.setText(msProductModel);//设置机型
+							msProductId=lsProduct.get(0).get("PRODUCTID").toString();
+							msProductName=lsProduct.get(0).get("PRODUCTNAME").toString();
+							for(int i=0;i<lsCompTable.size();i++)
+							{
+								if(txtInput.getText().toString().trim().equals(lsCompTable.get(i).get("SEQ").toString())&&msLcSeq.equals(lsCompTable.get(i).get("ISSP").toString()))
+								{
+									MESCommon.show(WIP_OQC_QCANALYSIS.this, "条码[" + lsCompTable.get(i).get("SEQ").toString() + "] 已绑定,LC序号["+lsCompTable.get(i).get("ISSP").toString()+"]!");
+								    return false;
+
 								}
-						}					
+							}
 
-						lsAnalysisTable.add(hs);
-						}
-						adapter.notifyDataSetChanged();
-						//根据产品等信息 读取装配规范
-						lsBid.clear();
-	 				   sSql = "SELECT DISTINCT AS_BID, AS_INDEX ||'  '|| AS_BNAME AS AS_BNAME FROM ERP_ASSEMBLESPECIFICATION  WHERE PRODUCTID='" +msProductId + "' " +
-									" AND   PRODUCTCOMPID='" +msProductCompId + "' AND PRODUCTORDERID='" + msProductOrderId + "' ORDER BY AS_INDEX ";
-						sResult = db.GetData(sSql, lsBid);
-						if (sResult != "") {
-							MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sResult);
-							setFocus(editInput);
-						}
-						List<SpinnerData> lst = new ArrayList<SpinnerData>();
-						SpinnerData c = new SpinnerData("预设", "预设");
-						lst.add(c);
-						for (int i = 0; i < lsBid.size(); i++) {
-							c = new SpinnerData(lsBid.get(i).get("AS_BID").toString(), lsBid.get(i).get("AS_BNAME").toString());
-							lst.add(c);
+
+								exeLstCompTable( );
+							
 						}
 
-						ArrayAdapter<SpinnerData> Adapter = new ArrayAdapter<SpinnerData>(WIP_OQC_QCANALYSIS.this,	android.R.layout.simple_spinner_item, lst);
-						Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-						spBid.setAdapter(Adapter);
-									
-						editInput.setText("");
-						setFocus(editProductCompID);
-					}
+							editInput.setText("");
+							setFocus(editLCID);
+					}					
 					} catch (Exception e) {
 						MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, e.toString());
 						return false;
 					}
-				}
-					
+				}			
 				return false;
 			}
 		});
-	
-		editProductCompID.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		editLCID.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			
 			@Override
 			public void onFocusChange(View arg0, boolean arg1) {
@@ -768,6 +667,46 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 				setFocus(editInput);
 			}
 		});
+		
+		btnDelete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					if (lsCompTable.size() > 0) {
+						List<HashMap<String, String>> lsCompTableCopy = new ArrayList<HashMap<String, String>>();
+						Boolean isSelect=false;
+					
+						for(int i=0;i<lsCompTable.size();i++)
+						{
+							if (lsCompTable.get(i).get("CHECKFLAG").toString()
+									.equals("Y")) {
+								isSelect=true;
+							
+							}
+							lsCompTableCopy.add(lsCompTable.get(i));
+						}
+						if(!isSelect)
+						{
+							MESCommon.show(WIP_OQC_QCANALYSIS.this, "请选择要删除的制造号码");
+							return;
+						}
+						for(int i=lsCompTableCopy.size()-1;i>=0;i--)
+						{
+							if (lsCompTableCopy.get(i).get("CHECKFLAG").toString()
+									.equals("Y")) {
+								lsCompTable.remove(i);
+								
+							}
+						}					
+						adapterTab0.notifyDataSetChanged();
+					
+					}					
+				} catch (Exception e) {
+					MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, e.toString());
+				}
+			}
+		});
+		
 	
 		// btnOK
 		
@@ -775,65 +714,16 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 			@Override
 			public void onClick(View v) {
 				try {
-					String sResult="合格";
+
 					
-					if (editProductCompID.getText().toString().trim().equals("") ) {
+					if (editLCID.getText().toString().trim().equals("") ) {
 						MESCommon.show(WIP_OQC_QCANALYSIS.this, "请先扫描条码在进行报工！");
 						return;
 					}
-					for(int i=0;i<lsAnalysisTable.size();i++)
-					{
-						if(lsAnalysisTable.get(i).get("ISNEED").toString().trim().equals("Y"))
-						{
-							if(lsAnalysisTable.get(i).get("DISPLAYVALUE").toString().trim().equals(""))
-							{
-								MESCommon.show(WIP_OQC_QCANALYSIS.this, "请输入["+lsAnalysisTable.get(i).get("ITEMALIAS").toString()+"]检验结果");
-								btnTab2.performClick();
-								return;
-							}
-						}
-						if(lsAnalysisTable.get(i).get("FINALVALUE").toString().trim().equals("NG"))
-						{
-							sResult="不合格";
-							break;
-						}
-					}
 					
-			 	   if(sResult.equals("不合格"))
-					{
-						
-						AlertDialog alert=	new AlertDialog.Builder(WIP_OQC_QCANALYSIS.this).setTitle("确认").setMessage("检验不合格,是否确认继续报工！")
-								.setPositiveButton("确定",new DialogInterface.OnClickListener() {  
-				            @Override  
-				            public void onClick(DialogInterface dialog,int which) {  
-				                // TODO Auto-generated method stub  
-				            	Save("不合格", lsAnalysisTable, lsAnalysisData);
-				            	//执行最终判定
-					             db.FinalSaveData(msAnalysisformsID,msSampletimes,"不合格",MESCommon.UserId ,MESCommon.UserName,"");
-					            
-								 Toast.makeText(WIP_OQC_QCANALYSIS.this, "报工完成!", Toast.LENGTH_SHORT).show();
-				                  
-					            Clear();
-				            }  
-				        })  
-						.setNeutralButton("取消",new DialogInterface.OnClickListener() {  
-						            @Override  
-						            public void onClick(DialogInterface dialog,int which) {  
-						                // TODO Auto-generated method stub  
-						            	return ;
-						            }  
-						 }).show();
-					
-					} else
-					{
-					 Save(sResult, lsAnalysisTable, lsAnalysisData);
-						//执行最终判定
-		         	 db.FinalSaveData(msAnalysisformsID,msSampletimes,sResult,MESCommon.UserId ,MESCommon.UserName,"");
+						Save();
 					  Toast.makeText(WIP_OQC_QCANALYSIS.this, "报工完成!", Toast.LENGTH_SHORT).show();                  
-	                  Clear();
-						
-					}
-
+					  Clear();
 			 	   	   
 				} catch (Exception e) {
 					MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, e.toString());
@@ -859,8 +749,256 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 			MESCommon.showMessage(WIP_OQC_QCANALYSIS.this,  e.toString());
 		}
 	}
+//添加进列表
+		public static class wipoqcAdapterTab0 extends BaseAdapter {
+		// 物料记娽
+		private List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
+		
+		// 上下文
+		private Context context;
+		// 用来控制CheckBox的选中状况
+		private static HashMap<Integer, Boolean> isSelected;
+		// 用来导入布局
+		private LayoutInflater inflater = null;
+		int iPosition = -1;
 
+		public wipoqcAdapterTab0(List<HashMap<String, String>> items,
+				Context context) {
+			this.items = items;
+			this.context = context;
+			inflater = LayoutInflater.from(context);	
+			isSelected = new HashMap<Integer, Boolean>();
+			// 初始化数据
+			initData();
 
+		}
+		// 初始化isSelected的数据
+		private void initData() {
+			for (int i = 0; i < items.size(); i++) {
+				getIsSelected().put(i, false);
+			}
+		}
+
+		@Override
+		public View getView(final int position, View convertView,
+				ViewGroup parent) {
+			// TODO Auto-generated method stub
+			ViewHolder holder = null;		
+			try {
+				
+			
+			if (convertView == null) {
+			
+				// 获得ViewHolder对象
+				holder = new ViewHolder();
+				// 导入布局并赋值给convertview
+				convertView = inflater.inflate(R.layout.activity_wip_track_in_tab0_listview, null);
+				holder.cb = (CheckBox) convertView.findViewById(R.id.wiptrackinlv0_cb);
+				holder.tvISSP = (TextView) convertView.findViewById(R.id.wiptrackinlv0_tvISSP);
+				holder.tvSerialnumberId = (TextView) convertView.findViewById(R.id.wiptrackinlv0_tvSerialnumberId);
+				holder.tvMaterialID = (TextView) convertView.findViewById(R.id.wiptrackinlv0_tvMaterialID);
+				holder.tvMaterialMame = (TextView) convertView.findViewById(R.id.wiptrackinlv0_tvMaterialMame);
+				// 为view设置标签
+				convertView.setTag(holder);
+			} else {
+				// 取出holder
+				holder = (ViewHolder) convertView.getTag();
+				
+			}
+			// 设置list中TextView的显示
+			holder.tvISSP.setText(getItem(position).get("ISSP").toString());	//是否特采
+			holder.tvSerialnumberId.setText(getItem(position).get("PRODUCTSERIALNUMBER").toString());	
+			holder.tvMaterialID.setText(getItem(position).get("MaterialId").toString());
+			holder.tvMaterialMame.setText(getItem(position).get("MaterialMame").toString());	
+
+			// 将CheckBox的选中状况记录下来
+			if (getItem(position).get("CHECKFLAG").toString().equals("Y")) {
+				// 将CheckBox的选中状况记录下来
+				getIsSelected().put(position, true);
+			} else {
+				// 将CheckBox的选中状况记录下来
+				getIsSelected().put(position, false);
+			}
+			// 根据isSelected来设置checkbox的选中状况
+			holder.cb.setChecked(getIsSelected().get(position));
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			return convertView;
+		}
+
+		@Override
+		public int getCount() {
+			// TODO Auto-generated method stub
+			return items.size();
+		}
+
+		@Override
+		public HashMap<String, String> getItem(int arg0) {
+			// TODO Auto-generated method stub
+			return (HashMap<String, String>) items.get(arg0);
+		}
+
+		@Override
+		public long getItemId(int arg0) {
+			// TODO Auto-generated method stub
+			return arg0;
+		}
+	
+		public void setSelect(int position) {
+			iPosition = position;
+		}
+
+		public int getSelect() {
+			return iPosition;
+		}
+
+		public static HashMap<Integer, Boolean> getIsSelected() {
+			return isSelected;
+		}
+
+		public static void setIsSelected(HashMap<Integer, Boolean> isSelected) {
+			wipoqcAdapterTab0.isSelected = isSelected;
+		}
+		
+		public static class ViewHolder {
+			CheckBox cb;
+			TextView tvISSP;
+			TextView tvSerialnumberId;
+			TextView tvMaterialID;
+			TextView tvMaterialMame;
+		}
+	}
+
+		private  void exeLstCompTable()
+		{
+			try {		
+				
+				String sError ="";
+
+					 sError=BindHashMap();
+						if (sError != "") {
+							MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sError);
+							return ;
+						}					
+				
+			
+			} catch (Exception e) {
+				// TODO: handle exception
+				MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, e.toString());
+			}
+		}
+		
+		public String BindHashMap( )
+		{
+			String sResult = "";
+			String sError = "";
+			String sSQL="";
+			try {
+				String   sSEQ = lsCompID.get(0).get("PRODUCTSERIALNUMBER").toString();
+				String   sMaterialId = lsCompID.get(0).get("MATERIALID").toString();
+				String   sMaterialMame = lsCompID.get(0).get("MATERIALNAME").toString();
+				String   sMaterialType = lsCompID.get(0).get("MATERIALMAINTYPE").toString();
+				String   sTracetype=lsCompID.get(0).get("TRACETYPE").toString();
+				String   sLotID=lsCompID.get(0).get("LOTID").toString();
+				String   sRAWPROCESSID=lsCompID.get(0).get("RAWPROCESSID").toString();
+				String   sFINEPROCESSID=lsCompID.get(0).get("FINEPROCESSID").toString();
+				String   sSUPPLYID=lsCompID.get(0).get("SUPPLYID").toString();
+				String   sLNO=lsCompID.get(0).get("FURNACENO").toString();
+				String  sPRODUCTCOMPID=lsCompID.get(0).get("PRODUCTCOMPID").toString();
+		
+				//取得提示的零部件编号
+				String sNewNumber="";
+				HashMap<String, String> hs = new HashMap<String, String>();	
+				hs.put("MaterialId",msProductId);
+				hs.put("MaterialMame", msProductName);
+				hs.put("SEQ", sSEQ);
+				hs.put("PRODUCTSERIALNUMBER",sPRODUCTCOMPID);
+				hs.put("PRODUCTMODEL",msProductModel);
+				sNewNumber=sPRODUCTCOMPID;
+//				if (!sFINEPROCESSID.equals("")) {
+//					
+//					if(!sMaterialId.equals(""))
+//					{
+//				      String sFinId=getCompid(sMaterialId);
+//				      if(!sFinId.equals(""))
+//				      {
+//				    	  if(sFinId.equals("半成品方型件"))
+//				    	  {
+//				    		  //方型件不打精加工号了，采用粗加工！
+//				    		  hs.put("PRODUCTSERIALNUMBER",sRAWPROCESSID);	
+//				    		  sNewNumber=sRAWPROCESSID;
+//				    	  }else {
+//				    		  hs.put("PRODUCTSERIALNUMBER",sFINEPROCESSID);		
+//				    		  sNewNumber=sFINEPROCESSID;
+//						}				    	 
+//				      }else {
+//				    	  hs.put("PRODUCTSERIALNUMBER",sFINEPROCESSID);		
+//			    		  sNewNumber=sFINEPROCESSID;
+//					  }
+//					}else {
+//						hs.put("PRODUCTSERIALNUMBER",sFINEPROCESSID);	
+//						sNewNumber=sFINEPROCESSID;
+//					}
+//				}else  if (!sRAWPROCESSID.equals(""))
+//				{
+//					hs.put("PRODUCTSERIALNUMBER",sRAWPROCESSID);
+//					sNewNumber=sRAWPROCESSID;
+//				}
+//				else if (!sLotID.equals(""))
+//				{
+//					hs.put("PRODUCTSERIALNUMBER",sLotID);
+//					sNewNumber=sLotID;
+//				}
+				hs.put("MaterialType", sMaterialType);
+				hs.put("CHECKFLAG", "N");			
+				hs.put("ISCOMPREPEATED",msRepeter);			
+				hs.put("ISCOMPEXIST", "Y");
+				hs.put("TRACETYPE", sTracetype);
+				hs.put("LOTID", sLotID);
+				hs.put("RAWPROCESSID", sRAWPROCESSID);
+				hs.put("FINEPROCESSID", sFINEPROCESSID);
+				hs.put("SUPPLYID", sSUPPLYID);
+				hs.put("FURNACENO", sLNO);
+				hs.put("IS_INSERT", "Y");
+				hs.put("BOMFLAGE", msBomflag);
+	
+				hs.put("ISSP",msLcSeq );	//是否为特采
+				lsCompTable.add(0,  hs);							
+				adapterTab0.notifyDataSetChanged();	
+				Toast.makeText(WIP_OQC_QCANALYSIS.this, "制造号码：【"+sNewNumber+"】,加入成功！", Toast.LENGTH_SHORT).show();	
+				editInput.setText("");
+				msRepeter="";
+				msBomflag="";
+//				setFocus(editProductCompID);
+				return sResult;
+			} catch (Exception e) {
+				// TODO: handle exception
+				MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, e.toString());
+				return sResult = e.toString();
+			}
+
+		}
+		private  String getCompid(String sProductid)
+		{
+			try {		
+				String sResult="";
+				List<HashMap<String, String>> lsProductType = new ArrayList<HashMap<String, String>>();
+				String sSQL = "SELECT PRODUCTTYPE FROM MPRODUCT WHERE  PRODUCTID='"+sProductid+"'   ";
+				db.GetData(sSQL, lsProductType);
+				if(lsProductType.size()>0)
+				{
+				    return sResult=lsProductType.get(0).get("PRODUCTTYPE").toString();
+				}
+			    return sResult;
+			} catch (Exception e) {
+				// TODO: handle exception
+				MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, e.toString());
+				return e.toString();
+			}
+		}
+		
 	public class SpinnerData {
 
 		private String value = "";
@@ -1124,56 +1262,15 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 
 
 
-	private void Save(String sResult,List<HashMap<String, String>> listTemp,List<HashMap<String, String>> listAnalysisTemp) {
+	private void Save() {
 		try {
-		
-			 List<HashMap<String, String>> lsResule_M=new ArrayList<HashMap<String, String>>();
-		 
-             String  sSQL = "SELECT * FROM ANALYSISRESULT_M where ANALYSISFORMSID='" + msAnalysisformsID + "' AND SAMPLETIMES='" + msSampletimes + "'";
-             String   sError = db.GetData(sSQL, lsResule_M);
-			 if (sError != "") {
-				MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sError);
-			 }
-             if (lsResule_M.size() > 0)
-             {
-                 sSQL =sSQL+ "UPDATE ANALYSISRESULT_M SET CHIEFANALYSISUSERID='" +MESCommon.UserId + "', CHIEFANALYSISUSER='" +MESCommon.UserName + "', CHIEFANALYSISTIME=convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) ,ANALYSISJUDGEMENTRESULT='" + sResult + "',DATACOMPLETESTATUS='已完成',MODIFYUSERID='" + MESCommon.UserId + "', MODIFYUSER='" + MESCommon.UserName + "', MODIFYTIME=convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108)  , TOREMENBER=''  WHERE   ANALYSISFORMSID='" + msAnalysisformsID + "' AND SAMPLETIMES='" + msSampletimes + "' ;";
-                       
-	             sSQL = sSQL+ " delete from ANALYSISRESULT_MD where ANALYSISFORMSID='" + msAnalysisformsID + "' and SAMPLETIMES='" + msSampletimes + "' ;";
-	           
-	             sSQL =sSQL+ " delete from ANALYSISRESULT_MDD where ANALYSISFORMSID='" + msAnalysisformsID + "' and ANALYSISTIMESINDEX='0' and SAMPLETIMES='" + msSampletimes + "' ;";
-	          
-
-	         	for(int i=0;i<listTemp.size();i++)
+             String  sSQL ="";
+				for(int i=0;i<lsCompTable.size();i++)
 				{
-	         		String sFailureNum="0";
-	                String sAnalysisAvgvalue="";
-	                String sAnalysisMaxvalue="";
-	                String sAnalysisMinvalue="";
-	         		if(!listTemp.get(i).get("FINALVALUE").toString().trim().equals("OK"))
-	         		{
-	         			sFailureNum="1";
-	         		}
-	         		if(listTemp.get(i).get("RESULTTYPE").toString().equals("数值"))
-	         		{
-	         			  sAnalysisAvgvalue=listTemp.get(i).get("DATAVALUE").toString();
-	                      sAnalysisMaxvalue=listTemp.get(i).get("DATAVALUE").toString();
-	                      sAnalysisMinvalue=listTemp.get(i).get("DATAVALUE").toString();
-	         		}
-	         		
-	         		 sSQL =sSQL+ "INSERT INTO ANALYSISRESULT_MD (ANALYSISFORMSID, SAMPLETIMES, ANALYSISMITEM, ANALYSISITEM, RESULTTYPE, JUDGEMENTSTANDARD, DATANUM, ISREQUIRED, ISJUDGEMENT, SAMPLINGNUM, ANALYSISUSERID, ANALYSISUSER, ANALYSISTIME, FAILURENUM, ANALYSISAVGVALUE, ANALYSISMAXVALUE, ANALYSISMINVALUE, MODIFYUSERID, MODIFYUSER, MODIFYTIME, SPECMINVALUE, SPECMAXVALUE, TARGETVALUE, OFFSETVALUE,OFFSETMINVALUE,OFFSETMAXVALUE,ISSHOWINIDCARD,ISCOVERSHOWINIDCARD)VALUES " +
-	         		 		"( " + "'" + msAnalysisformsID + "'," + "'" + msSampletimes + "'," + "'" + listAnalysisTemp.get(i).get("ANALYSISMITEM").toString().trim() + "'," + "'" + listAnalysisTemp.get(i).get("ANALYSISITEM").toString().trim() + "'," + 
-	         				 "'" +listAnalysisTemp.get(i).get("RESULTTYPE").toString().trim() + "'," + "'" + listAnalysisTemp.get(i).get("ITEMSPEC").toString().trim()+ "'," + "'" + listAnalysisTemp.get(i).get("SAMPLESIZE").toString().trim() +
-	         		 		"'," + "'" + listAnalysisTemp.get(i).get("ISNEED").toString().trim() + "'," + "'" +listAnalysisTemp.get(i).get("ISJUDGE").toString().trim() + "'," + "'" + listAnalysisTemp.get(i).get("SAMPLINGQTY").toString().trim() + "',"
-	         				 + "'" + MESCommon.UserId + "'," + "'" +MESCommon.UserName + "', convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108)," + "'"+sFailureNum+"'," + 
-	         		 		"'" + sAnalysisAvgvalue + "'," + "'" + sAnalysisMaxvalue + "'," + "'" +sAnalysisMinvalue + "'," + "'" +MESCommon.UserId + "'," + "'" + MESCommon.UserName + "',convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108)," 
-	         		 		+ "'" + listAnalysisTemp.get(i).get("SPECMINVALUE").toString().trim() + "'," + 	"'" +listAnalysisTemp.get(i).get("SPECMAXVALUE").toString().trim() + "'," + "'" + listAnalysisTemp.get(i).get("TARGETVALUE").toString().trim() + "'," + 
-	         		 		"'" +listAnalysisTemp.get(i).get("OFFSETVALUE").toString().trim() + "'," + "'" + listAnalysisTemp.get(i).get("OFFSETMINVALUE").toString().trim() + "'," +
-	         		 		"'" + listAnalysisTemp.get(i).get("OFFSETMAXVALUE").toString().trim() + "','" + listAnalysisTemp.get(i).get("ISSHOWINIDCARD").toString().trim() + "','" + listAnalysisTemp.get(i).get("ISCOVERSHOWINIDCARD").toString().trim() + "') ;";
-	         		
-	         		 
-	         		sSQL = sSQL + "INSERT INTO ANALYSISRESULT_MDD (ANALYSISFORMSID,SAMPLETIMES, ANALYSISMITEM, ANALYSISITEM, ANALYSISTIMESINDEX, SAMPLINGNUMINDEX, DATAVALUE, MODIFYUSERID, MODIFYUSER, MODIFYTIME)VALUES " +
-	         				"( " + "'" + msAnalysisformsID + "'," + "'" + msSampletimes + "'," + "'" + listAnalysisTemp.get(i).get("ANALYSISMITEM").toString().trim()  + "'," + "'" + listAnalysisTemp.get(i).get("ANALYSISITEM").toString().trim() + "'," + "'0'," + 
-	         				"'1'," + "'" + listTemp.get(i).get("DATAVALUE").toString().trim() + "'," + "'" + MESCommon.UserId + "'," + "'" + MESCommon.UserName + "',convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) );";
+	         		sSQL += "INSERT INTO HZ_OQC_QCANALYSIS (SYSID,LCNO, LCSEQ, PRODUCTCOMPID, PRODUCTID, PRODUCTNAME, PRODUCTMODEL, MODIFYUSERID, MODIFYUSER, MODIFYTIME)VALUES " +
+	         				"( " + MESCommon.SysId  + "," + "'" +editLCID.getText().toString() + "'," + "'" + lsCompTable.get(i).get("ISSP").toString()  + "'," + "'" + lsCompTable.get(i).get("SEQ").toString()+ "','" + lsCompTable.get(i).get("MaterialId").toString()+"','"
+	         				+ lsCompTable.get(i).get("MaterialMame").toString()+"','" +lsCompTable.get(i).get("PRODUCTMODEL").toString()+ "'," + "'"
+	         				+ MESCommon.UserId + "'," + "'" + MESCommon.UserName + "',convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) );";
 				}
 	         	 String sMessage=	 db.ExecuteSQL(sSQL);
          	     if(!sMessage.equals(""))
@@ -1181,7 +1278,7 @@ public class WIP_OQC_QCANALYSIS extends Activity {
          	      MESCommon.showMessage(WIP_OQC_QCANALYSIS.this,sMessage); 
          	      return;
          	     }
-             }
+             
        	   
        	     
        	
@@ -1197,16 +1294,18 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 			ArrayAdapter<SpinnerData> Adapter = new ArrayAdapter<SpinnerData>(this,	android.R.layout.simple_spinner_item, lst);
 			Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			spBid.setAdapter(Adapter);
+			spLcSeq.setAdapter(Adapter);
 			
-			
-			editProductCompID.setText("");
-			editMaterialID.setText("");
+//			editProductCompID.setText("");
+//			editMaterialID.setText("");
+			editLCID.setText("");
 			editProductModel.setText("");
-			editMsheel.setText("");
-			editDsheel.setText("");
-			editMDsheel.setText("");
-	        editColer.setText("");
-			editPMMessage.setText("");
+			editCustomer.setText("");
+//			editMsheel.setText("");
+//			editDsheel.setText("");
+//			editMDsheel.setText("");
+//	        editColer.setText("");
+//			editPMMessage.setText("");
 			msProductOrderId="";msProductId="";  msProductCompId="";  msProductSerialNumber="";  msStepId="";  
 			msEqpId="";msAnalysisformsID="";msSampletimes="";msStepSEQ="";msSUPPLYLOTID="";msSUPPLYID="";msQC_ITEM="";msQCTYPE="";
 			miQty=0;
@@ -1214,6 +1313,7 @@ public class WIP_OQC_QCANALYSIS extends Activity {
             lsBid .clear(); lsMid.clear(); lsSid.clear(); lsSidTable.clear();lsCompTable.clear();
             lsodtBom .clear();lsProcessStep_p.clear();lsProduct.clear();lsDefect.clear();
             btnTab1.performClick();
+            adapterTab0.notifyDataSetChanged();
             setFocus(editInput);
             editInput.setText("");
 		} catch (Exception e) {
@@ -1234,6 +1334,43 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 		}
 	}
 	
+	public String checkExist(String number)
+	{
+		String sResult="";
+		try {
+			List<HashMap<String, String>> lscheckExist=new ArrayList<HashMap<String, String>>();
+			
+		 	 String sSQL = "SELECT PRODUCTSERIALNUMBER AS NUMBER ,PRODUCTCOMPID FROM PROCESS_STEP_P WHERE PRODUCTSERIALNUMBER= '"+number+"'  ";
+		 	
+             String sError = db.GetData(sSQL, lscheckExist);
+			 if (sError != "") {
+				MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sError);
+				return sResult=sError;
+			 }
+			 if(lscheckExist.size()>0)
+			 {
+				 return sResult="扫描条码【"+number+"】,已经被【"+lscheckExist.get(0).get("PRODUCTCOMPID").toString()+"】组装装配过";
+			 }
+			 //PRODUCTSERIALNUMBER和——p不一样表示不是次组立的轴承座！提示被次组立装配使用了。
+			 sSQL = "SELECT SERIALNUMBER_P  AS NUMBER, PRODUCTSERIALNUMBER_OLD  FROM PROCESS_STEP_PF WHERE SERIALNUMBER_P= '"+number+"' and  PRODUCTSERIALNUMBER!=''   ";
+			 	
+             sError = db.GetData(sSQL, lscheckExist);
+			 if (sError != "") {
+				MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sError);
+				return sResult=sError;
+			 }
+			 if(lscheckExist.size()>0)
+			 {
+				 return sResult="扫描条码【"+number+"】,已经被【"+lscheckExist.get(0).get("PRODUCTSERIALNUMBER_OLD").toString()+"】次组立装配过";
+			 }
+			 return sResult;
+		} catch (Exception e) {
+			// TODO: handle exception
+			MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, e.toString());
+			return sResult=e.toString();
+		}
+		
+	}
 	
 
 	//此方法只是关闭软键盘
@@ -1249,4 +1386,3 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 		
 		
 }
-
