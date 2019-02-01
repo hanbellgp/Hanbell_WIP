@@ -491,7 +491,7 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 						return false;
 					}
 					//覆盖添加
-					if(editLCID.getText().toString().length()>0) {
+					if(editLCID.getText().toString().length()>0&&txtInput.getText().toString().trim().contains("LC")) {
 						AlertDialog alert=	new AlertDialog.Builder(WIP_OQC_QCANALYSIS.this).setTitle("确认").setMessage("已有LC单号是否继续加入,确认将清除现有数据!")
 								.setPositiveButton("确定",new DialogInterface.OnClickListener() {  
 				            @Override  
