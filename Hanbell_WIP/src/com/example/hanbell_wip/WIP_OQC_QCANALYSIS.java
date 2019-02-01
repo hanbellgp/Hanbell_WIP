@@ -96,7 +96,7 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 	PrefercesService prefercesService;
 	Map<String,String> params;
 	String msProductOrderId="",  msProductId,msProductName, msProductModel,  msProductCompId,  msProductSerialNumber,  msStepId,  msBomflag="" ,msRepeter="",
-	  msEqpId,msAnalysisformsID="",msSampletimes="",msStepSEQ,msSUPPLYLOTID,msSUPPLYID,msQC_ITEM,msQCTYPE;
+	  msEqpId,msAnalysisformsID="",msSampletimes="",msStepSEQ,msSUPPLYLOTID,msSUPPLYID,msQC_ITEM,msQCTYPE,msCustomer;
 	String msSpecialAdoption = "";	//是否特采
 	String msLcSeq="";//选中的序号
 	int miQty;
@@ -527,7 +527,8 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 						if(lsLcSeq.size()>0)
 						{							
 						editLCID.setText(sLCID);
-						editCustomer.setText(lsLcSeq.get(0).get("cusna"));//客户
+						msCustomer=lsLcSeq.get(0).get("cusna");
+						editCustomer.setText(msCustomer);//客户	
 						}
 						else {
 							txtInput.setText("");
@@ -916,6 +917,7 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 				hs.put("SEQ", sSEQ);
 				hs.put("PRODUCTSERIALNUMBER",sPRODUCTCOMPID);
 				hs.put("PRODUCTMODEL",msProductModel);
+				hs.put("CUSTOMER",msCustomer);
 				sNewNumber=sPRODUCTCOMPID;
 //				if (!sFINEPROCESSID.equals("")) {
 //					
@@ -1267,9 +1269,9 @@ public class WIP_OQC_QCANALYSIS extends Activity {
              String  sSQL ="";
 				for(int i=0;i<lsCompTable.size();i++)
 				{
-	         		sSQL += "INSERT INTO HZ_OQC_QCANALYSIS (SYSID,LCNO, LCSEQ, PRODUCTCOMPID, PRODUCTID, PRODUCTNAME, PRODUCTMODEL, MODIFYUSERID, MODIFYUSER, MODIFYTIME)VALUES " +
+	         		sSQL += "INSERT INTO HZ_OQC_QCANALYSIS (SYSID,LCNO, LCSEQ, PRODUCTCOMPID, PRODUCTID, PRODUCTNAME, PRODUCTMODEL,CUSTOMER, MODIFYUSERID, MODIFYUSER, MODIFYTIME)VALUES " +
 	         				"( " + MESCommon.SysId  + "," + "'" +editLCID.getText().toString() + "'," + "'" + lsCompTable.get(i).get("ISSP").toString()  + "'," + "'" + lsCompTable.get(i).get("SEQ").toString()+ "','" + lsCompTable.get(i).get("MaterialId").toString()+"','"
-	         				+ lsCompTable.get(i).get("MaterialMame").toString()+"','" +lsCompTable.get(i).get("PRODUCTMODEL").toString()+ "'," + "'"
+	         				+ lsCompTable.get(i).get("MaterialMame").toString()+"','" +lsCompTable.get(i).get("PRODUCTMODEL").toString()+ "','" +lsCompTable.get(i).get("CUSTOMER").toString()+ "','"
 	         				+ MESCommon.UserId + "'," + "'" + MESCommon.UserName + "',convert(varchar,getdate(),111) || ' ' || convert(varchar,getdate(),108) );";
 				}
 	         	 String sMessage=	 db.ExecuteSQL(sSQL);
