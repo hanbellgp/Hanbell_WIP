@@ -593,9 +593,9 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 										MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, sError);
 										return false;
 									}			
-									
+									int InCountDB= Integer.parseInt(lsLcComp.get(0).get("INCOUNT").toString());
 									int maxCount=Integer.parseInt(mapSeqQty.get(msLcSeq).toString()) ;
-									if (maxCount<InLCcount||maxCount<Integer.parseInt(lsLcComp.get(0).get("INCOUNT").toString())) {
+									if (maxCount<InLCcount||maxCount<=InCountDB||maxCount<=InCountDB+InLCcount) {
 										MESCommon.show(WIP_OQC_QCANALYSIS.this,
 												"LC序号["
 														+ msLcSeq + "]已达最大出货数【"+maxCount+"】!");
