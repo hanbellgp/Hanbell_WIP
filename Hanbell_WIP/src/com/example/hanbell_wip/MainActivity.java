@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
 
 	Button btnLogin, btnLogout, btnTrackIn,  btnEqpStart,btnVersion,
 			   btnEQPSetting,btnSEQEdit, btnWipPaintingEnd,btnAnalysisitem,
-			btnWIPDefect,btnTrackIn_pre,btnBarcodeUpdate,btnWIPInstock,btnCompEdit,btnOQC,btnOUTStock,btnCompTemp,btnFinishTemp;
+			btnWIPDefect,btnTrackIn_pre,btnBarcodeUpdate,btnWIPInstock,btnCompEdit,btnOQC,btnOUTStock,btnCompTemp,btnFinishTemp,btnShipment,btnShipmentPre;
 	PrefercesService prefercesService;
 	Map<String,String> params;
 
@@ -78,6 +78,8 @@ try{
 		btnCompEdit=(Button) findViewById(R.id.btnCompEdit);
 		btnSEQEdit=(Button) findViewById(R.id.btnSEQEdit);
 		btnOQC=(Button) findViewById(R.id.btnOQC);
+		btnShipment=(Button) findViewById(R.id.btnShipment); //20190321 zhanghui 针对整机出货，仓库使用
+		btnShipmentPre=(Button) findViewById(R.id.btnShipmentPre); //20190506 zhanghui 针对整机预出货，仓库使用
 		btnOUTStock=(Button) findViewById(R.id.btnOUTStock);
 		btnCompTemp=(Button) findViewById(R.id.btnCompTemp);
 		btnFinishTemp=(Button) findViewById(R.id.btnFinishTemp);
@@ -358,8 +360,35 @@ try{
 						}
 					}
 				});
+		//btnShipmentPre:整机预出货 zhanghui 20190521 Add
+		btnShipmentPre.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+								try {
+									// 开启新Activity
+									Intent i = new Intent(MainActivity.this,
+											STK_Shipment_Pre.class);
+									startActivity(i);
+								} catch (Exception e) {
+									MESCommon.showMessage(MainActivity.this, e.toString());
+								}
+							}
+						});
+		//btnShipment:整机出货 zhanghui 20190321 Add
+		btnShipment.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						try {
+							// 开启新Activity
+							Intent i = new Intent(MainActivity.this,
+									STK_Shipment.class);
+							startActivity(i);
+						} catch (Exception e) {
+							MESCommon.showMessage(MainActivity.this, e.toString());
+						}
+					}
+				});
 		
-
 		//btnOUTStock:自动仓出库作业
 		btnOUTStock.setOnClickListener(new OnClickListener() {
 					@Override
@@ -389,7 +418,7 @@ try{
 						}
 					}
 				});
-		//btnCompTemp：半成品盘点作业
+		//btnFinishTemp：整机在制盘点作业
 		btnFinishTemp.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -449,6 +478,7 @@ try{
 			btnWIPInstock.setEnabled(true);
             btnSEQEdit.setEnabled(true);
             btnOQC.setEnabled(true);
+            btnShipment.setEnabled(true);
 			btnOUTStock.setEnabled(true);
 			btnCompTemp.setEnabled(true);
 			btnFinishTemp.setEnabled(true);
@@ -479,6 +509,7 @@ try{
 			btnWIPInstock.setEnabled(false);
 			btnSEQEdit.setEnabled(false);
 			btnOQC.setEnabled(false);
+			btnShipment.setEnabled(false);
 			btnOUTStock.setEnabled(false);
 			btnCompTemp.setEnabled(false);
 			btnFinishTemp.setEnabled(false);

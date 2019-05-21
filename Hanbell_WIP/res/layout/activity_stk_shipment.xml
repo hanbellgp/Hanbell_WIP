@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+      
+            
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:stretchColumns="1" >
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="扫描条码"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/stkshipment_tvInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:inputType="text"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="LC单号"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/stkshipment_tvLCID"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="LC序号"
+                        android:textSize="15sp" />
+
+                    <Spinner
+                        android:id="@+id/stkshipment_spLcSeq"
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:layout_span="3"
+                        android:textSize="17sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="客户名称"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/stkshipment_tvCustomer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="产品型号"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/stkshipment_tvProductModel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="4"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>
+ 				
+ 				<TableRow>
+
+                    <TextView
+                        android:layout_width="100dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="已扫数/总数"
+                        android:textSize="15sp" />
+
+                   
+                     <EditText
+                        android:id="@+id/stkshipment_tvInCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_span="1"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                    
+                    
+                     <TextView
+                        android:layout_width="20dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="|"
+                        android:textSize="15sp" />
+                    
+                      <EditText
+                        android:id="@+id/stkshipment_tvSumCount"
+                        android:layout_width="80dip"
+                        android:layout_height="wrap_content"
+                        android:layout_span="1"
+                        android:enabled="false"
+                        android:inputType="text"
+                        android:textColor="@color/red"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </TableRow>    
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/stkshipment_ht1"
+                        android:layout_width="15dip"
+                        android:layout_height="30dip"
+                        android:text=""
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/stkshipment_ht2"
+                        android:layout_width="50dip"
+                        android:layout_height="30dip"
+                        android:text="LC序号"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/stkshipment_ht3"
+                        android:layout_width="80dip"
+                        android:layout_height="30dip"
+                        android:text="制造号码"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/stkshipment_ht4"
+                        android:layout_width="80dip"
+                        android:layout_height="30dip"
+                        android:text="名称"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/stkshipment_ht5"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dip"
+                        android:text="件号"
+                        android:textColor="#000000"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="110dp"
+                    android:scrollbars="horizontal" >
+
+                    <ListView
+                        android:id="@+id/stkshipment_lv0"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="28sp" />
+                </HorizontalScrollView>
+            </TableLayout>
+      
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/stkshipment_btnConfirm"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="报工完成" />
+
+        <Button
+            android:id="@+id/stkshipment_btnTab0_Delete"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="删除" />
+
+        <Button
+            android:id="@+id/stkshipment_btnExit"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="离开" />
+    </LinearLayout>
+
+</TableLayout>
