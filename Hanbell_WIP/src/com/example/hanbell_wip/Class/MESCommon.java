@@ -46,7 +46,7 @@ public class MESCommon {
 
 	public static String msDefaltURL = "http://172.16.10.94/FtcMesWebService_Test/FtcMesWebService.asmx";
 	public static String msAppXML = "http://172.16.10.94/FtcMesWebService/PDA/WIP_Version.xml";
-	public static int miVersion = 74;
+	public static int miVersion = 76;
 	public static String UserId = "";
 	public static String UserName = "";
 	public static String SysId = "convert(varchar,getdate(),112) ||  str_replace(convert(varchar,getdate(), 108),':',null) || CASE datalength( convert(VARCHAR,datepart(ms,getdate())) ) WHEN 1 THEN  '00' || convert(VARCHAR,datepart(ms,getdate()))  WHEN 2 THEN  '0' || convert(VARCHAR,datepart(ms,getdate()))  ELSE convert(VARCHAR,datepart(ms,getdate()))  END";
