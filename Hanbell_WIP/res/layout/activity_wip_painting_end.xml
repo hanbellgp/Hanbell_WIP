@@ -218,6 +218,24 @@
                         android:layout_span="3"
                         android:textSize="17sp" />
                 </TableRow>
+                
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/wippaintingend_tvNG"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:text="不良原因"
+                        android:textSize="15sp" />
+
+                    <Button
+			            android:id="@+id/wippaintingend_btnNG"
+			            android:layout_width="80dp"
+			            android:layout_height="wrap_content"
+			            android:text="不良原因选择" />
+                </TableRow>
+                
             </TableLayout>
         </LinearLayout>
 

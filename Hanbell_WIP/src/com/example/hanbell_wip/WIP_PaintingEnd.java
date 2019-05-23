@@ -80,9 +80,11 @@ public class WIP_PaintingEnd extends Activity {
 
 	ListView lv1,lv2;
 	Button btnConfirm,btnDefect, btnExit, btnTemporary,btnTab1, btnTab2, btnTab3,btnTab2_0, btnTab2_1;
+	Button btnNG;	//20190523 C1793
 	Spinner spBid, spDefect;
 	EditText editInput,editCompID,editMaterialID,editProductName,editColer,editMessage,editVi,editCustomerName;
 	TextView  h1, h2, h3,h4, h5, h6,h9,h10,txtLVI,tvCM,tvPdr,tvDefect;
+	TextView tvNG;	//20190523 C1793
 	LinearLayout tab1, tab2, tab3;
 	WIPPaintingEndAdapter adapter;
 	WIPPaintingEndAdapterTab2 adapterTab2;
@@ -147,6 +149,9 @@ try {
 		tvPdr= (TextView) findViewById(R.id.wippaintingend_tvPdr);
 		tvDefect= (TextView) findViewById(R.id.wippaintingend_tvDefect);
 		
+		tvNG= (TextView) findViewById(R.id.wippaintingend_tvNG);		//20190523 C1793
+		btnNG = (Button) findViewById(R.id.wippaintingend_btnNG);		//20190523 C1793
+		
 		h1.setTextColor(Color.WHITE);
 		h1.setBackgroundColor(Color.DKGRAY);
 		h2.setTextColor(Color.WHITE);
@@ -198,6 +203,11 @@ try {
 //		GONE:8  意思是不可见的，不占用原来的布局空间
 		//冷媒滑块显示，奇他不显示
 		try {
+			if ((!params.get("StepName").contains("入库前检验") && !params.get("StepName").contains("出货前检验")))
+			{
+				tvNG.setVisibility(8);
+				btnNG.setVisibility(8);
+			}
 			//入库检验站需要合格和不合格按钮！
 			if ((params.get("StepName").contains("入库前检验")||params.get("StepName").contains("出货前检验")) && (!params.get("StepName").contains("P机")) && (!params.get("StepName").contains("涡旋")) )
 			{
@@ -247,6 +257,12 @@ try {
 				spDefect.setVisibility(8);
 				tvDefect.setVisibility(8);
 			}
+			
+			spDefect.setVisibility(8);	//20190523 mark 这个控制留著，但不使用
+			tvDefect.setVisibility(8);	//20190523 mark 这个控制留著，但不使用
+			
+			
+			
 			//滑块站需要看滑块
 			if (params.get("StepName").contains("冷媒滑块"))
 			{
