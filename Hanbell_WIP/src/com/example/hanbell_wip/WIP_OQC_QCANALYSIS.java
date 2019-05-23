@@ -218,7 +218,7 @@ public class WIP_OQC_QCANALYSIS extends Activity {
 			if ( lsuser.size()==0) {
 				MESCommon.showMessage(WIP_OQC_QCANALYSIS.this, "请先进行人员设备报工！");
 			
-			}			
+			}
 		
 		// btnTab1
 		btnTab1.setOnClickListener(new OnClickListener() {
