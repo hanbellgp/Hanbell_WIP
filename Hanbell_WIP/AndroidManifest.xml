@@ -160,6 +160,14 @@
             android:label="@string/title_activity_stk_outstock" >
         </activity>
         <activity
+            android:name=".STK_Shipment_Pre"
+            android:label="@string/title_activity_stk_shipment_pre" >
+        </activity>
+         <activity
+            android:name=".STK_Shipment"
+            android:label="@string/title_activity_stk_shipment" >
+        </activity>
+        <activity
             android:name=".SEMI_ReWork"
             android:label="@string/title_activity_semi_rework" >
         </activity>

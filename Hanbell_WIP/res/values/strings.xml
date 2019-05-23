@@ -53,6 +53,8 @@
     <string name="title_activity_wip__oqc__qcanalysis">WIP_OQC_QCANALYSIS</string>
     <string name="title_activity_wip__rework_make">WIP_ReworkMake</string>
     <string name="title_activity_stk_outstock">自动仓出货作业</string>
+    <string name="title_activity_stk_shipment_pre">整机预出货</string>
+    <string name="title_activity_stk_shipment">整机出货</string>
     <string name="title_activity_semi_rework">SEMI_ReWork</string>
     <string name="title_activity_semi__temp">半成品盘点作业</string>
     <string name="title_activity_mjdaf__dfd">Mjdaf_DFD</string>
