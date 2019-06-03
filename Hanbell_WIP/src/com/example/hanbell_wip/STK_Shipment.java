@@ -319,6 +319,7 @@ public class STK_Shipment extends Activity {
 							InLCcount += 1;
 						}
 					}
+					msProductModel = String.valueOf(mapSeqProductModel.get(msLcSeq).toString());// 当前序号的机型
 					editProductModel.setText(String.valueOf(mapSeqProductModel.get(msLcSeq).toString()));// 当前序号的机型
 					editInCount.setText(String.valueOf(InLCcount));// LC已扫描出货数
 					editSumCount.setText(String.valueOf(mapSeqQty.get(msLcSeq).toString()));// 当前序号的总台数
